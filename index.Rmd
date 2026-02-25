@@ -92,12 +92,13 @@ df_2 <- df[1128:nrow(df), ]   # Desde la fila 1128 hasta el final
 
 ```
 
-Antes de iniciar con nuestro análisis, vamos a contar y eliminar las celdas con datos faltantes, presentes en paises que no comparten en particular sus datos.
+Antes de iniciar con nuestro análisis, vamos a ver la dimensión de los datos, analizar y eliminar las celdas con datos faltantes, presentes en paises que no comparten en particular sus datos. 
 
 ```{r}
 
 # === Conteo de valores NA en df_2 ===
 
+nrow(df_2)
 # Conteo total de NA
 total_na <- sum(is.na(df_2))
 
@@ -117,3 +118,64 @@ df_1 <- df_1 %>% filter(complete.cases(.))
 df_2 <- df_2 %>% filter(complete.cases(.))
 ```
 
+Ahora, veamos cuantos paises son los que nos estan brindando sus datos
+
+```{r}
+# --- Contar países con datos (2000–2022) y su cobertura ---
+
+suppressPackageStartupMessages({
+  library(dplyr)
+})
+
+# 1) Detectar columnas de país y año según cómo las nombraste
+cols <- names(df_2)
+
+country_col <- if ("pais" %in% cols) "pais" else if ("country" %in% cols) "country" else 
+  stop("No encuentro la columna de país. Esperaba 'pais' o 'country'.")
+year_col    <- if ("anio" %in% cols) "anio" else if ("year" %in% cols) "year" else 
+  stop("No encuentro la columna de año. Esperaba 'anio' o 'year'.")
+
+# 2) Definir el rango de años y filtrar estrictamente 2000–2022
+years_target <- 2000:2022
+n_years_target <- length(years_target)
+
+df_win <- df_2 %>%
+  rename(pais = all_of(country_col),
+         anio = all_of(year_col)) %>%
+  mutate(anio = as.integer(anio)) %>%
+  filter(!is.na(pais), !is.na(anio),
+         anio %in% years_target)
+
+# 3) Países únicos con al menos un dato en 2000–2022
+n_paises_con_dato <- n_distinct(df_win$pais)
+
+# 4) Cobertura por país: cuántos años reporta cada país en el rango
+coverage_por_pais <- df_win %>%
+  distinct(pais, anio) %>%
+  count(pais, name = "n_anios") %>%
+  mutate(frac_cobertura = n_anios / n_years_target)
+
+# 5) Países con cobertura completa (los 23 años)
+n_paises_completos <- sum(coverage_por_pais$n_anios == n_years_target)
+prop_paises_completos <- if (n_paises_con_dato > 0) n_paises_completos / n_paises_con_dato else NA_real_
+
+# 6) Resumen de cobertura (años por país)
+resumen_cobertura <- coverage_por_pais %>%
+  summarise(
+    paises_con_algun_dato = n(),
+    anios_min   = min(n_anios, na.rm = TRUE),
+    anios_p25   = quantile(n_anios, 0.25, na.rm = TRUE),
+    anios_med   = median(n_anios, na.rm = TRUE),
+    anios_p75   = quantile(n_anios, 0.75, na.rm = TRUE),
+    anios_max   = max(n_anios, na.rm = TRUE)
+  )
+
+# 7) Mostrar resultados clave
+cat("Países con al menos un dato (2000–2022):", n_paises_con_dato, "\n")
+cat("Países con cobertura completa (23 años):", n_paises_completos, 
+    sprintf(" (%.1f%%)\n", 100 * prop_paises_completos))
+print(resumen_cobertura)
+
+```
+
+En el período 2000–2022 contamos con datos de 192 países, pero la cobertura es heterogénea: solo 30 países (15,6%) reportan la serie completa de 23 años, mientras que el resto presenta huecos. En términos de extensión temporal por país, el mínimo es de 1 año, el p25 es 11, la mediana es 17, el p75 es 21 y el máximo es 23. Estos resultados confirman que trabajamos con un panel desbalanceado; por ello, los análisis temporales y las comparaciones entre países deben considerar esta asimetría de cobertura (p. ej., restringiendo periodos comunes, reportando el número efectivo de observaciones o aplicando estrategias robustas frente a datos faltantes) para evitar sesgos en la interpretación.
