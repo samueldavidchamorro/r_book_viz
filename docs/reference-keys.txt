@@ -26,3 +26,17 @@ análisis-de-dispersión-o-correlaciones-si-agregas-variables
 conclusiones-del-análisis
 conclusiones-del-análisis-1
 análisis-univariado-de-cada-columna
+análisis-univariado
+análisis-bivariado
+numérica-vs-categórica
+numérica-vs-numérica
+tendencia-global-dispersión-loess
+mediana-anual-y-dispersión-p25p75.
+media-vs.-mediana-anual.
+pendiente-por-país-mejoras-anuales.
+análisis-multivariado
+conclusiones
+conclusiones-preliminares
+conclusiones-post-análisis
+pasos-a-seguir
+profundizar-en-la-comprensión-de-las-dinámicas-nacionales

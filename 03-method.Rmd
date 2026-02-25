@@ -1,1 +1,60 @@
-#Referencias
+# Conclusiones
+
+## Conclusiones preliminares
+
+- La variable tasa_fin_cap muestra una tendencia ascendente sostenida desde inicios de los años 2000, aunque con heterogeneidad marcada entre países, especialmente en las primeras etapas del periodo analizado.
+
+
+- La mediana anual aumenta con rapidez durante la primera década y se estabiliza cerca de 95, mientras que el IQR disminuye progresivamente, indicando reducción en la dispersión y en la variabilidad inter-país.
+
+
+- Se observa un efecto techo significativo, reflejado en un porcentaje alto y persistente de observaciones en el valor máximo (≈17–23%), con un repunta cercano al 24% en los años más recientes, lo que evidencia una censura derecha creciente en la variable.
+
+
+- En cuanto a los avances relativos, destacan Azerbaiyán con el mayor incremento estimado (~8.48), seguido por Argelia (~3.70) y Lao PDR (~2.81). Países como Marruecos (~1.98) y Chipre (~1.31), así como grupos como LDC/ONU, HIPC e IDA‑only, presentan mejoras más moderadas en comparación.
+
+
+
+## Conclusiones post análisis
+
+
+- El análisis integrado —univariado, bivariado y multivariado— revela un patrón consistente en la evolución de tasa_fin_cap. La distribución se vuelve más asimétrica hacia valores altos, la mediana permanece en torno a 95 y el IQR continúa estrechándose, coherente con la disminución de la variabilidad observada en los exploratorios iniciales. A nivel bivariado, se confirma que los países con menores valores iniciales exhiben crecimientos más pronunciados, mientras que aquellos con niveles altos se aproximan rápidamente al límite superior. Este comportamiento se refleja en las pendientes pre‑cap, donde resaltan Azerbaiyán, Argelia y Lao PDR, así como en las trayectorias temporales y el heatmap país×año, donde las diferencias en velocidades y ritmos de avance son claras.
+
+- No obstante, la convergencia aparente entre países debe interpretarse cuidadosamente: el efecto techo —con un 17–23% de observaciones en 100 durante buena parte del periodo y un repunte al final— produce una compresión artificial de la variabilidad, limitando la capacidad de distinguir diferencias reales cuando muchos países se acercan al máximo. 
+
+- El análisis multivariado confirma la existencia de pendientes distintas por país, evidenciando una interacción tiempo×país y trayectorias no lineales: algunos países presentan aceleraciones tempranas, otros mesetas prolongadas y otros fluctuaciones intermitentes. En conjunto, la evolución de tasa_fin_cap resulta de una combinación de dinámicas internas heterogéneas y restricciones impuestas por la censura, lo cual exige interpretar las comparaciones y la convergencia con cautela y con soporte de modelos que reconozcan explícitamente dicha censura.
+
+## Pasos a seguir
+
+- Fortalecer la calidad y continuidad de los datos
+
+- Revisar los mecanismos de captura y reporte para evitar saturaciones en el valor 100, ya que la censura superior actual dificulta diferenciar desempeños reales entre países.
+
+- Evaluar la posibilidad de incorporar métricas complementarias o escalas extendidas que permitan observar avances por encima del límite actual.
+
+- Monitorear países con avances sobresalientes y rezagados
+
+- Dar seguimiento específico a países con progresos acelerados como Azerbaiyán, Argelia y Lao PDR, para identificar buenas prácticas replicables.
+
+- Implementar estrategias de acompañamiento para países o grupos con mejoras más lentas, como Marruecos, Chipre, LDC/ONU, HIPC e IDA‑only, con el fin de reducir brechas de avance.
+
+- Profundizar en la comprensión de las dinámicas nacionales
+
+- Analizar los factores internos (políticas, reformas, inversión, infraestructura) que podrían explicar las diferencias entre países en su velocidad de mejora.
+
+- Promover estudios de caso en países que alcanzan el techo muy rápido, para entender si se debe a mejoras genuinas, cambios metodológicos o al diseño del indicador.
+
+- Revisar la utilidad del indicador actual para la comparación internacional
+
+- Considerar ajustes en el diseño del indicador para minimizar la pérdida de información causada por el efecto techo, especialmente en periodos donde muchos países se concentran en el valor máximo.
+Evaluar la inclusión de sub‑indicadores o componentes desagregados que permitan captar variabilidad adicional.
+
+- Fortalecer la comunicación y uso estratégico de los resultados
+
+- Elaborar reportes anuales que destaquen avances, retrocesos y variabilidad real entre países, evitando interpretaciones erróneas derivadas del límite superior.
+
+- Utilizar visualizaciones (series temporales, mapas de calor, comparaciones regionales) para facilitar el uso de estos datos en decisiones de política y planificación.
+
+
+
+

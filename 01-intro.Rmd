@@ -13,6 +13,7 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
+
 # 1) Detectar columnas de país y año según cómo las nombraste
 cols <- names(df_2)
 
@@ -222,7 +223,7 @@ Antes de iniciar el análisis bivariado, dejamos constancia de que trabajaremos 
 ### Numérica vs Categórica 
 
 ```{r}
-# 2) Boxplot por pais (mas legible, mantiene la misma paleta)
+# 2) Boxplot por pais 
 p_box <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
   geom_boxplot(
     fill = azul_main, color = gris_linea,
@@ -246,7 +247,7 @@ p_box <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
 
 print(p_box)
 
-# 3) Violín + boxplot (mas grande y legible, mantiene paleta)
+# 3) Violín + boxplot 
 p_violin <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
   geom_violin(
     fill  = scales::alpha(azul_main, 0.75),
@@ -279,7 +280,7 @@ p_violin <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
 
 print(p_violin)
 
-# 4) (Extra) Boxplot por quinquenio: tasa_fin_cap vs categoria temporal
+# 4) Boxplot por quinquenio: tasa_fin_cap vs categoria temporal
 df_q <- df_2 %>%
   filter(!is.na(tasa_fin_cap), !is.na(anio),
          anio >= 2000, anio <= 2022) %>%
@@ -312,7 +313,7 @@ Los contrastes entre una variable numérica y una categórica muestran que los p
 ### Numérica vs Numérica
 
 ```{r}
-# ===== 6.2 Variable numerica vs numerica =====
+# =====  Variable numerica vs numerica =====
 library(dplyr)
 library(ggplot2)
 
@@ -425,14 +426,73 @@ p_slopes <- ggplot(df_slope_top, aes(x = reorder(pais, pendiente), y = pendiente
 
 print(p_slopes)
 ```
-Tendencia global (dispersión + LOESS).
+#### Tendencia global (dispersión + LOESS): 
 La relación entre tasa_fin_cap y anio muestra una tendencia ascendente a lo largo de 2000–2022. El incremento es más pronunciado al inicio y luego se suaviza, con un leve aplanamiento en los años finales. La nube conserva heterogeneidad vertical en todo el periodo, evidencia de diferencias persistentes entre países.
-Mediana anual y dispersión (P25–P75).
+#### Mediana anual y dispersión (P25–P75).
 La mediana anual se mantiene alta y creciente, lo que sugiere progreso sostenido. La banda intercuartílica (P25–P75) se desplaza hacia arriba y parece estrecharse ligeramente, indicando menor dispersión entre países y una convergencia parcial hacia niveles elevados de finalización.
-Media vs. mediana anual.
+#### Media vs. mediana anual.
 La mediana está sistemáticamente por encima de la media, lo que confirma asimetría hacia valores bajos (hay países con años de desempeño bajo que “arrastran” la media). La brecha media–mediana disminuye gradualmente, compatible con la idea de que los rezagados mejoran y la distribución se vuelve menos sesgada.
-Pendiente por país (mejoras anuales).
+#### Pendiente por país (mejoras anuales).
 El ranking de pendientes positivas señala a varios países con mejoras anuales marcadas. Esto es coherente con dinámicas de “catch‑up”: quienes partían de niveles más bajos muestran avances más rápidos. Conviene interpretar el ranking con cautela, pues la pendiente depende de la cobertura temporal efectiva y del techo impuesto por la acotación a [0,100].
 
-## Comparación entre países
-## Análisis de dispersión o correlaciones (si agregas variables)
+## Análisis multivariado
+
+```{r}
+
+library(dplyr)
+library(ggplot2)
+library(scales)
+
+# 1) % en el techo (100) por año y por país
+cap_year <- df %>%
+  mutate(is_cap = tasa_fin_cap >= 100 - 1e-9) %>%
+  group_by(anio) %>%
+  summarise(pct_cap = mean(is_cap, na.rm = TRUE)) %>%
+  ungroup()
+
+ggplot(cap_year, aes(x = anio, y = pct_cap)) +
+  geom_line(color = "#CB181D") +
+  scale_y_continuous(labels = percent) +
+  labs(title = "% de observaciones en el techo (100) por año",
+       x = "Año", y = "Porcentaje en 100") +
+  theme_minimal()
+
+# 2) Mediana e IQR por año
+dist_year <- df %>%
+  group_by(anio) %>%
+  summarise(
+    med = median(tasa_fin_cap, na.rm = TRUE),
+    p25 = quantile(tasa_fin_cap, 0.25, na.rm = TRUE),
+    p75 = quantile(tasa_fin_cap, 0.75, na.rm = TRUE)
+  )
+
+ggplot(dist_year, aes(x = anio, y = med)) +
+  geom_ribbon(aes(ymin = p25, ymax = p75), fill = "#9ECAE1", alpha = 0.4) +
+  geom_line(color = "#08519C") +
+  labs(title = "Mediana y IQR de tasa_fin_cap por año",
+       x = "Año", y = "Tasa (cap)") +
+  theme_minimal()
+
+# 3) Pendiente por país ANTES de tocar el techo 
+slopes <- df %>%
+  group_by(pais) %>%
+  arrange(anio, .by_group = TRUE) %>%
+  mutate(capped = tasa_fin_cap >= 100 - 1e-9) %>%
+  # tomar tramo hasta el primer año en que capea
+  mutate(first_cap_year = ifelse(any(capped), min(anio[capped]), Inf)) %>%
+  filter(anio < first_cap_year) %>%
+  # exigir al menos 2 puntos para estimar pendiente
+  filter(n() >= 2) %>%
+  do({
+    fit <- lm(tasa_fin_cap ~ anio, data = .)
+    tibble(pendiente = coef(fit)[["anio"]])
+  }) %>%
+  ungroup() %>%
+  arrange(desc(pendiente))
+
+# Top países por pendiente
+head(slopes, 10)
+
+
+```
+En los incrementos estimados, Azerbaiyán destaca con el mayor avance (≈8.48), seguido por Argelia (≈3.70) y Lao PDR (≈2.81); a nivel regional, South Asia ronda ≈2.34, mientras Marruecos (≈1.98) y Chipre (≈1.31) muestran mejoras más modestas, similares a los promedios de LDC/UN (≈1.45) y HIPC (≈1.42). En conjunto, la mediana anual de tasa_fin_cap sube rápido a inicios de los 2000 y se estabiliza cerca de 95, con IQR decreciente (menos dispersión entre países). Paralelamente, el porcentaje en el techo (100) se mantiene alto (≈17–23%) y repunta al final (≈24%), confirmando un efecto techo creciente que comprime la variabilidad y puede exagerar la convergencia observada.

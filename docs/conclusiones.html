@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | Análisis exploratorio de Datos</title>
+  <title>Chapter 3 Conclusiones | Análisis exploratorio de Datos</title>
   <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | Análisis exploratorio de Datos" />
+  <meta property="og:title" content="Chapter 3 Conclusiones | Análisis exploratorio de Datos" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | Análisis exploratorio de Datos" />
+  <meta name="twitter:title" content="Chapter 3 Conclusiones | Análisis exploratorio de Datos" />
   
   <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
   
@@ -30,7 +30,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
+<link rel="prev" href="análisis-exploratorio-de-datos.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -118,18 +118,53 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="conclusiones" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Conclusiones<a href="conclusiones.html#conclusiones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="conclusiones-preliminares" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Conclusiones preliminares<a href="conclusiones.html#conclusiones-preliminares" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>La variable tasa_fin_cap muestra una tendencia ascendente sostenida desde inicios de los años 2000, aunque con heterogeneidad marcada entre países, especialmente en las primeras etapas del periodo analizado.</p></li>
+<li><p>La mediana anual aumenta con rapidez durante la primera década y se estabiliza cerca de 95, mientras que el IQR disminuye progresivamente, indicando reducción en la dispersión y en la variabilidad inter-país.</p></li>
+<li><p>Se observa un efecto techo significativo, reflejado en un porcentaje alto y persistente de observaciones en el valor máximo (≈17–23%), con un repunta cercano al 24% en los años más recientes, lo que evidencia una censura derecha creciente en la variable.</p></li>
+<li><p>En cuanto a los avances relativos, destacan Azerbaiyán con el mayor incremento estimado (~8.48), seguido por Argelia (~3.70) y Lao PDR (~2.81). Países como Marruecos (~1.98) y Chipre (~1.31), así como grupos como LDC/ONU, HIPC e IDA‑only, presentan mejoras más moderadas en comparación.</p></li>
+</ul>
+</div>
+<div id="conclusiones-post-análisis" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Conclusiones post análisis<a href="conclusiones.html#conclusiones-post-an%C3%A1lisis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>El análisis integrado —univariado, bivariado y multivariado— revela un patrón consistente en la evolución de tasa_fin_cap. La distribución se vuelve más asimétrica hacia valores altos, la mediana permanece en torno a 95 y el IQR continúa estrechándose, coherente con la disminución de la variabilidad observada en los exploratorios iniciales. A nivel bivariado, se confirma que los países con menores valores iniciales exhiben crecimientos más pronunciados, mientras que aquellos con niveles altos se aproximan rápidamente al límite superior. Este comportamiento se refleja en las pendientes pre‑cap, donde resaltan Azerbaiyán, Argelia y Lao PDR, así como en las trayectorias temporales y el heatmap país×año, donde las diferencias en velocidades y ritmos de avance son claras.</p></li>
+<li><p>No obstante, la convergencia aparente entre países debe interpretarse cuidadosamente: el efecto techo —con un 17–23% de observaciones en 100 durante buena parte del periodo y un repunte al final— produce una compresión artificial de la variabilidad, limitando la capacidad de distinguir diferencias reales cuando muchos países se acercan al máximo.</p></li>
+<li><p>El análisis multivariado confirma la existencia de pendientes distintas por país, evidenciando una interacción tiempo×país y trayectorias no lineales: algunos países presentan aceleraciones tempranas, otros mesetas prolongadas y otros fluctuaciones intermitentes. En conjunto, la evolución de tasa_fin_cap resulta de una combinación de dinámicas internas heterogéneas y restricciones impuestas por la censura, lo cual exige interpretar las comparaciones y la convergencia con cautela y con soporte de modelos que reconozcan explícitamente dicha censura.</p></li>
+</ul>
+</div>
+<div id="pasos-a-seguir" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Pasos a seguir<a href="conclusiones.html#pasos-a-seguir" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>Fortalecer la calidad y continuidad de los datos</p></li>
+<li><p>Revisar los mecanismos de captura y reporte para evitar saturaciones en el valor 100, ya que la censura superior actual dificulta diferenciar desempeños reales entre países.</p></li>
+<li><p>Evaluar la posibilidad de incorporar métricas complementarias o escalas extendidas que permitan observar avances por encima del límite actual.</p></li>
+<li><p>Monitorear países con avances sobresalientes y rezagados</p></li>
+<li><p>Dar seguimiento específico a países con progresos acelerados como Azerbaiyán, Argelia y Lao PDR, para identificar buenas prácticas replicables.</p></li>
+<li><p>Implementar estrategias de acompañamiento para países o grupos con mejoras más lentas, como Marruecos, Chipre, LDC/ONU, HIPC e IDA‑only, con el fin de reducir brechas de avance.</p></li>
+<li><p>Profundizar en la comprensión de las dinámicas nacionales</p></li>
+<li><p>Analizar los factores internos (políticas, reformas, inversión, infraestructura) que podrían explicar las diferencias entre países en su velocidad de mejora.</p></li>
+<li><p>Promover estudios de caso en países que alcanzan el techo muy rápido, para entender si se debe a mejoras genuinas, cambios metodológicos o al diseño del indicador.</p></li>
+<li><p>Revisar la utilidad del indicador actual para la comparación internacional</p></li>
+<li><p>Considerar ajustes en el diseño del indicador para minimizar la pérdida de información causada por el efecto techo, especialmente en periodos donde muchos países se concentran en el valor máximo.
+Evaluar la inclusión de sub‑indicadores o componentes desagregados que permitan captar variabilidad adicional.</p></li>
+<li><p>Fortalecer la comunicación y uso estratégico de los resultados</p></li>
+<li><p>Elaborar reportes anuales que destaquen avances, retrocesos y variabilidad real entre países, evitando interpretaciones erróneas derivadas del límite superior.</p></li>
+<li><p>Utilizar visualizaciones (series temporales, mapas de calor, comparaciones regionales) para facilitar el uso de estos datos en decisiones de política y planificación.</p></li>
+</ul>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
+<a href="análisis-exploratorio-de-datos.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
@@ -161,7 +196,7 @@ gitbook.start({
     "size": 2
   },
   "edit": {
-    "link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+    "link": "https://github.com/rstudio/bookdown-demo/edit/master/03-method.Rmd",
     "text": "Edit"
   },
   "history": {
