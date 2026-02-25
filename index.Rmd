@@ -1,0 +1,119 @@
+--- 
+title: "Análisis exploratorio de Datos"
+author: "Samuel David Chamorro y Juan David Marín"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-demo
+description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+---
+
+# Carga de datos
+
+## Fuentes y características de los datos
+
+Para este análisis se utilizaron datos provenientes del *World Development Indicators* (WDI), una de las bases estadísticas oficiales del Banco Mundial. Esta fuente recopila, estandariza y publica indicadores socioeconómicos comparables entre países, permitiendo estudiar tendencias de desarrollo humano, educativo, económico y demográfico a nivel global.
+
+En particular, se seleccionaron indicadores relacionados con el desarrollo educativo, con el objetivo de examinar patrones recientes en el acceso y desempeño escolar. Entre ellos se encuentra la variable **Primary completion rate, female (% of relevant age group)** (`SE.PRM.CMPT.FE.ZS`), que mide el porcentaje de niñas que completan el último grado de educación primaria dentro de la edad oficial correspondiente. Este indicador es ampliamente utilizado para evaluar el progreso en igualdad de género en educación, así como para analizar barreras estructurales que afectan la permanencia escolar.
+
+Los datos de WDI presentan varias ventajas metodológicas: están armonizados entre países, actualizados anualmente y validados por organismos internacionales. Además, su disponibilidad temporal permite estudiar cambios en el largo plazo y comparar regiones con diferentes niveles de desarrollo. Estas características hacen que la base sea adecuada para estudios descriptivos, análisis exploratorios y modelos estadísticos aplicados al desarrollo.
+
+## Importación y preparación inicial de los datos
+En este análisis utilizamos la función WDI() del paquete WDI de R, la cual permite descargar directamente desde el World Development Indicators del Banco Mundial las series estadísticas seleccionadas. Esta función actúa como una interfaz entre R y la API oficial del Banco Mundial, permitiendo especificar países, indicadores y rango de años, y devolviendo los datos en un formato limpio y estructurado tipo panel. Además de las variables solicitadas, WDI() puede incorporar metadatos útiles —como región, nivel de ingreso o códigos ISO— mediante el argumento extra = TRUE, lo que facilita la integración con análisis comparativos entre países. En síntesis, WDI() automatiza el proceso de extracción, estandarización y organización de los datos, garantizando reproducibilidad y coherencia metodológica en el estudio.
+
+
+```{r, warning=FALSE, message=FALSE}
+
+
+
+library(WDI)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(forcats)
+library(readr)
+library(purrr)
+library(scales)
+
+
+df <- WDI(
+  country = "all",
+  indicator = c("SE.PRM.CMPT.FE.ZS"),  # Primary completion rate, female
+  start = 2000,
+  end = 2022
+)
+
+head(df)
+
+summary(df)
+```
+
+## Limpieza y organización del dataset
+
+En esta sección realizamos el proceso inicial de preparación y estructuración del conjunto de datos que utilizaremos en el análisis exploratorio. Partimos del archivo descargado mediante la función WDI(), el cual contiene información de múltiples países, años e indicadores del Banco Mundial. Antes de proceder con el análisis estadístico, es necesario asegurar que el dataset sea coherente, ordenado y analíticamente utilizable. Para ello, estandarizamos los nombres de las variables, excluimos agregados geográficos que no representan países, renombramos los indicadores con alias descriptivos y manejables, y transformamos los datos a un formato panel que facilita la elaboración de resúmenes, gráficos y comparaciones entre grupos. Adicionalmente, verificamos duplicados, rangos plausibles y la integridad temporal de las series. El resultado de este proceso es un conjunto de datos limpio, consistente y estructurado, que servirá como base sólida para las etapas posteriores del análisis exploratorio.
+
+Primeramente, al tratarse de un análisis centrado en países, las columnas iso2c y iso3c no aportan información adicional relevante, ya que el nombre del país contenido en country resulta suficiente para identificar cada observación. Estos códigos ISO son útiles en tareas de integración con bases externas o análisis geoespacial, pero no cumplen un rol esencial dentro del enfoque descriptivo que empleamos aquí. Por ello, se eliminaron del conjunto de datos para simplificar la estructura y facilitar el análisis.
+
+```{r}
+
+# Eliminamos las columnas iso2c e iso3c
+df <- df %>% 
+  select(-iso2c, -iso3c)
+
+head(df)
+```
+
+
+A continuación procedemos a renombrar las variables del conjunto de datos con el objetivo de utilizar identificadores más claros, breves y consistentes con el análisis. Los nombres originales que provee WDI son funcionales para documentación técnica, pero resultan poco prácticos para su uso en R debido a su longitud o formato. Por ello, estandarizamos las tres variables principales —el nombre del país, el año y el indicador educativo— asignándoles etiquetas más intuitivas y en minúsculas. Este proceso mejora la legibilidad del código, facilita la manipulación posterior del dataset y asegura una estructura coherente para el análisis exploratorio de datos.
+
+```{r}
+# Renombramos las tres variables principales del dataset
+df <- df %>%
+  rename(
+    pais               = country,
+    anio               = year,
+    tasa_fin = SE.PRM.CMPT.FE.ZS
+  )
+
+head(df)
+```
+
+Ahora, en esta etapa dividimos el conjunto de datos en dos secciones debido a la estructura particular con la que es entregada la información por el Banco Mundial. En la primera parte del dataset (filas 1 a 1127) se encuentran observaciones que no corresponden a países individuales, sino a agrupaciones regionales y bloques geográficos tales como África del Norte, África Subsahariana, América Latina y el Caribe, Europa, así como estadísticas globales ya agregadas para todo el mundo. Estas filas representan resúmenes demográficos y educativos precomputados por regiones, no unidades nacionales. En contraste, la segunda parte del dataset (desde la fila 1128 hasta el final) contiene los países individuales, con valores anuales desde el año 2000 hasta 2022. Esta separación permite distinguir claramente entre datos agregados y datos específicos por país, lo cual es fundamental para los análisis comparativos que realizaremos más adelante en el EDA.
+
+```{r}
+
+df_1 <- df[1:1127, ]          # Desde la fila 1 hasta la fila 1127
+df_2 <- df[1128:nrow(df), ]   # Desde la fila 1128 hasta el final
+
+```
+
+Antes de iniciar con nuestro análisis, vamos a contar y eliminar las celdas con datos faltantes, presentes en paises que no comparten en particular sus datos.
+
+```{r}
+
+# === Conteo de valores NA en df_2 ===
+
+# Conteo total de NA
+total_na <- sum(is.na(df_2))
+
+# Conteo de NA por variable
+na_por_variable <- colSums(is.na(df_2))
+
+# Mostrar resultados
+total_na
+na_por_variable
+
+```
+
+Hay 1987 datos faltantes, todos ellos en la columna de tasa_fin del df_2 con registros de los paises individuales. Por lo tanto, vamos a eliminar aquellas filas con datos nulos para poder realizar correctamente nuestro análisis exploratorio
+
+```{r}
+df_1 <- df_1 %>% filter(complete.cases(.))
+df_2 <- df_2 %>% filter(complete.cases(.))
+```
+

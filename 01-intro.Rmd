@@ -1,0 +1,19 @@
+# Análisis exploratorio de datos
+
+
+## Análisis univariado de la variable objetivo
+### Variable objetivo
+En este apartado identificamos la variable objetivo del análisis, la cual servirá como punto de referencia para todas las etapas posteriores del estudio exploratorio. La variable seleccionada es `tasa_fin`, que corresponde a la tasa de finalización de la educación primaria en porcentaje, reportada anualmente por cada país. Este indicador es especialmente relevante porque refleja el grado de culminación del ciclo educativo básico y, por tanto, constituye una medida fundamental del acceso, permanencia y rendimiento educativo infantil. Su comportamiento en el tiempo permite evaluar avances en el sistema educativo, detectar desigualdades entre países y analizar posibles asociaciones con variables demográficas o socioeconómicas. Antes de examinar su distribución y evolución temporal, presentamos la columna que la contiene e interpretamos su importancia dentro del contexto del análisis.
+
+```{r}
+# Mostrar las primeras filas de la variable objetivo
+head(df_2$tasa_fin)
+
+# Resumen estadístico general de la variable objetivo
+summary(df_2$tasa_fin)
+```
+
+
+## Análisis temporal (evolución por año)
+## Comparación entre países
+## Análisis de dispersión o correlaciones (si agregas variables)
