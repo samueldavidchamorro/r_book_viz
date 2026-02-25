@@ -1,19 +1,323 @@
 # Análisis exploratorio de datos
 
 
-## Análisis univariado de la variable objetivo
-### Variable objetivo
-En este apartado identificamos la variable objetivo del análisis, la cual servirá como punto de referencia para todas las etapas posteriores del estudio exploratorio. La variable seleccionada es `tasa_fin`, que corresponde a la tasa de finalización de la educación primaria en porcentaje, reportada anualmente por cada país. Este indicador es especialmente relevante porque refleja el grado de culminación del ciclo educativo básico y, por tanto, constituye una medida fundamental del acceso, permanencia y rendimiento educativo infantil. Su comportamiento en el tiempo permite evaluar avances en el sistema educativo, detectar desigualdades entre países y analizar posibles asociaciones con variables demográficas o socioeconómicas. Antes de examinar su distribución y evolución temporal, presentamos la columna que la contiene e interpretamos su importancia dentro del contexto del análisis.
+## Análisis univariado
+
+Empezando con la variable objetivo, queremos ver cuantos y cuales paises nos están dando integramente sus datos en la columna tasa_fin, puesto que observabamos que en el dataset no todos los paises brindaban sus datos integramente.
+
 
 ```{r}
-# Mostrar las primeras filas de la variable objetivo
-head(df_2$tasa_fin)
+# --- Contar países con datos (2000–2022) y su cobertura ---
 
-# Resumen estadístico general de la variable objetivo
-summary(df_2$tasa_fin)
+suppressPackageStartupMessages({
+  library(dplyr)
+})
+
+# 1) Detectar columnas de país y año según cómo las nombraste
+cols <- names(df_2)
+
+country_col <- if ("pais" %in% cols) "pais" else if ("country" %in% cols) "country" else 
+  stop("No encuentro la columna de país. Esperaba 'pais' o 'country'.")
+year_col    <- if ("anio" %in% cols) "anio" else if ("year" %in% cols) "year" else 
+  stop("No encuentro la columna de año. Esperaba 'anio' o 'year'.")
+
+# 2) Definir el rango de años y filtrar estrictamente 2000–2022
+years_target <- 2000:2022
+n_years_target <- length(years_target)
+
+df_win <- df_2 %>%
+  rename(pais = all_of(country_col),
+         anio = all_of(year_col)) %>%
+  mutate(anio = as.integer(anio)) %>%
+  filter(!is.na(pais), !is.na(anio),
+         anio %in% years_target)
+
+# 3) Países únicos con al menos un dato en 2000–2022
+n_paises_con_dato <- n_distinct(df_win$pais)
+
+# 4) Cobertura por país: cuántos años reporta cada país en el rango
+coverage_por_pais <- df_win %>%
+  distinct(pais, anio) %>%
+  count(pais, name = "n_anios") %>%
+  mutate(frac_cobertura = n_anios / n_years_target)
+
+# 5) Países con cobertura completa (los 23 años)
+n_paises_completos <- sum(coverage_por_pais$n_anios == n_years_target)
+prop_paises_completos <- if (n_paises_con_dato > 0) n_paises_completos / n_paises_con_dato else NA_real_
+
+# 6) Resumen de cobertura (años por país)
+resumen_cobertura <- coverage_por_pais %>%
+  summarise(
+    paises_con_algun_dato = n(),
+    anios_min   = min(n_anios, na.rm = TRUE),
+    anios_p25   = quantile(n_anios, 0.25, na.rm = TRUE),
+    anios_med   = median(n_anios, na.rm = TRUE),
+    anios_p75   = quantile(n_anios, 0.75, na.rm = TRUE),
+    anios_max   = max(n_anios, na.rm = TRUE)
+  )
+
+# 7) Mostrar resultados clave
+cat("Países con al menos un dato (2000–2022):", n_paises_con_dato, "\n")
+cat("Países con cobertura completa (23 años):", n_paises_completos, 
+    sprintf(" (%.1f%%)\n", 100 * prop_paises_completos))
+print(resumen_cobertura)
+
+```
+
+En el período 2000–2022 contamos con datos de 192 países, pero la cobertura es heterogénea: solo 30 países (15,6%) reportan la serie completa de 23 años, mientras que el resto presenta huecos. En términos de extensión temporal por país, el mínimo es de 1 año, el p25 es 11, la mediana es 17, el p75 es 21 y el máximo es 23. Estos resultados confirman que trabajamos con un panel desbalanceado; por ello, los análisis temporales y las comparaciones entre países deben considerar esta asimetría de cobertura (p. ej., restringiendo periodos comunes, reportando el número efectivo de observaciones o aplicando estrategias robustas frente a datos faltantes) para evitar sesgos en la interpretación.
+
+```{r}
+suppressPackageStartupMessages(library(dplyr))
+
+# --- Detectar nombres de columnas ---
+cols <- names(df_2)
+country_col <- if ("pais" %in% cols) "pais" else if ("country" %in% cols) "country" else
+  stop("No encuentro la columna de país. Esperaba 'pais' o 'country'.")
+year_col    <- if ("anio" %in% cols) "anio" else if ("year" %in% cols) "year" else
+  stop("No encuentro la columna de año. Esperaba 'anio' o 'year'.")
+target_col  <- if ("tasa_fin" %in% cols) "tasa_fin" else if ("tasa_fin_prim_fem" %in% cols) "tasa_fin_prim_fem" else if ("SE.PRM.CMPT.FE.ZS" %in% cols) "SE.PRM.CMPT.FE.ZS" else
+  stop("No encuentro la columna de la variable objetivo. Esperaba 'tasa_fin', 'tasa_fin_prim_fem' o 'SE.PRM.CMPT.FE.ZS'.")
+
+# --- Filtrar rango temporal y no-NA en la variable objetivo ---
+df_win <- df_2 %>%
+  rename(pais = all_of(country_col), anio = all_of(year_col), tasa_fin = all_of(target_col)) %>%
+  mutate(anio = as.integer(anio)) %>%
+  filter(anio >= 2000, anio <= 2022, !is.na(tasa_fin))
+
+# 1) Lista de países con al menos un porcentaje reportado (2000–2022)
+paises_con_porcentaje <- sort(unique(df_win$pais))
+
+# 2) (Útil) Conteo de años reportados por país en el rango
+conteo_por_pais <- df_win %>%
+  distinct(pais, anio) %>%
+  count(pais, name = "n_anios_reportados") %>%
+  arrange(desc(n_anios_reportados), pais)
+
+# --- Mostrar resultados ---
+length(paises_con_porcentaje)        # cuántos países
+head(paises_con_porcentaje, 20)      # primeros 20 países (para inspección rápida)
+
+# Tabla con el conteo por país (puedes imprimir completa o filtrar)
+head(conteo_por_pais, 20)
+```
+
+Antes de interpretar las distribuciones gráficas de las variables, es importante considerar una característica metodológica de los datos de WDI. La tasa de finalización primaria puede superar el 100% debido a la forma en que se calcula: el numerador contabiliza a todos los estudiantes que egresan del último grado de primaria, independientemente de su edad, mientras que el denominador corresponde únicamente a la población oficialmente asignada a ese nivel. La presencia de estudiantes en sobredad, subedad o con historial de repetición puede inflar el numerador, generando valores superiores al 100%. Por esta razón, identificamos y revisamos previamente las observaciones que exceden ese umbral y, para mejorar la claridad visual en los gráficos, trabajamos con una versión acotada de la variable en el rango 0–100, conservando la original para efectos de trazabilidad.
+
+```{r}
+
+library(dplyr)
+library(knitr)
+
+# Resumen rápido
+n_mayor_100 <- sum(df_2$tasa_fin > 100, na.rm = TRUE)
+prop_mayor_100 <- round(mean(df_2$tasa_fin > 100, na.rm = TRUE) * 100, 2)
+max_tasa <- max(df_2$tasa_fin, na.rm = TRUE)
+
+cat("Observaciones > 100%:", n_mayor_100, "\n")
+cat("Porcentaje del total:", prop_mayor_100, "%\n")
+cat("Valor máximo observado:", round(max_tasa, 2), "%\n\n")
+
+# Top casos > 100% (ordenados de mayor a menor)
+top_mayor_100 <- df_2 %>%
+  filter(tasa_fin > 100) %>%
+  arrange(desc(tasa_fin)) %>%
+  select(pais, anio, tasa_fin) %>%
+  head(15)
+
+kable(top_mayor_100, caption = "Principales observaciones con tasa de finalización > 100%")
+
+```
+
+El análisis univariado tiene como propósito examinar cada variable por separado con el fin de comprender su comportamiento general antes de integrar comparaciones entre países o estudiar su evolución temporal. En esta etapa se describen las características básicas de cada columna del dataset df_2, incluyendo medidas de tendencia central, dispersión, rangos, distribución y presencia de valores extremos. Dado que la tasa de finalización primaria puede presentar valores superiores al 100% debido a la metodología utilizada por WDI, y con el fin de mejorar la interpretación visual de las distribuciones, los gráficos correspondientes emplean una versión acotada de la variable objetivo en el intervalo 0–100. Esta decisión no altera los valores originales, que se conservan para su documentación, pero facilita la lectura de los resultados y evita que valores atípicos dominen la escala gráfica.
+
+Dado que los datos corresponden a un panel desbalanceado —donde algunos países reportan más años que otros—, estos resultados deben interpretarse como una descripción global del conjunto y no como comparaciones estrictas entre unidades. Sin embargo, esta inspección preliminar permite identificar patrones fundamentales y garantizar que las transformaciones posteriores del EDA se realicen sobre una base sólida y coherentemente presentada, manteniendo consistencia entre la preparación de los datos y las visualizaciones que la acompañan.
+
+```{r}
+
+# === Analisis univariado de cada columna de df_2 ===
+library(tidyverse)
+
+# ---- Paleta: azul principal + neutros + acento para outliers ----
+azul_main   <- "#4A90E2"  # azul principal (rellenos/barras)
+azul_fuerte <- "#1F5AA6"  # azul mas oscuro (bordes/lineas destacadas)
+gris_linea  <- "#4D4D4D"  # contornos/axes neutros
+rojo_out    <- "#D94E4E"  # SOLO outliers (acento)
+
+# Crear variable acotada para claridad visual 
+df_2 <- df_2 %>%
+  mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
+
+# 1) Resumen estadistico general de cada columna
+summary(df_2)
+
+# 2) Analisis univariado de la variable 'tasa_fin_cap'
+summary(df_2$tasa_fin_cap)
+quantile(df_2$tasa_fin_cap, probs = c(0.01, 0.25, 0.5, 0.75, 0.99))
+
+# ---- Histograma + densidad  ----
+hist(df_2$tasa_fin_cap,
+     breaks = seq(0, 100, by = 5),  # bins uniformes, legibles
+     col    = azul_main,
+     border = azul_fuerte,          # BORDES para distinguir barras
+     lwd    = 0.8,                  # grosor del borde
+     main   = "Distribucion global de la tasa de finalizacion primaria (0-100)",
+     xlab   = "tasa_fin_cap (%)",
+     xlim   = c(0, 100))
+
+lines(density(df_2$tasa_fin_cap), col = azul_fuerte, lwd = 2)
+
+# ---- Boxplot (relleno azul; outliers resaltados; lineas neutras) ----
+boxplot(df_2$tasa_fin_cap,
+        col = azul_main,
+        border   = gris_linea,
+        whiskcol = gris_linea,
+        staplecol= gris_linea,
+        medcol   = azul_fuerte,         # mediana en azul fuerte
+        outcol   = rojo_out, outpch = 16,  # SOLO outliers con acento
+        main = "Boxplot de la tasa de finalizacion primaria (0-100)",
+        ylab = "tasa_fin_cap (%)",
+        ylim = c(0, 100))
+
+# 3) Analisis univariado de la columna 'anio'
+summary(df_2$anio)
+range(df_2$anio)
+
+# Histograma de anio: UNA barra por anio y borde visible
+hist(df_2$anio,
+     breaks = seq(2000, 2022, by = 1),  # una barra por anio
+     col    = azul_main,
+     border = azul_fuerte,              # BORDES para separar barras
+     lwd    = 0.8,
+     main   = "Distribucion de anios en el dataset",
+     xlab   = "Anio",
+     xaxt   = "n")                      # eje X manual para mejor legibilidad
+axis(side = 1, at = seq(2000, 2022, by = 2), labels = seq(2000, 2022, by = 2))
+
+# 4) Analisis univariado de la columna 'pais'
+
+# Cantidad de paises distintos
+length(unique(df_2$pais))
+
+# Frecuencia por pais (cuantas observaciones tiene cada uno)
+tabla_paises <- table(df_2$pais)
+head(tabla_paises)
+
+# Paises con menor y mayor cobertura
+head(sort(tabla_paises), 10)   # Paises con menos datos
+tail(sort(tabla_paises), 10)   # Paises con mas datos
+``
 ```
 
 
-## Análisis temporal (evolución por año)
+
+La inspección univariada del conjunto de datos revela tres patrones fundamentales. En primer lugar, la distribución de los años muestra que el período 2000–2022 está completamente cubierto, aunque la frecuencia de observaciones varía ligeramente entre años, reflejando la estructura desbalanceada del panel: algunos países aportan información de forma continua mientras otros presentan registros intermitentes. En segundo lugar, el boxplot de la tasa de finalización primaria (acotada al rango 0–100) evidencia que los valores se concentran en niveles altos, con una mediana cercana al 100%, pero también muestra una presencia notable de valores bajos y atípicos, indicando diferencias sustanciales en el desempeño educativo entre países. Finalmente, el histograma confirma visualmente este patrón: la distribución global es marcadamente asimétrica, con una fuerte acumulación de observaciones en torno a tasas elevadas y una cola hacia valores más bajos, lo que sugiere que, mientras muchos países alcanzan niveles altos de finalización primaria, un grupo significativo aún presenta rezagos importantes.
+
+
+
+
+## Análisis bivariado
+
+Antes de iniciar el análisis bivariado, dejamos constancia de que trabajaremos con la versión acotada de la variable objetivo (tasa_fin_cap ∈ [0,100]) para asegurar visualizaciones comparables y evitar que pocos valores extremos (>100%) distorsionen escalas y patrones; la variable original (tasa_fin) se conserva y, cuando sea pertinente (p. ej., para verificar robustez), contrastaremos resultados con ella. Dado que el panel es desbalanceado (cobertura desigual por país y año), en cada contraste reportaremos el número efectivo de observaciones y el rango temporal involucrado. Asimismo, al explorar asociaciones emplearemos medidas y gráficos robustos a asimetrías y acotamientos (p. ej., correlación de Spearman además de Pearson, y bandas intercuartílicas), dejando claro que las conclusiones se interpretan condicionadas al recorte a [0,100]. Esta decisión metodológica mejora la legibilidad y la coherencia del EDA, sin renunciar a la trazabilidad de la fuente original.
+
+### Numérica vs Categórica 
+
+```{r}
+# ===== 6.1 Variable numerica vs categorica =====
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(forcats)
+})
+
+# ---- Paleta coherente ----
+azul_main   <- "#4A90E2"  # rellenos/barras principales
+azul_borde  <- "#1F5AA6"  # lineas/bordes destacados
+gris_linea  <- "#5A5A5A"  # contornos neutros
+rojo_out    <- "#D94E4E"  # SOLO para outliers si aplica
+
+# 0) Asegurar variable acotada (si aun no existe)
+if (!"tasa_fin_cap" %in% names(df_2)) {
+  df_2 <- df_2 %>%
+    mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
+}
+
+# 1) Seleccionar TOP paises por cobertura (N paises con mas años)
+N_TOP <- 12  # ajusta si quieres mas/menos
+top_paises <- df_2 %>%
+  filter(!is.na(tasa_fin_cap), !is.na(pais), !is.na(anio),
+         anio >= 2000, anio <= 2022) %>%
+  distinct(pais, anio) %>%
+  count(pais, name = "n_anios") %>%
+  arrange(desc(n_anios), pais) %>%
+  slice_head(n = N_TOP) %>%
+  pull(pais)
+
+df_top <- df_2 %>%
+  filter(pais %in% top_paises,
+         !is.na(tasa_fin_cap),
+         anio >= 2000, anio <= 2022) %>%
+  mutate(pais = fct_reorder(pais, tasa_fin_cap, .fun = median, .desc = TRUE))
+
+# 2) Boxplot por pais (para distribuciones comparables)
+p_box <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
+  geom_boxplot(fill = azul_main, color = gris_linea, outlier.colour = rojo_out, outlier.alpha = 0.8) +
+  stat_summary(fun = median, geom = "point", size = 1.6, color = azul_borde) +  # resalta la mediana
+  coord_flip() +
+  labs(
+    title = "tasa_fin_cap por pais (TOP cobertura)",
+    subtitle = paste0("Top ", N_TOP, " paises por numero de anios reportados (2000-2022)"),
+    x = NULL, y = "tasa_fin_cap (%)",
+    caption = "Punto azul oscuro: mediana. Outliers resaltados en rojo."
+  ) +
+  scale_y_continuous(limits = c(0, 100)) +
+  theme_minimal(base_size = 11)
+
+print(p_box)
+
+# 3) Violin + boxplot (opcional, para ver forma + cuantiles)
+p_violin <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
+  geom_violin(fill = scales::alpha(azul_main, 0.6), color = azul_borde) +
+  geom_boxplot(width = 0.15, fill = "white", color = gris_linea, outlier.colour = rojo_out, outlier.alpha = 0.7) +
+  coord_flip() +
+  labs(
+    title = "Distribucion por pais: violin + boxplot",
+    subtitle = paste0("Top ", N_TOP, " paises por cobertura (2000-2022)"),
+    x = NULL, y = "tasa_fin_cap (%)"
+  ) +
+  scale_y_continuous(limits = c(0, 100)) +
+  theme_minimal(base_size = 11)
+
+print(p_violin)
+
+# 4) (Extra) Boxplot por quinquenio: tasa_fin_cap vs categoria temporal
+df_q <- df_2 %>%
+  filter(!is.na(tasa_fin_cap), !is.na(anio),
+         anio >= 2000, anio <= 2022) %>%
+  mutate(
+    quinquenio = case_when(
+      anio <= 2004 ~ "2000-2004",
+      anio <= 2009 ~ "2005-2009",
+      anio <= 2014 ~ "2010-2014",
+      anio <= 2019 ~ "2015-2019",
+      TRUE         ~ "2020-2022"
+    ),
+    quinquenio = factor(quinquenio, levels = c("2000-2004", "2005-2009", "2010-2014", "2015-2019", "2020-2022"))
+  )
+
+p_q <- ggplot(df_q, aes(x = quinquenio, y = tasa_fin_cap)) +
+  geom_boxplot(fill = azul_main, color = gris_linea, outlier.colour = rojo_out, outlier.alpha = 0.7) +
+  stat_summary(fun = median, geom = "point", size = 2, color = azul_borde) +
+  labs(
+    title = "tasa_fin_cap por quinquenio",
+    x = "Quinquenio", y = "tasa_fin_cap (%)"
+  ) +
+  scale_y_continuous(limits = c(0, 100)) +
+  theme_minimal(base_size = 11)
+
+print(p_q)
+```
+Los contrastes entre una variable numérica y una categórica muestran que los países con mejor cobertura presentan tasas de finalización primaria acotadas (0–100) con medianas cercanas al 100% y dispersión contenida, aunque con outliers a la baja en años puntuales. La combinación de boxplot y violín confirma que la masa de la distribución se concentra en niveles altos, mientras que las colas inferiores reflejan descensos esporádicos más que patrones persistentes. Al agrupar por quinquenios, la mediana se mantiene elevada en todo el período 2000–2022 y la dispersión intercuartílica muestra una leve reducción en etapas recientes, lo que sugiere mejora gradual y posible homogeneización entre países, si bien persisten rezagos puntuales. Estas conclusiones deben leerse considerando el panel desbalanceado y el uso de la variable acotada para asegurar comparabilidad visual.
+
+
 ## Comparación entre países
 ## Análisis de dispersión o correlaciones (si agregas variables)

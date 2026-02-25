@@ -25,3 +25,4 @@ comparación-entre-países
 análisis-de-dispersión-o-correlaciones-si-agregas-variables
 conclusiones-del-análisis
 conclusiones-del-análisis-1
+análisis-univariado-de-cada-columna
