@@ -222,70 +222,60 @@ Antes de iniciar el análisis bivariado, dejamos constancia de que trabajaremos 
 ### Numérica vs Categórica 
 
 ```{r}
-# ===== 6.1 Variable numerica vs categorica =====
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(ggplot2)
-  library(forcats)
-})
-
-# ---- Paleta coherente ----
-azul_main   <- "#4A90E2"  # rellenos/barras principales
-azul_borde  <- "#1F5AA6"  # lineas/bordes destacados
-gris_linea  <- "#5A5A5A"  # contornos neutros
-rojo_out    <- "#D94E4E"  # SOLO para outliers si aplica
-
-# 0) Asegurar variable acotada (si aun no existe)
-if (!"tasa_fin_cap" %in% names(df_2)) {
-  df_2 <- df_2 %>%
-    mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
-}
-
-# 1) Seleccionar TOP paises por cobertura (N paises con mas años)
-N_TOP <- 12  # ajusta si quieres mas/menos
-top_paises <- df_2 %>%
-  filter(!is.na(tasa_fin_cap), !is.na(pais), !is.na(anio),
-         anio >= 2000, anio <= 2022) %>%
-  distinct(pais, anio) %>%
-  count(pais, name = "n_anios") %>%
-  arrange(desc(n_anios), pais) %>%
-  slice_head(n = N_TOP) %>%
-  pull(pais)
-
-df_top <- df_2 %>%
-  filter(pais %in% top_paises,
-         !is.na(tasa_fin_cap),
-         anio >= 2000, anio <= 2022) %>%
-  mutate(pais = fct_reorder(pais, tasa_fin_cap, .fun = median, .desc = TRUE))
-
-# 2) Boxplot por pais (para distribuciones comparables)
+# 2) Boxplot por pais (mas legible, mantiene la misma paleta)
 p_box <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
-  geom_boxplot(fill = azul_main, color = gris_linea, outlier.colour = rojo_out, outlier.alpha = 0.8) +
-  stat_summary(fun = median, geom = "point", size = 1.6, color = azul_borde) +  # resalta la mediana
+  geom_boxplot(
+    fill = azul_main, color = gris_linea,
+    outlier.colour = rojo_out, outlier.alpha = 0.8,
+    width = 0.6
+  ) +
+  stat_summary(fun = median, geom = "point", size = 2, color = azul_borde) +
   coord_flip() +
   labs(
     title = "tasa_fin_cap por pais (TOP cobertura)",
     subtitle = paste0("Top ", N_TOP, " paises por numero de anios reportados (2000-2022)"),
     x = NULL, y = "tasa_fin_cap (%)",
-    caption = "Punto azul oscuro: mediana. Outliers resaltados en rojo."
+    caption = "Punto azul oscuro: mediana. Outliers en rojo."
   ) +
   scale_y_continuous(limits = c(0, 100)) +
-  theme_minimal(base_size = 11)
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title  = element_text(face = "bold"),
+    axis.text.y = element_text(size = 11)
+  )
 
 print(p_box)
 
-# 3) Violin + boxplot (opcional, para ver forma + cuantiles)
+# 3) Violín + boxplot (mas grande y legible, mantiene paleta)
 p_violin <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
-  geom_violin(fill = scales::alpha(azul_main, 0.6), color = azul_borde) +
-  geom_boxplot(width = 0.15, fill = "white", color = gris_linea, outlier.colour = rojo_out, outlier.alpha = 0.7) +
+  geom_violin(
+    fill  = scales::alpha(azul_main, 0.75),
+    color = azul_borde,
+    linewidth = 0.6,
+    width = 0.9,
+    trim  = TRUE
+  ) +
+  geom_boxplot(
+    width = 0.18,
+    fill  = "white",
+    color = gris_linea,
+    outlier.colour = rojo_out,
+    outlier.alpha  = 0.8,
+    linewidth = 0.5
+  ) +
   coord_flip() +
+  scale_y_continuous(limits = c(0, 100)) +
   labs(
-    title = "Distribucion por pais: violin + boxplot",
+    title = "Distribucion por pais: violin + boxplot (TOP cobertura)",
     subtitle = paste0("Top ", N_TOP, " paises por cobertura (2000-2022)"),
     x = NULL, y = "tasa_fin_cap (%)"
   ) +
-  scale_y_continuous(limits = c(0, 100)) +
-  theme_minimal(base_size = 11)
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title       = element_text(face = "bold"),
+    axis.text.y      = element_text(size = 11),
+    panel.grid.minor = element_blank()
+  )
 
 print(p_violin)
 
@@ -315,9 +305,134 @@ p_q <- ggplot(df_q, aes(x = quinquenio, y = tasa_fin_cap)) +
   theme_minimal(base_size = 11)
 
 print(p_q)
+
 ```
 Los contrastes entre una variable numérica y una categórica muestran que los países con mejor cobertura presentan tasas de finalización primaria acotadas (0–100) con medianas cercanas al 100% y dispersión contenida, aunque con outliers a la baja en años puntuales. La combinación de boxplot y violín confirma que la masa de la distribución se concentra en niveles altos, mientras que las colas inferiores reflejan descensos esporádicos más que patrones persistentes. Al agrupar por quinquenios, la mediana se mantiene elevada en todo el período 2000–2022 y la dispersión intercuartílica muestra una leve reducción en etapas recientes, lo que sugiere mejora gradual y posible homogeneización entre países, si bien persisten rezagos puntuales. Estas conclusiones deben leerse considerando el panel desbalanceado y el uso de la variable acotada para asegurar comparabilidad visual.
 
+### Numérica vs Numérica
+
+```{r}
+# ===== 6.2 Variable numerica vs numerica =====
+library(dplyr)
+library(ggplot2)
+
+# Paleta
+azul_main   <- "#4A90E2"
+azul_borde  <- "#1F5AA6"
+gris_linea  <- "#5A5A5A"
+rojo_out    <- "#D94E4E"
+
+# Asegurar variable acotada
+if (!"tasa_fin_cap" %in% names(df_2)) {
+  df_2 <- df_2 %>% mutate(tasa_fin_cap = pmin(pmax(tasa_fin,0),100))
+}
+
+df_num <- df_2 %>%
+  filter(!is.na(tasa_fin_cap), !is.na(anio),
+         anio >= 2000, anio <= 2022)
+
+# ==============================================================
+# (A) DISPERSION GLOBAL + LOESS
+# ==============================================================
+
+p_disp <- ggplot(df_num, aes(x = anio, y = tasa_fin_cap)) +
+  geom_point(alpha = 0.25, color = azul_main) +
+  geom_smooth(method = "loess", se = TRUE, color = azul_borde, fill = scales::alpha(azul_main,0.3)) +
+  labs(
+    title = "Relacion entre tasa_fin_cap y anio (dispersion global)",
+    x = "Anio", y = "tasa_fin_cap (%)",
+    subtitle = "Puntos = observaciones de todos los paises. Linea LOESS indica tendencia general."
+  ) +
+  theme_minimal(base_size = 12)
+
+print(p_disp)
+
+# ==============================================================
+# (B) MEDIANA ANUAL + BANDA INTERCUARTILICA
+# ==============================================================
+
+df_agg <- df_num %>%
+  group_by(anio) %>%
+  summarise(
+    mediana = median(tasa_fin_cap),
+    p25     = quantile(tasa_fin_cap, 0.25),
+    p75     = quantile(tasa_fin_cap, 0.75),
+    n_paises = n_distinct(pais),
+    .groups = "drop"
+  )
+
+p_mediana <- ggplot(df_agg, aes(x = anio, y = mediana)) +
+  geom_ribbon(aes(ymin = p25, ymax = p75),
+              fill = scales::alpha(azul_main, 0.35)) +
+  geom_line(color = azul_borde, linewidth = 1) +
+  geom_point(color = azul_borde, size = 2) +
+  labs(
+    title = "Mediana anual de tasa_fin_cap con banda P25–P75",
+    subtitle = "Muestra la tendencia central y dispersion anual entre paises",
+    x = "Anio", y = "tasa_fin_cap (%)"
+  ) +
+  theme_minimal(base_size = 12)
+
+print(p_mediana)
+
+# ==============================================================
+# (C) MEDIA vs MEDIANA ANUAL
+# ==============================================================
+
+df_media <- df_num %>%
+  group_by(anio) %>%
+  summarise(
+    media   = mean(tasa_fin_cap),
+    mediana = median(tasa_fin_cap),
+    .groups = "drop"
+  )
+
+p_mean_med <- ggplot(df_media, aes(x = anio)) +
+  geom_line(aes(y = media,   color = "Media"), linewidth = 1) +
+  geom_line(aes(y = mediana, color = "Mediana"), linewidth = 1) +
+  scale_color_manual(values = c("Media" = azul_main, "Mediana" = azul_borde)) +
+  labs(
+    title = "Media vs Mediana anual de tasa_fin_cap",
+    x = "Anio", y = "tasa_fin_cap (%)", color = NULL
+  ) +
+  theme_minimal(base_size = 12)
+
+print(p_mean_med)
+
+# ==============================================================
+# (D) PENDIENTE POR PAIS (MEJORA/DETERIORO)
+# ==============================================================
+
+df_slope <- df_num %>%
+  group_by(pais) %>%
+  do({
+    mod <- lm(tasa_fin_cap ~ anio, data = .)
+    tibble(pendiente = coef(mod)[["anio"]])
+  }) %>%
+  ungroup()
+
+df_slope_top <- df_slope %>% arrange(desc(pendiente)) %>% slice(1:10)
+df_slope_bottom <- df_slope %>% arrange(pendiente) %>% slice(1:10)
+
+p_slopes <- ggplot(df_slope_top, aes(x = reorder(pais, pendiente), y = pendiente)) +
+  geom_col(fill = azul_main, color = gris_linea) +
+  coord_flip() +
+  labs(
+    title = "Top 10 paises con mayor mejora anual (pendiente positiva)",
+    x = NULL, y = "Pendiente estimada"
+  ) +
+  theme_minimal(base_size = 12)
+
+print(p_slopes)
+```
+Tendencia global (dispersión + LOESS).
+La relación entre tasa_fin_cap y anio muestra una tendencia ascendente a lo largo de 2000–2022. El incremento es más pronunciado al inicio y luego se suaviza, con un leve aplanamiento en los años finales. La nube conserva heterogeneidad vertical en todo el periodo, evidencia de diferencias persistentes entre países.
+Mediana anual y dispersión (P25–P75).
+La mediana anual se mantiene alta y creciente, lo que sugiere progreso sostenido. La banda intercuartílica (P25–P75) se desplaza hacia arriba y parece estrecharse ligeramente, indicando menor dispersión entre países y una convergencia parcial hacia niveles elevados de finalización.
+Media vs. mediana anual.
+La mediana está sistemáticamente por encima de la media, lo que confirma asimetría hacia valores bajos (hay países con años de desempeño bajo que “arrastran” la media). La brecha media–mediana disminuye gradualmente, compatible con la idea de que los rezagados mejoran y la distribución se vuelve menos sesgada.
+Pendiente por país (mejoras anuales).
+El ranking de pendientes positivas señala a varios países con mejoras anuales marcadas. Esto es coherente con dinámicas de “catch‑up”: quienes partían de niveles más bajos muestran avances más rápidos. Conviene interpretar el ranking con cautela, pues la pendiente depende de la cobertura temporal efectiva y del techo impuesto por la acotación a [0,100].
 
 ## Comparación entre países
 ## Análisis de dispersión o correlaciones (si agregas variables)
