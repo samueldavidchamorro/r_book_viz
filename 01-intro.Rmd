@@ -35,7 +35,7 @@ df_2 <- df[1128:nrow(df), ]   # Desde la fila 1128 hasta el final
 df_2 <- df_2 %>% filter(complete.cases(.))
 ```
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # --- Contar países con datos (2000–2022) y su cobertura ---
 
 suppressPackageStartupMessages({
@@ -96,7 +96,7 @@ print(resumen_cobertura)
 
 En el período 2000–2022 contamos con datos de 192 países, pero la cobertura es heterogénea: solo 30 países (15,6%) reportan la serie completa de 23 años, mientras que el resto presenta huecos. En términos de extensión temporal por país, el mínimo es de 1 año, el p25 es 11, la mediana es 17, el p75 es 21 y el máximo es 23. Estos resultados confirman que trabajamos con un panel desbalanceado; por ello, los análisis temporales y las comparaciones entre países deben considerar esta asimetría de cobertura (p. ej., restringiendo periodos comunes, reportando el número efectivo de observaciones o aplicando estrategias robustas frente a datos faltantes) para evitar sesgos en la interpretación.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 suppressPackageStartupMessages(library(dplyr))
 
 # --- Detectar nombres de columnas ---
@@ -133,7 +133,7 @@ head(conteo_por_pais, 20)
 
 Antes de interpretar las distribuciones gráficas de las variables, es importante considerar una característica metodológica de los datos de WDI. La tasa de finalización primaria puede superar el 100% debido a la forma en que se calcula: el numerador contabiliza a todos los estudiantes que egresan del último grado de primaria, independientemente de su edad, mientras que el denominador corresponde únicamente a la población oficialmente asignada a ese nivel. La presencia de estudiantes en sobredad, subedad o con historial de repetición puede inflar el numerador, generando valores superiores al 100%. Por esta razón, identificamos y revisamos previamente las observaciones que exceden ese umbral y, para mejorar la claridad visual en los gráficos, trabajamos con una versión acotada de la variable en el rango 0–100, conservando la original para efectos de trazabilidad.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 
 library(dplyr)
 library(knitr)
@@ -162,7 +162,7 @@ El análisis univariado tiene como propósito examinar cada variable por separad
 
 Dado que los datos corresponden a un panel desbalanceado —donde algunos países reportan más años que otros—, estos resultados deben interpretarse como una descripción global del conjunto y no como comparaciones estrictas entre unidades. Sin embargo, esta inspección preliminar permite identificar patrones fundamentales y garantizar que las transformaciones posteriores del EDA se realicen sobre una base sólida y coherentemente presentada, manteniendo consistencia entre la preparación de los datos y las visualizaciones que la acompañan.
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 
 # === Analisis univariado de cada columna de df_2 ===
 library(tidyverse)
@@ -253,7 +253,7 @@ Antes de iniciar el análisis bivariado, dejamos constancia de que trabajaremos 
 
 ### Numérica vs Categórica 
 
-```{r, fig.width=8, fig.height=9}
+```{r, fig.width=8, fig.height=9, warning=FALSE, message=FALSE}
 # ============================================================
 # Bivariado CLARO: numerica (tasa_fin_cap) vs categorica (pais)
 # Fig A: Lollipop-IQR por pais y quinquenio (zoom 80-100)
@@ -395,7 +395,7 @@ En los Top 8 países, el gráfico de % en techo (100) muestra una compresión fu
 
 ### Numérica vs Numérica
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 # =====  Variable numerica vs numerica =====
 library(dplyr)
 library(ggplot2)
@@ -510,17 +510,23 @@ p_slopes <- ggplot(df_slope_top, aes(x = reorder(pais, pendiente), y = pendiente
 print(p_slopes)
 ```
 #### Tendencia global (dispersión + LOESS): 
+
 La relación entre tasa_fin_cap y anio muestra una tendencia ascendente a lo largo de 2000–2022. El incremento es más pronunciado al inicio y luego se suaviza, con un leve aplanamiento en los años finales. La nube conserva heterogeneidad vertical en todo el periodo, evidencia de diferencias persistentes entre países.
+
 #### Mediana anual y dispersión (P25–P75).
+
 La mediana anual se mantiene alta y creciente, lo que sugiere progreso sostenido. La banda intercuartílica (P25–P75) se desplaza hacia arriba y parece estrecharse ligeramente, indicando menor dispersión entre países y una convergencia parcial hacia niveles elevados de finalización.
+
 #### Media vs. mediana anual.
 La mediana está sistemáticamente por encima de la media, lo que confirma asimetría hacia valores bajos (hay países con años de desempeño bajo que “arrastran” la media). La brecha media–mediana disminuye gradualmente, compatible con la idea de que los rezagados mejoran y la distribución se vuelve menos sesgada.
+
 #### Pendiente por país (mejoras anuales).
+
 El ranking de pendientes positivas señala a varios países con mejoras anuales marcadas. Esto es coherente con dinámicas de “catch‑up”: quienes partían de niveles más bajos muestran avances más rápidos. Conviene interpretar el ranking con cautela, pues la pendiente depende de la cobertura temporal efectiva y del techo impuesto por la acotación a [0,100].
 
 ## Análisis multivariado
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 
 suppressPackageStartupMessages({
   library(dplyr)
@@ -602,4 +608,4 @@ head(slopes, 10)
 
 
 ```
-En los incrementos estimados, Azerbaiyán destaca con el mayor avance (≈8.48), seguido por Argelia (≈3.70) y Lao PDR (≈2.81); a nivel regional, South Asia ronda ≈2.34, mientras Marruecos (≈1.98) y Chipre (≈1.31) muestran mejoras más modestas, similares a los promedios de LDC/UN (≈1.45) y HIPC (≈1.42). En conjunto, la mediana anual de tasa_fin_cap sube rápido a inicios de los 2000 y se estabiliza cerca de 95, con IQR decreciente (menos dispersión entre países). Paralelamente, el porcentaje en el techo (100) se mantiene alto (≈17–23%) y repunta al final (≈24%), confirmando un efecto techo creciente que comprime la variabilidad y puede exagerar la convergencia observada.
+El ranking de pendientes pre‑techo indica mejoras rápidas de la tasa de finalización (pp/año) en Azerbaiyán (~+8.5), Turks and Caicos (~+7.1) y Mongolia (~+6.3); sin embargo, en estos casos n_usados = 2, de modo que la “pendiente” es prácticamente la recta entre dos puntos y no es estable. Entre estimaciones más confiables (porque usan más años antes de tocar el techo) destacan Bhután (+4.64, n=5), Zambia (+3.75, n=8), Argelia (+3.70, n=5) y Siria (+3.51, n=5), que sugieren ganancias sostenidas en varios periodos; China (+3.81, n=2) vuelve a caer en el caso de evidencia escasa. Como el cálculo se hace antes de alcanzar 100 y usando la variable acotada [0–100], evitamos la subestimación por efecto techo; no obstante, cuando el tramo “pre‑techo” es muy corto o arranca desde niveles muy bajos, la pendiente puede verse inflada. Recomendación: exigir n_usados ≥ 4–5, reportar IC de la pendiente o usar un estimador robusto (Theil–Sen) y contrastar con el % en techo para interpretar correctamente los países cercanos a 100.
