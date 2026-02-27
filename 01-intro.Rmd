@@ -4,6 +4,36 @@
 
 Empezando con la variable objetivo, queremos ver cuantos y cuales paises nos están dando integramente sus datos en la columna tasa_fin, puesto que observabamos que en el dataset no todos los paises brindaban sus datos integramente.
 
+```{r setup,include=FALSE}
+library(WDI)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(ggplot2)
+library(forcats)
+library(readr)
+library(purrr)
+library(scales)
+
+
+df <- WDI(
+  country = "all",
+  indicator = c("SE.PRM.CMPT.FE.ZS"),  # Primary completion rate, female
+  start = 2000,
+  end = 2022
+)
+df <- df %>% 
+  select(-iso2c, -iso3c)
+
+df <- df %>%
+  rename(
+    pais               = country,
+    anio               = year,
+    tasa_fin = SE.PRM.CMPT.FE.ZS
+  )
+df_2 <- df[1128:nrow(df), ]   # Desde la fila 1128 hasta el final
+df_2 <- df_2 %>% filter(complete.cases(.))
+```
 
 ```{r}
 # --- Contar países con datos (2000–2022) y su cobertura ---
@@ -136,7 +166,10 @@ Dado que los datos corresponden a un panel desbalanceado —donde algunos paíse
 
 # === Analisis univariado de cada columna de df_2 ===
 library(tidyverse)
-
+azul_main   <- "#4A90E2"
+azul_borde  <- "#1F5AA6"
+gris_linea  <- "#5A5A5A"
+rojo_out    <- "#D94E4E"
 # ---- Paleta: azul principal + neutros + acento para outliers ----
 azul_main   <- "#4A90E2"  # azul principal (rellenos/barras)
 azul_fuerte <- "#1F5AA6"  # azul mas oscuro (bordes/lineas destacadas)
@@ -205,7 +238,6 @@ head(tabla_paises)
 # Paises con menor y mayor cobertura
 head(sort(tabla_paises), 10)   # Paises con menos datos
 tail(sort(tabla_paises), 10)   # Paises con mas datos
-``
 ```
 
 
@@ -221,67 +253,33 @@ Antes de iniciar el análisis bivariado, dejamos constancia de que trabajaremos 
 
 ### Numérica vs Categórica 
 
-```{r}
-# 2) Boxplot por pais 
-p_box <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
-  geom_boxplot(
-    fill = azul_main, color = gris_linea,
-    outlier.colour = rojo_out, outlier.alpha = 0.8,
-    width = 0.6
-  ) +
-  stat_summary(fun = median, geom = "point", size = 2, color = azul_borde) +
-  coord_flip() +
-  labs(
-    title = "tasa_fin_cap por pais (TOP cobertura)",
-    subtitle = paste0("Top ", N_TOP, " paises por numero de anios reportados (2000-2022)"),
-    x = NULL, y = "tasa_fin_cap (%)",
-    caption = "Punto azul oscuro: mediana. Outliers en rojo."
-  ) +
-  scale_y_continuous(limits = c(0, 100)) +
-  theme_minimal(base_size = 13) +
-  theme(
-    plot.title  = element_text(face = "bold"),
-    axis.text.y = element_text(size = 11)
-  )
+```{r, fig.width=8, fig.height=9}
+# ============================================================
+# Bivariado CLARO: numerica (tasa_fin_cap) vs categorica (pais)
+# Fig A: Lollipop-IQR por pais y quinquenio (zoom 80-100)
+# Fig B: % en techo (100) por pais (Top 8)
+# Sugerencia de chunk Rmd: {r, fig.width=11, fig.height=9}
+# ============================================================
 
-print(p_box)
+suppressPackageStartupMessages({
+  library(dplyr); library(ggplot2); library(forcats)
+  library(stringr); library(scales)
+})
 
-# 3) Violín + boxplot 
-p_violin <- ggplot(df_top, aes(x = pais, y = tasa_fin_cap)) +
-  geom_violin(
-    fill  = scales::alpha(azul_main, 0.75),
-    color = azul_borde,
-    linewidth = 0.6,
-    width = 0.9,
-    trim  = TRUE
-  ) +
-  geom_boxplot(
-    width = 0.18,
-    fill  = "white",
-    color = gris_linea,
-    outlier.colour = rojo_out,
-    outlier.alpha  = 0.8,
-    linewidth = 0.5
-  ) +
-  coord_flip() +
-  scale_y_continuous(limits = c(0, 100)) +
-  labs(
-    title = "Distribucion por pais: violin + boxplot (TOP cobertura)",
-    subtitle = paste0("Top ", N_TOP, " paises por cobertura (2000-2022)"),
-    x = NULL, y = "tasa_fin_cap (%)"
-  ) +
-  theme_minimal(base_size = 13) +
-  theme(
-    plot.title       = element_text(face = "bold"),
-    axis.text.y      = element_text(size = 11),
-    panel.grid.minor = element_blank()
-  )
+# ---------- Paleta (la tuya) ----------
+azul_main  <- "#4A90E2"  # principal
+azul_borde <- "#1F5AA6"  # acento
+gris_linea <- "#4D4D4D"  # neutro
+rojo_out   <- "#D94E4E"  # acento (techo/outliers)
 
-print(p_violin)
+# ---------- 1) Asegurar variable acotada ----------
+if (!"tasa_fin_cap" %in% names(df_2)) {
+  df_2 <- df_2 %>% mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
+}
 
-# 4) Boxplot por quinquenio: tasa_fin_cap vs categoria temporal
-df_q <- df_2 %>%
-  filter(!is.na(tasa_fin_cap), !is.na(anio),
+# ---------- 2) Base 2000–2022 + quinquenios ----------
+df_base <- df_2 %>%
+  filter(!is.na(pais), !is.na(anio), !is.na(tasa_fin_cap),
          anio >= 2000, anio <= 2022) %>%
   mutate(
     quinquenio = case_when(
@@ -291,23 +289,109 @@ df_q <- df_2 %>%
       anio <= 2019 ~ "2015-2019",
       TRUE         ~ "2020-2022"
     ),
-    quinquenio = factor(quinquenio, levels = c("2000-2004", "2005-2009", "2010-2014", "2015-2019", "2020-2022"))
+    quinquenio = factor(
+      quinquenio,
+      levels = c("2000-2004","2005-2009","2010-2014","2015-2019","2020-2022")
+    )
   )
 
-p_q <- ggplot(df_q, aes(x = quinquenio, y = tasa_fin_cap)) +
-  geom_boxplot(fill = azul_main, color = gris_linea, outlier.colour = rojo_out, outlier.alpha = 0.7) +
-  stat_summary(fun = median, geom = "point", size = 2, color = azul_borde) +
-  labs(
-    title = "tasa_fin_cap por quinquenio",
-    x = "Quinquenio", y = "tasa_fin_cap (%)"
-  ) +
-  scale_y_continuous(limits = c(0, 100)) +
-  theme_minimal(base_size = 11)
+# ---------- 3) Top paises por cobertura ----------
+N_TOP <- 8  # <= CLARIDAD. Si quieres 10, cambia a 10.
+cov_por_pais <- df_base %>%
+  distinct(pais, anio) %>% count(pais, name = "n_anios") %>% arrange(desc(n_anios))
+paises_top <- cov_por_pais %>% slice(1:N_TOP) %>% pull(pais)
 
-print(p_q)
+df_top <- df_base %>%
+  filter(pais %in% paises_top) %>%
+  left_join(cov_por_pais, by = "pais") %>%
+  mutate(pais_lab = str_wrap(pais, width = 18))
+
+# ---------- 4) Resumen por pais y quinquenio ----------
+res_q <- df_top %>%
+  group_by(quinquenio, pais_lab) %>%
+  summarise(
+    n      = n(),
+    med    = median(tasa_fin_cap, na.rm = TRUE),
+    p25    = quantile(tasa_fin_cap, 0.25, na.rm = TRUE),
+    p75    = quantile(tasa_fin_cap, 0.75, na.rm = TRUE),
+    pctcap = mean(tasa_fin_cap >= 100 - 1e-9),
+    .groups = "drop"
+  )
+
+# Para que dentro de CADA quinquenio queden ordenados por mediana (lectura natural)
+res_q <- res_q %>%
+  group_by(quinquenio) %>%
+  mutate(pais_ord = fct_reorder(pais_lab, med, .desc = TRUE)) %>%
+  ungroup()
+
+# ============================================================
+# FIG A — Lollipop-IQR por pais y quinquenio (zoom 80–100)
+#   - linea horizontal: IQR (P25–P75)
+#   - punto: mediana
+#   - referencia discontinua en 100 (techo)
+# ============================================================
+p_lollipop <- ggplot(res_q, aes(x = pais_ord)) +
+  geom_hline(yintercept = 100, linetype = "dashed",
+             color = gris_linea, linewidth = 0.5) +
+  geom_segment(aes(xend = pais_ord, y = p25, yend = p75),
+               color = gris_linea, linewidth = 2, alpha = 0.8) +
+  geom_point(aes(y = med),
+             color = azul_borde, fill = azul_main,
+             size = 3.2, shape = 21, stroke = 0.6) +
+  coord_flip() +
+  facet_wrap(~ quinquenio, ncol = 3) +
+  labs(
+    title = "tasa_fin_cap por pais (Top 8) — Mediana (punto) e IQR (segmento)",
+    subtitle = "Escala 80–100. Linea discontinua: techo (100).",
+    x = NULL, y = "tasa_fin_cap (%)"
+  ) +
+  scale_y_continuous(limits = c(80, 100),
+                     breaks = seq(80, 100, 5),
+                     expand = expansion(mult = c(0.01, 0.03))) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.y = element_text(size = 9, lineheight = 0.9),
+    panel.grid.minor = element_blank(),
+    strip.text = element_text(size = 10)
+  )
+
+print(p_lollipop)
+
+# ============================================================
+# FIG B — % en techo (100) por pais (Top 8, agregado)
+# ============================================================
+res_cap <- df_top %>%
+  group_by(pais_lab) %>%
+  summarise(pct_cap = mean(tasa_fin_cap >= 100 - 1e-9),
+            .groups = "drop") %>%
+  mutate(pais_ord = fct_reorder(pais_lab, pct_cap, .desc = TRUE))
+
+p_cap <- ggplot(res_cap, aes(x = pais_ord, y = pct_cap)) +
+  geom_col(fill = azul_main, color = gris_linea, width = 0.65) +
+  geom_text(aes(label = percent(pct_cap, accuracy = 1)),
+            hjust = -0.05, size = 3.5, color = gris_linea) +
+  coord_flip(clip = "off") +
+  labs(
+    title = "Porcentaje en techo (100) por pais — Top 8",
+    subtitle = "Ordenado de mayor a menor. Indica compresion por techo.",
+    x = NULL, y = "% en 100"
+  ) +
+  scale_y_continuous(labels = percent_format(accuracy = 1),
+                     limits = c(0, 1),
+                     expand = expansion(mult = c(0, 0.12))) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    axis.text.y = element_text(size = 9, lineheight = 0.9),
+    plot.margin = margin(t = 5, r = 20, b = 5, l = 5)
+  )
+
+print(p_cap)
 
 ```
-Los contrastes entre una variable numérica y una categórica muestran que los países con mejor cobertura presentan tasas de finalización primaria acotadas (0–100) con medianas cercanas al 100% y dispersión contenida, aunque con outliers a la baja en años puntuales. La combinación de boxplot y violín confirma que la masa de la distribución se concentra en niveles altos, mientras que las colas inferiores reflejan descensos esporádicos más que patrones persistentes. Al agrupar por quinquenios, la mediana se mantiene elevada en todo el período 2000–2022 y la dispersión intercuartílica muestra una leve reducción en etapas recientes, lo que sugiere mejora gradual y posible homogeneización entre países, si bien persisten rezagos puntuales. Estas conclusiones deben leerse considerando el panel desbalanceado y el uso de la variable acotada para asegurar comparabilidad visual.
+En los Top 8 países, el gráfico de % en techo (100) muestra una compresión fuerte en Brunei Darussalam (96%) y Argentina (78%), moderada en Cyprus (43%), Argelia y Bulgaria (≈39%), Cabo Verde (30%) y Azerbaiyán (26%), y prácticamente nula en Cuba (0%); por tanto, en los lollipop‑IQR por quinquenio las diferencias deben leerse con cautela cuando la mediana está pegada a 100 y el IQR es mínimo (la escala está saturada). Aun así, se aprecian trayectorias: Azerbaiyán y Cabo Verde muestran alzas graduales y reducción de dispersión a lo largo de los quinquenios; Cuba se mantiene alta pero sin tocar techo, lo que permite distinguir cambios reales; Brunei y Argentina se saturan temprano y permanecen muy cerca del 100 con IQRs pequeños en los periodos recientes; Bulgaria y Cyprus se sitúan sistemáticamente altos con variabilidad baja‑moderada. En conjunto, los países convergen hacia valores elevados (IQRs más cortos en los quinquenios finales), pero el efecto techo limita la comparación fina entre los que alcanzan 100 con frecuencia.
 
 ### Numérica vs Numérica
 
@@ -438,58 +522,82 @@ El ranking de pendientes positivas señala a varios países con mejoras anuales 
 
 ```{r}
 
-library(dplyr)
-library(ggplot2)
-library(scales)
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(ggplot2)
+  library(scales)
+  library(tibble)
+})
 
-# 1) % en el techo (100) por año y por país
-cap_year <- df %>%
-  mutate(is_cap = tasa_fin_cap >= 100 - 1e-9) %>%
-  group_by(anio) %>%
-  summarise(pct_cap = mean(is_cap, na.rm = TRUE)) %>%
-  ungroup()
+# Paleta (misma que venias usando)
+azul_main   <- "#4A90E2"
+azul_borde  <- "#1F5AA6"
+gris_linea  <- "#5A5A5A"
+rojo_out    <- "#D94E4E"
 
-ggplot(cap_year, aes(x = anio, y = pct_cap)) +
-  geom_line(color = "#CB181D") +
-  scale_y_continuous(labels = percent) +
-  labs(title = "% de observaciones en el techo (100) por año",
-       x = "Año", y = "Porcentaje en 100") +
-  theme_minimal()
+# --- 0) Asegurar variable acotada en [0,100] ---
+if (!"tasa_fin_cap" %in% names(df_2)) {
+  df_2 <- df_2 %>%
+    mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
+}
 
-# 2) Mediana e IQR por año
-dist_year <- df %>%
+# --- 1) Base multivariada coherente con el EDA ---
+df_mv <- df_2 %>%
+  filter(!is.na(pais), !is.na(anio), !is.na(tasa_fin_cap),
+         anio >= 2000, anio <= 2022)
+
+# --- 2) Mediana e IQR por anio (usando la variable acotada) ---
+dist_year <- df_mv %>%
   group_by(anio) %>%
   summarise(
     med = median(tasa_fin_cap, na.rm = TRUE),
     p25 = quantile(tasa_fin_cap, 0.25, na.rm = TRUE),
-    p75 = quantile(tasa_fin_cap, 0.75, na.rm = TRUE)
+    p75 = quantile(tasa_fin_cap, 0.75, na.rm = TRUE),
+    n   = n(),                         # util para referencia
+    .groups = "drop"
   )
 
 ggplot(dist_year, aes(x = anio, y = med)) +
-  geom_ribbon(aes(ymin = p25, ymax = p75), fill = "#9ECAE1", alpha = 0.4) +
-  geom_line(color = "#08519C") +
-  labs(title = "Mediana y IQR de tasa_fin_cap por año",
-       x = "Año", y = "Tasa (cap)") +
-  theme_minimal()
+  geom_ribbon(aes(ymin = p25, ymax = p75),
+              fill = alpha(azul_main, 0.35)) +
+  geom_line(color = azul_borde, linewidth = 1) +
+  geom_point(color = azul_borde, size = 2) +
+  labs(
+    title = "Mediana e IQR de tasa_fin_cap por anio",
+    subtitle = "Variable acotada en [0,100]; IQR = P25–P75",
+    x = "Anio", y = "tasa_fin_cap (%)"
+  ) +
+  scale_y_continuous(limits = c(0, 100)) +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(face = "bold"),
+        panel.grid.minor = element_blank())
 
-# 3) Pendiente por país ANTES de tocar el techo 
-slopes <- df %>%
+# --- 3) Pendiente por pais ANTES de tocar el techo ---
+# Regla:
+#  - Si el pais toca 100 en algun anio, usamos datos con anio < primer anio en techo.
+#  - Si nunca toca 100, usamos toda su serie.
+#  - Exigimos al menos 2 puntos para estimar pendiente.
+slopes <- df_mv %>%
   group_by(pais) %>%
   arrange(anio, .by_group = TRUE) %>%
   mutate(capped = tasa_fin_cap >= 100 - 1e-9) %>%
-  # tomar tramo hasta el primer año en que capea
   mutate(first_cap_year = ifelse(any(capped), min(anio[capped]), Inf)) %>%
-  filter(anio < first_cap_year) %>%
-  # exigir al menos 2 puntos para estimar pendiente
-  filter(n() >= 2) %>%
+  # conservar todo si nunca capea; si capea, solo antes del primer techo
+  filter(anio < first_cap_year | is.infinite(first_cap_year)) %>%
+  # asegurar al menos 2 puntos por pais
+  mutate(n_pts = n()) %>%
+  filter(n_pts >= 2) %>%
   do({
     fit <- lm(tasa_fin_cap ~ anio, data = .)
-    tibble(pendiente = coef(fit)[["anio"]])
+    tibble(
+      pendiente = unname(coef(fit)[["anio"]]),
+      n_usados  = nrow(.)
+    )
   }) %>%
   ungroup() %>%
   arrange(desc(pendiente))
 
-# Top países por pendiente
+# Top paises por pendiente (mejora anual antes del techo)
 head(slopes, 10)
 
 
