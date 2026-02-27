@@ -16,4 +16,3 @@ conclusiones
 conclusiones-preliminares
 conclusiones-post-análisis
 pasos-a-seguir
-conclusiones-del-analisis

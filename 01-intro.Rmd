@@ -1,8 +1,4 @@
 # Análisis exploratorio de datos
-```{r, include=FALSE}
-
-```
-
 
 ## Análisis univariado
 
