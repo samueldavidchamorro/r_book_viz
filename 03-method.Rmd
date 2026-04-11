@@ -4,23 +4,17 @@
 
 - La variable tasa_fin_cap muestra una tendencia ascendente sostenida desde inicios de los años 2000, aunque con heterogeneidad marcada entre países, especialmente en las primeras etapas del periodo analizado.
 
-
 - La mediana anual aumenta con rapidez durante la primera década y se estabiliza cerca de 95, mientras que el IQR disminuye progresivamente, indicando reducción en la dispersión y en la variabilidad inter-país.
 
-
-- Se observa un efecto techo significativo, reflejado en un porcentaje alto y persistente de observaciones en el valor máximo (≈17–23%), con un repunta cercano al 24% en los años más recientes, lo que evidencia una censura derecha creciente en la variable.
-
+- Se observa un efecto techo significativo, reflejado en un porcentaje alto y persistente de observaciones en el valor máximo (≈17–23%), con un repunte cercano al 24% en los años más recientes, lo que evidencia una censura derecha creciente en la variable.
 
 - En cuanto a los avances relativos, destacan Azerbaiyán con el mayor incremento estimado (~8.48), seguido por Argelia (~3.70) y Lao PDR (~2.81). Países como Marruecos (~1.98) y Chipre (~1.31), así como grupos como LDC/ONU, HIPC e IDA‑only, presentan mejoras más moderadas en comparación.
 
-
-
 ## Conclusiones post análisis
-
 
 - El análisis integrado —univariado, bivariado y multivariado— revela un patrón consistente en la evolución de tasa_fin_cap. La distribución se vuelve más asimétrica hacia valores altos, la mediana permanece en torno a 95 y el IQR continúa estrechándose, coherente con la disminución de la variabilidad observada en los exploratorios iniciales. A nivel bivariado, se confirma que los países con menores valores iniciales exhiben crecimientos más pronunciados, mientras que aquellos con niveles altos se aproximan rápidamente al límite superior. Este comportamiento se refleja en las pendientes pre‑cap, donde resaltan Azerbaiyán, Argelia y Lao PDR, así como en las trayectorias temporales y el heatmap país×año, donde las diferencias en velocidades y ritmos de avance son claras.
 
-- No obstante, la convergencia aparente entre países debe interpretarse cuidadosamente: el efecto techo —con un 17–23% de observaciones en 100 durante buena parte del periodo y un repunte al final— produce una compresión artificial de la variabilidad, limitando la capacidad de distinguir diferencias reales cuando muchos países se acercan al máximo. 
+- No obstante, la convergencia aparente entre países debe interpretarse cuidadosamente: el efecto techo —con un 17–23% de observaciones en 100 durante buena parte del periodo y un repunte al final— produce una compresión artificial de la variabilidad, limitando la capacidad de distinguir diferencias reales cuando muchos países se acercan al máximo.
 
 - El análisis multivariado confirma la existencia de pendientes distintas por país, evidenciando una interacción tiempo×país y trayectorias no lineales: algunos países presentan aceleraciones tempranas, otros mesetas prolongadas y otros fluctuaciones intermitentes. En conjunto, la evolución de tasa_fin_cap resulta de una combinación de dinámicas internas heterogéneas y restricciones impuestas por la censura, lo cual exige interpretar las comparaciones y la convergencia con cautela y con soporte de modelos que reconozcan explícitamente dicha censura.
 
@@ -47,7 +41,8 @@
 - Revisar la utilidad del indicador actual para la comparación internacional
 
 - Considerar ajustes en el diseño del indicador para minimizar la pérdida de información causada por el efecto techo, especialmente en periodos donde muchos países se concentran en el valor máximo.
-Evaluar la inclusión de sub‑indicadores o componentes desagregados que permitan captar variabilidad adicional.
+
+- Evaluar la inclusión de sub‑indicadores o componentes desagregados que permitan captar variabilidad adicional.
 
 - Fortalecer la comunicación y uso estratégico de los resultados
 
@@ -55,6 +50,22 @@ Evaluar la inclusión de sub‑indicadores o componentes desagregados que permit
 
 - Utilizar visualizaciones (series temporales, mapas de calor, comparaciones regionales) para facilitar el uso de estos datos en decisiones de política y planificación.
 
+# Referencias
 
+Arel-Bundock, V. (2022). *WDI: World Development Indicators and Other World Bank Data* (R package version 2.7.8). CRAN. https://CRAN.R-project.org/package=WDI
 
+Banco Mundial. (2022). *World Development Report 2022: Finance for an equitable recovery*. World Bank Group. https://doi.org/10.1596/978-1-4648-1730-4
 
+Banco Mundial. (2023). *World Development Indicators* [Base de datos]. World Bank Group. https://databank.worldbank.org/source/world-development-indicators
+
+Box, G. E. P., Jenkins, G. M., Reinsel, G. C., & Ljung, G. M. (2015). *Time series analysis: Forecasting and control* (5.ª ed.). John Wiley & Sons.
+
+Dickey, D. A., & Fuller, W. A. (1979). Distribution of the estimators for autoregressive time series with a unit root. *Journal of the American Statistical Association*, *74*(366), 427–431. https://doi.org/10.2307/2286348
+
+Fondo de las Naciones Unidas para la Infancia (UNICEF). (2020). *Girls' education*. https://www.unicef.org/education/girls-education
+
+Naciones Unidas. (2015). *Transformar nuestro mundo: La Agenda 2030 para el Desarrollo Sostenible* (Resolución A/RES/70/1). Asamblea General de las Naciones Unidas. https://sdgs.un.org/2030agenda
+
+Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura (UNESCO). (2019). *New methodology shows that 258 million children, adolescents and youth are out of school*. UNESCO Institute for Statistics. https://uis.unesco.org/sites/default/files/documents/new-methodology-shows-258-million-children-adolescents-and-youth-are-out-school.pdf
+
+Sen, A. (1999). *Development as freedom*. Oxford University Press.

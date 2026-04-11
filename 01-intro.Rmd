@@ -2,9 +2,7 @@
 
 ## Análisis univariado
 
-Empezando con la variable objetivo, queremos ver cuantos y cuales paises nos están dando integramente sus datos en la columna tasa_fin, puesto que observabamos que en el dataset no todos los paises brindaban sus datos integramente.
-
-```{r setup,include=FALSE}
+```{r setup, include=FALSE}
 library(WDI)
 library(dplyr)
 library(tidyr)
@@ -14,140 +12,63 @@ library(forcats)
 library(readr)
 library(purrr)
 library(scales)
+library(rnaturalearth)
+library(rnaturalearthdata)
 
+# Paleta global compartida en todo el documento
+azul_main   <- "#4A90E2"
+azul_fuerte <- "#1F5AA6"
+gris_linea  <- "#4D4D4D"
+rojo_out    <- "#D94E4E"
 
 df <- WDI(
   country = "all",
-  indicator = c("SE.PRM.CMPT.FE.ZS"),  # Primary completion rate, female
+  indicator = c("SE.PRM.CMPT.FE.ZS"),
   start = 2000,
   end = 2022
 )
-df <- df %>% 
-  select(-iso2c, -iso3c)
-
 df <- df %>%
+  select(-iso2c, -iso3c) %>%
   rename(
-    pais               = country,
-    anio               = year,
+    pais     = country,
+    anio     = year,
     tasa_fin = SE.PRM.CMPT.FE.ZS
   )
-df_2 <- df[1128:nrow(df), ]   # Desde la fila 1128 hasta el final
-df_2 <- df_2 %>% filter(complete.cases(.))
+df_2 <- df[1128:nrow(df), ] %>% filter(complete.cases(.))
+df_2 <- df_2 %>% mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
 ```
 
-```{r, warning=FALSE, message=FALSE}
-# --- Contar países con datos (2000–2022) y su cobertura ---
+En el período 2000–2022 contamos con datos de 192 países, aunque la cobertura es heterogénea: solo 30 de ellos (15,6%) reportan la serie completa de 23 años, mientras que el resto presenta huecos en distintos momentos. En términos de extensión temporal por país, el mínimo es de 1 año, el p25 es 11, la mediana es 17 y el p75 es 21. Estos resultados confirman que trabajamos con un panel desbalanceado; por ello, los análisis temporales y las comparaciones entre países deben considerar esta asimetría para evitar sesgos en la interpretación.
 
-suppressPackageStartupMessages({
-  library(dplyr)
-})
+Es importante señalar que la tasa de finalización primaria puede superar el 100%. Esto ocurre porque el numerador contabiliza a todos los estudiantes que egresan del último grado de primaria —independientemente de su edad—, mientras que el denominador solo incluye la población oficialmente asignada a ese nivel. La presencia de estudiantes en sobredad, subedad o con historial de repetición puede inflar el numerador. Para mejorar la claridad visual, los gráficos trabajan con una versión acotada de la variable en el rango 0–100, conservando los valores originales para efectos de trazabilidad.
 
+```{r cobertura, warning=FALSE, message=FALSE, echo=TRUE}
 
-# 1) Detectar columnas de país y año según cómo las nombraste
-cols <- names(df_2)
+library(knitr)
 
-country_col <- if ("pais" %in% cols) "pais" else if ("country" %in% cols) "country" else 
-  stop("No encuentro la columna de país. Esperaba 'pais' o 'country'.")
-year_col    <- if ("anio" %in% cols) "anio" else if ("year" %in% cols) "year" else 
-  stop("No encuentro la columna de año. Esperaba 'anio' o 'year'.")
-
-# 2) Definir el rango de años y filtrar estrictamente 2000–2022
-years_target <- 2000:2022
+years_target   <- 2000:2022
 n_years_target <- length(years_target)
 
-df_win <- df_2 %>%
-  rename(pais = all_of(country_col),
-         anio = all_of(year_col)) %>%
-  mutate(anio = as.integer(anio)) %>%
-  filter(!is.na(pais), !is.na(anio),
-         anio %in% years_target)
-
-# 3) Países únicos con al menos un dato en 2000–2022
-n_paises_con_dato <- n_distinct(df_win$pais)
-
-# 4) Cobertura por país: cuántos años reporta cada país en el rango
-coverage_por_pais <- df_win %>%
+coverage_por_pais <- df_2 %>%
   distinct(pais, anio) %>%
   count(pais, name = "n_anios") %>%
   mutate(frac_cobertura = n_anios / n_years_target)
 
-# 5) Países con cobertura completa (los 23 años)
-n_paises_completos <- sum(coverage_por_pais$n_anios == n_years_target)
-prop_paises_completos <- if (n_paises_con_dato > 0) n_paises_completos / n_paises_con_dato else NA_real_
-
-# 6) Resumen de cobertura (años por país)
 resumen_cobertura <- coverage_por_pais %>%
   summarise(
     paises_con_algun_dato = n(),
-    anios_min   = min(n_anios, na.rm = TRUE),
-    anios_p25   = quantile(n_anios, 0.25, na.rm = TRUE),
-    anios_med   = median(n_anios, na.rm = TRUE),
-    anios_p75   = quantile(n_anios, 0.75, na.rm = TRUE),
-    anios_max   = max(n_anios, na.rm = TRUE)
+    anios_min = min(n_anios),
+    anios_p25 = quantile(n_anios, 0.25),
+    anios_med = median(n_anios),
+    anios_p75 = quantile(n_anios, 0.75),
+    anios_max = max(n_anios)
   )
 
-# 7) Mostrar resultados clave
-cat("Países con al menos un dato (2000–2022):", n_paises_con_dato, "\n")
-cat("Países con cobertura completa (23 años):", n_paises_completos, 
-    sprintf(" (%.1f%%)\n", 100 * prop_paises_completos))
-print(resumen_cobertura)
-
+kable(resumen_cobertura, caption = "Resumen de cobertura temporal por país (2000–2022)")
 ```
 
-En el período 2000–2022 contamos con datos de 192 países, pero la cobertura es heterogénea: solo 30 países (15,6%) reportan la serie completa de 23 años, mientras que el resto presenta huecos. En términos de extensión temporal por país, el mínimo es de 1 año, el p25 es 11, la mediana es 17, el p75 es 21 y el máximo es 23. Estos resultados confirman que trabajamos con un panel desbalanceado; por ello, los análisis temporales y las comparaciones entre países deben considerar esta asimetría de cobertura (p. ej., restringiendo periodos comunes, reportando el número efectivo de observaciones o aplicando estrategias robustas frente a datos faltantes) para evitar sesgos en la interpretación.
+```{r obs-mayor-100, warning=FALSE, message=FALSE, echo=TRUE}
 
-```{r, warning=FALSE, message=FALSE}
-suppressPackageStartupMessages(library(dplyr))
-
-# --- Detectar nombres de columnas ---
-cols <- names(df_2)
-country_col <- if ("pais" %in% cols) "pais" else if ("country" %in% cols) "country" else
-  stop("No encuentro la columna de país. Esperaba 'pais' o 'country'.")
-year_col    <- if ("anio" %in% cols) "anio" else if ("year" %in% cols) "year" else
-  stop("No encuentro la columna de año. Esperaba 'anio' o 'year'.")
-target_col  <- if ("tasa_fin" %in% cols) "tasa_fin" else if ("tasa_fin_prim_fem" %in% cols) "tasa_fin_prim_fem" else if ("SE.PRM.CMPT.FE.ZS" %in% cols) "SE.PRM.CMPT.FE.ZS" else
-  stop("No encuentro la columna de la variable objetivo. Esperaba 'tasa_fin', 'tasa_fin_prim_fem' o 'SE.PRM.CMPT.FE.ZS'.")
-
-# --- Filtrar rango temporal y no-NA en la variable objetivo ---
-df_win <- df_2 %>%
-  rename(pais = all_of(country_col), anio = all_of(year_col), tasa_fin = all_of(target_col)) %>%
-  mutate(anio = as.integer(anio)) %>%
-  filter(anio >= 2000, anio <= 2022, !is.na(tasa_fin))
-
-# 1) Lista de países con al menos un porcentaje reportado (2000–2022)
-paises_con_porcentaje <- sort(unique(df_win$pais))
-
-# 2) (Útil) Conteo de años reportados por país en el rango
-conteo_por_pais <- df_win %>%
-  distinct(pais, anio) %>%
-  count(pais, name = "n_anios_reportados") %>%
-  arrange(desc(n_anios_reportados), pais)
-
-# --- Mostrar resultados ---
-length(paises_con_porcentaje)        # cuántos países
-head(paises_con_porcentaje, 20)      # primeros 20 países (para inspección rápida)
-
-# Tabla con el conteo por país (puedes imprimir completa o filtrar)
-head(conteo_por_pais, 20)
-```
-
-Antes de interpretar las distribuciones gráficas de las variables, es importante considerar una característica metodológica de los datos de WDI. La tasa de finalización primaria puede superar el 100% debido a la forma en que se calcula: el numerador contabiliza a todos los estudiantes que egresan del último grado de primaria, independientemente de su edad, mientras que el denominador corresponde únicamente a la población oficialmente asignada a ese nivel. La presencia de estudiantes en sobredad, subedad o con historial de repetición puede inflar el numerador, generando valores superiores al 100%. Por esta razón, identificamos y revisamos previamente las observaciones que exceden ese umbral y, para mejorar la claridad visual en los gráficos, trabajamos con una versión acotada de la variable en el rango 0–100, conservando la original para efectos de trazabilidad.
-
-```{r, warning=FALSE, message=FALSE}
-
-library(dplyr)
-library(knitr)
-
-# Resumen rápido
-n_mayor_100 <- sum(df_2$tasa_fin > 100, na.rm = TRUE)
-prop_mayor_100 <- round(mean(df_2$tasa_fin > 100, na.rm = TRUE) * 100, 2)
-max_tasa <- max(df_2$tasa_fin, na.rm = TRUE)
-
-cat("Observaciones > 100%:", n_mayor_100, "\n")
-cat("Porcentaje del total:", prop_mayor_100, "%\n")
-cat("Valor máximo observado:", round(max_tasa, 2), "%\n\n")
-
-# Top casos > 100% (ordenados de mayor a menor)
 top_mayor_100 <- df_2 %>%
   filter(tasa_fin > 100) %>%
   arrange(desc(tasa_fin)) %>%
@@ -155,129 +76,99 @@ top_mayor_100 <- df_2 %>%
   head(15)
 
 kable(top_mayor_100, caption = "Principales observaciones con tasa de finalización > 100%")
-
 ```
 
-El análisis exploratorio tiene como propósito examinar cada variable por separado con el fin de comprender su comportamiento general antes de integrar comparaciones entre países o estudiar su evolución temporal. En esta etapa se describen las características básicas de cada columna del dataset df_2, incluyendo medidas de tendencia central, dispersión, rangos, distribución y presencia de valores extremos. Dado que la tasa de finalización primaria puede presentar valores superiores al 100% debido a la metodología utilizada por WDI, y con el fin de mejorar la interpretación visual de las distribuciones, los gráficos correspondientes emplean una versión acotada de la variable objetivo en el intervalo 0–100. Esta decisión no altera los valores originales, que se conservan para su documentación, pero facilita la lectura de los resultados y evita que valores atípicos dominen la escala gráfica.
+### Distribución de tasa_fin_cap
 
-Dado que los datos corresponden a un panel desbalanceado —donde algunos países reportan más años que otros—, estos resultados deben interpretarse como una descripción global del conjunto y no como comparaciones estrictas entre unidades. Sin embargo, esta inspección preliminar permite identificar patrones fundamentales y garantizar que las transformaciones posteriores del EDA se realicen sobre una base sólida y coherentemente presentada, manteniendo consistencia entre la preparación de los datos y las visualizaciones que la acompañan.
+```{r univariado, warning=FALSE, message=FALSE, echo=TRUE}
 
-```{r, warning=FALSE, message=FALSE}
+summary_df <- df_2 %>%
+  summarise(
+    Min     = min(tasa_fin_cap),
+    P25     = quantile(tasa_fin_cap, 0.25),
+    Mediana = median(tasa_fin_cap),
+    Media   = round(mean(tasa_fin_cap), 2),
+    P75     = quantile(tasa_fin_cap, 0.75),
+    Max     = max(tasa_fin_cap)
+  )
 
-# === Analisis univariado de cada columna de df_2 ===
-library(tidyverse)
-azul_main   <- "#4A90E2"
-azul_borde  <- "#1F5AA6"
-gris_linea  <- "#5A5A5A"
-rojo_out    <- "#D94E4E"
-# ---- Paleta: azul principal + neutros + acento para outliers ----
-azul_main   <- "#4A90E2"  # azul principal (rellenos/barras)
-azul_fuerte <- "#1F5AA6"  # azul mas oscuro (bordes/lineas destacadas)
-gris_linea  <- "#4D4D4D"  # contornos/axes neutros
-rojo_out    <- "#D94E4E"  # SOLO outliers (acento)
+knitr::kable(summary_df, caption = "Estadísticos descriptivos de tasa_fin_cap (0–100)")
 
-# Crear variable acotada para claridad visual 
-df_2 <- df_2 %>%
-  mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
-
-# 1) Resumen estadistico general de cada columna
-summary(df_2)
-
-# 2) Analisis univariado de la variable 'tasa_fin_cap'
-summary(df_2$tasa_fin_cap)
-quantile(df_2$tasa_fin_cap, probs = c(0.01, 0.25, 0.5, 0.75, 0.99))
-
-# ---- Histograma + densidad  ----
+# Histograma + densidad
 hist(df_2$tasa_fin_cap,
-     breaks = seq(0, 100, by = 5),  # bins uniformes, legibles
+     breaks = seq(0, 100, by = 5),
      col    = azul_main,
-     border = azul_fuerte,          # BORDES para distinguir barras
-     lwd    = 0.8,                  # grosor del borde
-     main   = "Distribucion global de la tasa de finalizacion primaria (0-100)",
+     border = azul_fuerte,
+     lwd    = 0.8,
+     main   = "Distribución global de la tasa de finalización primaria (0–100)",
      xlab   = "tasa_fin_cap (%)",
      xlim   = c(0, 100))
-
 lines(density(df_2$tasa_fin_cap), col = azul_fuerte, lwd = 2)
 
-# ---- Boxplot (relleno azul; outliers resaltados; lineas neutras) ----
+# Boxplot
 boxplot(df_2$tasa_fin_cap,
-        col = azul_main,
+        col      = azul_main,
         border   = gris_linea,
-        whiskcol = gris_linea,
-        staplecol= gris_linea,
-        medcol   = azul_fuerte,         # mediana en azul fuerte
-        outcol   = rojo_out, outpch = 16,  # SOLO outliers con acento
-        main = "Boxplot de la tasa de finalizacion primaria (0-100)",
-        ylab = "tasa_fin_cap (%)",
-        ylim = c(0, 100))
-
-# 3) Analisis univariado de la columna 'anio'
-summary(df_2$anio)
-range(df_2$anio)
-
-# Histograma de anio: UNA barra por anio y borde visible
-hist(df_2$anio,
-     breaks = seq(2000, 2022, by = 1),  # una barra por anio
-     col    = azul_main,
-     border = azul_fuerte,              # BORDES para separar barras
-     lwd    = 0.8,
-     main   = "Distribucion de anios en el dataset",
-     xlab   = "Anio",
-     xaxt   = "n")                      # eje X manual para mejor legibilidad
-axis(side = 1, at = seq(2000, 2022, by = 2), labels = seq(2000, 2022, by = 2))
-
-# 4) Analisis univariado de la columna 'pais'
-
-# Cantidad de paises distintos
-length(unique(df_2$pais))
-
-# Frecuencia por pais (cuantas observaciones tiene cada uno)
-tabla_paises <- table(df_2$pais)
-head(tabla_paises)
-
-# Paises con menor y mayor cobertura
-head(sort(tabla_paises), 10)   # Paises con menos datos
-tail(sort(tabla_paises), 10)   # Paises con mas datos
+        medcol   = azul_fuerte,
+        outcol   = rojo_out, outpch = 16,
+        main     = "Boxplot de la tasa de finalización primaria (0–100)",
+        ylab     = "tasa_fin_cap (%)",
+        ylim     = c(0, 100))
 ```
 
+La distribución de la tasa de finalización primaria es marcadamente asimétrica hacia la izquierda: la mayoría de los países reportan valores altos, con una mediana cercana al 100%, pero existe una cola importante hacia valores bajos que evidencia rezagos persistentes en un grupo significativo de naciones. Esta asimetría se refleja en que la media es inferior a la mediana, indicando que unos pocos países con tasas muy bajas jalan el promedio hacia abajo. El boxplot muestra además valores atípicos en la parte inferior del rango, correspondientes a países con serias dificultades para retener a las niñas en el sistema escolar.
 
+## Distribución geográfica
 
-La inspección univariada del conjunto de datos revela tres patrones fundamentales. En primer lugar, la distribución de los años muestra que el período 2000–2022 está completamente cubierto, aunque la frecuencia de observaciones varía ligeramente entre años, reflejando la estructura desbalanceada del panel: algunos países aportan información de forma continua mientras otros presentan registros intermitentes. En segundo lugar, el boxplot de la tasa de finalización primaria (acotada al rango 0–100) evidencia que los valores se concentran en niveles altos, con una mediana cercana al 100%, pero también muestra una presencia notable de valores bajos y atípicos, indicando diferencias sustanciales en el desempeño educativo entre países. Finalmente, el histograma confirma visualmente este patrón: la distribución global es marcadamente asimétrica, con una fuerte acumulación de observaciones en torno a tasas elevadas y una cola hacia valores más bajos, lo que sugiere que, mientras muchos países alcanzan niveles altos de finalización primaria, un grupo significativo aún presenta rezagos importantes.
+Un mapa coropleta permite identificar patrones espaciales que los gráficos estadísticos no revelan: qué regiones del mundo concentran los mayores rezagos, si los países vecinos tienden a comportarse de manera similar y dónde se ubican los extremos del indicador. Para construirlo, calculamos la tasa de finalización promedio por país a lo largo de todo el período disponible (2000–2022).
 
+```{r mapa-promedio, warning=FALSE, message=FALSE, fig.width=12, fig.height=6, echo=TRUE}
 
+df_mapa <- df_2 %>%
+  group_by(pais) %>%
+  summarise(tasa_promedio = mean(tasa_fin_cap, na.rm = TRUE), .groups = "drop")
 
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+world_data <- world %>%
+  left_join(df_mapa, by = c("name_long" = "pais"))
+
+ggplot(world_data) +
+  geom_sf(aes(fill = tasa_promedio), color = "white", linewidth = 0.1) +
+  scale_fill_gradientn(
+    colours  = c(rojo_out, "#F5A623", "#F8E71C", azul_main, azul_fuerte),
+    na.value = "#CCCCCC",
+    name     = "Tasa promedio (%)",
+    limits   = c(0, 100),
+    breaks   = c(0, 25, 50, 75, 100)
+  ) +
+  labs(
+    title    = "Tasa de finalización primaria femenina — Promedio 2000–2022",
+    subtitle = "Gris: países sin datos disponibles en WDI",
+    caption  = "Fuente: World Development Indicators, Banco Mundial"
+  ) +
+  theme_void(base_size = 12) +
+  theme(
+    plot.title       = element_text(face = "bold", hjust = 0.5, size = 13),
+    plot.subtitle    = element_text(hjust = 0.5, color = gris_linea),
+    plot.caption     = element_text(hjust = 1, color = gris_linea, size = 9),
+    legend.position  = "bottom",
+    legend.key.width = unit(2, "cm")
+  )
+```
+
+El mapa revela patrones geográficos marcados. África Subsahariana concentra los valores más bajos, con varios países en el rango del 30–60%, lo que refleja dificultades estructurales en acceso y retención escolar. En contraste, América Latina, Europa, el norte de África y buena parte de Asia presentan tasas promedio superiores al 80%. El sur y sureste asiático muestran heterogeneidad importante: mientras algunos países han avanzado considerablemente, otros mantienen rezagos notables. Los países en gris no cuentan con datos suficientes en el WDI durante el período analizado.
 
 ## Análisis bivariado
 
-Antes de iniciar el análisis bivariado, dejamos constancia de que trabajaremos con la versión acotada de la variable objetivo (tasa_fin_cap ∈ [0,100]) para asegurar visualizaciones comparables y evitar que pocos valores extremos (>100%) distorsionen escalas y patrones; la variable original (tasa_fin) se conserva y, cuando sea pertinente (p. ej., para verificar robustez), contrastaremos resultados con ella. Dado que el panel es desbalanceado (cobertura desigual por país y año), en cada contraste reportaremos el número efectivo de observaciones y el rango temporal involucrado. Asimismo, al explorar asociaciones emplearemos medidas y gráficos robustos a asimetrías y acotamientos (p. ej., correlación de Spearman además de Pearson, y bandas intercuartílicas), dejando claro que las conclusiones se interpretan condicionadas al recorte a [0,100]. Esta decisión metodológica mejora la legibilidad y la coherencia del EDA, sin renunciar a la trazabilidad de la fuente original.
+Para el análisis bivariado trabajamos con la versión acotada de la variable objetivo (`tasa_fin_cap` ∈ [0,100]), con el fin de asegurar visualizaciones comparables y evitar que pocos valores extremos distorsionen las escalas. Dado el panel desbalanceado, se emplean medidas robustas a asimetrías como la mediana y la banda intercuartílica.
 
-### Numérica vs Categórica 
+### tasa_fin_cap según país
 
-```{r, fig.width=8, fig.height=9, warning=FALSE, message=FALSE}
-# ============================================================
-# Bivariado CLARO: numerica (tasa_fin_cap) vs categorica (pais)
-# Fig A: Lollipop-IQR por pais y quinquenio (zoom 80-100)
-# Fig B: % en techo (100) por pais (Top 8)
-# Sugerencia de chunk Rmd: {r, fig.width=11, fig.height=9}
-# ============================================================
+Los siguientes gráficos muestran la distribución de `tasa_fin_cap` para los 8 países con mayor cobertura temporal, desagregada por quinquenio. El gráfico de lollipop presenta la mediana (punto) y el rango intercuartílico (segmento) para cada país y período.
 
-suppressPackageStartupMessages({
-  library(dplyr); library(ggplot2); library(forcats)
-  library(stringr); library(scales)
-})
+```{r bivariado-pais, fig.width=10, fig.height=9, warning=FALSE, message=FALSE, echo=TRUE}
 
-# ---------- Paleta (la tuya) ----------
-azul_main  <- "#4A90E2"  # principal
-azul_borde <- "#1F5AA6"  # acento
-gris_linea <- "#4D4D4D"  # neutro
-rojo_out   <- "#D94E4E"  # acento (techo/outliers)
-
-# ---------- 1) Asegurar variable acotada ----------
-if (!"tasa_fin_cap" %in% names(df_2)) {
-  df_2 <- df_2 %>% mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
-}
-
-# ---------- 2) Base 2000–2022 + quinquenios ----------
 df_base <- df_2 %>%
   filter(!is.na(pais), !is.na(anio), !is.na(tasa_fin_cap),
          anio >= 2000, anio <= 2022) %>%
@@ -289,323 +180,177 @@ df_base <- df_2 %>%
       anio <= 2019 ~ "2015-2019",
       TRUE         ~ "2020-2022"
     ),
-    quinquenio = factor(
-      quinquenio,
-      levels = c("2000-2004","2005-2009","2010-2014","2015-2019","2020-2022")
-    )
+    quinquenio = factor(quinquenio,
+      levels = c("2000-2004","2005-2009","2010-2014","2015-2019","2020-2022"))
   )
 
-# ---------- 3) Top paises por cobertura ----------
-N_TOP <- 8  # <= CLARIDAD. Si quieres 10, cambia a 10.
 cov_por_pais <- df_base %>%
-  distinct(pais, anio) %>% count(pais, name = "n_anios") %>% arrange(desc(n_anios))
-paises_top <- cov_por_pais %>% slice(1:N_TOP) %>% pull(pais)
+  distinct(pais, anio) %>%
+  count(pais, name = "n_anios") %>%
+  arrange(desc(n_anios))
+
+paises_top <- cov_por_pais %>% slice(1:8) %>% pull(pais)
 
 df_top <- df_base %>%
   filter(pais %in% paises_top) %>%
-  left_join(cov_por_pais, by = "pais") %>%
   mutate(pais_lab = str_wrap(pais, width = 18))
 
-# ---------- 4) Resumen por pais y quinquenio ----------
 res_q <- df_top %>%
   group_by(quinquenio, pais_lab) %>%
   summarise(
-    n      = n(),
-    med    = median(tasa_fin_cap, na.rm = TRUE),
-    p25    = quantile(tasa_fin_cap, 0.25, na.rm = TRUE),
-    p75    = quantile(tasa_fin_cap, 0.75, na.rm = TRUE),
-    pctcap = mean(tasa_fin_cap >= 100 - 1e-9),
+    med = median(tasa_fin_cap, na.rm = TRUE),
+    p25 = quantile(tasa_fin_cap, 0.25, na.rm = TRUE),
+    p75 = quantile(tasa_fin_cap, 0.75, na.rm = TRUE),
     .groups = "drop"
-  )
-
-# Para que dentro de CADA quinquenio queden ordenados por mediana (lectura natural)
-res_q <- res_q %>%
+  ) %>%
   group_by(quinquenio) %>%
   mutate(pais_ord = fct_reorder(pais_lab, med, .desc = TRUE)) %>%
   ungroup()
 
-# ============================================================
-# FIG A — Lollipop-IQR por pais y quinquenio (zoom 80–100)
-#   - linea horizontal: IQR (P25–P75)
-#   - punto: mediana
-#   - referencia discontinua en 100 (techo)
-# ============================================================
-p_lollipop <- ggplot(res_q, aes(x = pais_ord)) +
+ggplot(res_q, aes(x = pais_ord)) +
   geom_hline(yintercept = 100, linetype = "dashed",
              color = gris_linea, linewidth = 0.5) +
   geom_segment(aes(xend = pais_ord, y = p25, yend = p75),
                color = gris_linea, linewidth = 2, alpha = 0.8) +
   geom_point(aes(y = med),
-             color = azul_borde, fill = azul_main,
+             color = azul_fuerte, fill = azul_main,
              size = 3.2, shape = 21, stroke = 0.6) +
   coord_flip() +
   facet_wrap(~ quinquenio, ncol = 3) +
   labs(
-    title = "tasa_fin_cap por pais (Top 8) — Mediana (punto) e IQR (segmento)",
-    subtitle = "Escala 80–100. Linea discontinua: techo (100).",
+    title    = "tasa_fin_cap por país (Top 8) — Mediana e IQR por quinquenio",
+    subtitle = "Escala 80–100. Línea discontinua: techo (100).",
     x = NULL, y = "tasa_fin_cap (%)"
   ) +
-  scale_y_continuous(limits = c(80, 100),
-                     breaks = seq(80, 100, 5),
+  scale_y_continuous(limits = c(80, 100), breaks = seq(80, 100, 5),
                      expand = expansion(mult = c(0.01, 0.03))) +
   theme_minimal(base_size = 12) +
   theme(
-    plot.title = element_text(face = "bold"),
-    axis.text.y = element_text(size = 9, lineheight = 0.9),
+    plot.title       = element_text(face = "bold"),
+    axis.text.y      = element_text(size = 9, lineheight = 0.9),
     panel.grid.minor = element_blank(),
-    strip.text = element_text(size = 10)
+    strip.text       = element_text(size = 10)
   )
-
-print(p_lollipop)
-
-# ============================================================
-# FIG B — % en techo (100) por pais (Top 8, agregado)
-# ============================================================
-res_cap <- df_top %>%
-  group_by(pais_lab) %>%
-  summarise(pct_cap = mean(tasa_fin_cap >= 100 - 1e-9),
-            .groups = "drop") %>%
-  mutate(pais_ord = fct_reorder(pais_lab, pct_cap, .desc = TRUE))
-
-p_cap <- ggplot(res_cap, aes(x = pais_ord, y = pct_cap)) +
-  geom_col(fill = azul_main, color = gris_linea, width = 0.65) +
-  geom_text(aes(label = percent(pct_cap, accuracy = 1)),
-            hjust = -0.05, size = 3.5, color = gris_linea) +
-  coord_flip(clip = "off") +
-  labs(
-    title = "Porcentaje en techo (100) por pais — Top 8",
-    subtitle = "Ordenado de mayor a menor. Indica compresion por techo.",
-    x = NULL, y = "% en 100"
-  ) +
-  scale_y_continuous(labels = percent_format(accuracy = 1),
-                     limits = c(0, 1),
-                     expand = expansion(mult = c(0, 0.12))) +
-  theme_minimal(base_size = 12) +
-  theme(
-    plot.title = element_text(face = "bold"),
-    panel.grid.minor = element_blank(),
-    axis.text.y = element_text(size = 9, lineheight = 0.9),
-    plot.margin = margin(t = 5, r = 20, b = 5, l = 5)
-  )
-
-print(p_cap)
-
 ```
-En los Top 8 países, el gráfico de % en techo (100) muestra una compresión fuerte en Brunei Darussalam (96%) y Argentina (78%), moderada en Cyprus (43%), Argelia y Bulgaria (≈39%), Cabo Verde (30%) y Azerbaiyán (26%), y prácticamente nula en Cuba (0%); por tanto, en los lollipop‑IQR por quinquenio las diferencias deben leerse con cautela cuando la mediana está pegada a 100 y el IQR es mínimo (la escala está saturada). Aun así, se aprecian trayectorias: Azerbaiyán y Cabo Verde muestran alzas graduales y reducción de dispersión a lo largo de los quinquenios; Cuba se mantiene alta pero sin tocar techo, lo que permite distinguir cambios reales; Brunei y Argentina se saturan temprano y permanecen muy cerca del 100 con IQRs pequeños en los periodos recientes; Bulgaria y Cyprus se sitúan sistemáticamente altos con variabilidad baja‑moderada. En conjunto, los países convergen hacia valores elevados (IQRs más cortos en los quinquenios finales), pero el efecto techo limita la comparación fina entre los que alcanzan 100 con frecuencia.
 
-### Numérica vs Numérica
+En los 8 países con mayor cobertura temporal se observa una convergencia hacia valores altos de la tasa de finalización, con medianas cercanas o iguales a 100 en la mayoría de los quinquenios. Brunei Darussalam y Argentina muestran una compresión fuerte contra el techo desde los primeros períodos, lo que limita la comparabilidad fina entre ellos. Por su parte, Azerbaiyán y Cabo Verde exhiben trayectorias de mejora gradual con reducción de la dispersión a lo largo del tiempo, mientras que Cuba se mantiene alta y estable sin tocar el techo, lo que permite distinguir variaciones reales entre años.
 
-```{r, warning=FALSE, message=FALSE}
-# =====  Variable numerica vs numerica =====
-library(dplyr)
-library(ggplot2)
+### tasa_fin_cap según año
 
-# Paleta
-azul_main   <- "#4A90E2"
-azul_borde  <- "#1F5AA6"
-gris_linea  <- "#5A5A5A"
-rojo_out    <- "#D94E4E"
-
-# Asegurar variable acotada
-if (!"tasa_fin_cap" %in% names(df_2)) {
-  df_2 <- df_2 %>% mutate(tasa_fin_cap = pmin(pmax(tasa_fin,0),100))
-}
+```{r bivariado-anio, warning=FALSE, message=FALSE, echo=TRUE}
 
 df_num <- df_2 %>%
   filter(!is.na(tasa_fin_cap), !is.na(anio),
          anio >= 2000, anio <= 2022)
 
-# ==============================================================
-# (A) DISPERSION GLOBAL + LOESS
-# ==============================================================
-
-p_disp <- ggplot(df_num, aes(x = anio, y = tasa_fin_cap)) +
-  geom_point(alpha = 0.25, color = azul_main) +
-  geom_smooth(method = "loess", se = TRUE, color = azul_borde, fill = scales::alpha(azul_main,0.3)) +
-  labs(
-    title = "Relacion entre tasa_fin_cap y anio (dispersion global)",
-    x = "Anio", y = "tasa_fin_cap (%)",
-    subtitle = "Puntos = observaciones de todos los paises. Linea LOESS indica tendencia general."
-  ) +
-  theme_minimal(base_size = 12)
-
-print(p_disp)
-
-# ==============================================================
-# (B) MEDIANA ANUAL + BANDA INTERCUARTILICA
-# ==============================================================
-
 df_agg <- df_num %>%
   group_by(anio) %>%
   summarise(
-    mediana = median(tasa_fin_cap),
-    p25     = quantile(tasa_fin_cap, 0.25),
-    p75     = quantile(tasa_fin_cap, 0.75),
+    mediana  = median(tasa_fin_cap),
+    media    = mean(tasa_fin_cap),
+    p25      = quantile(tasa_fin_cap, 0.25),
+    p75      = quantile(tasa_fin_cap, 0.75),
     n_paises = n_distinct(pais),
-    .groups = "drop"
+    .groups  = "drop"
   )
 
-p_mediana <- ggplot(df_agg, aes(x = anio, y = mediana)) +
+ggplot(df_agg, aes(x = anio)) +
   geom_ribbon(aes(ymin = p25, ymax = p75),
               fill = scales::alpha(azul_main, 0.35)) +
-  geom_line(color = azul_borde, linewidth = 1) +
-  geom_point(color = azul_borde, size = 2) +
-  labs(
-    title = "Mediana anual de tasa_fin_cap con banda P25–P75",
-    subtitle = "Muestra la tendencia central y dispersion anual entre paises",
-    x = "Anio", y = "tasa_fin_cap (%)"
-  ) +
-  theme_minimal(base_size = 12)
-
-print(p_mediana)
-
-# ==============================================================
-# (C) MEDIA vs MEDIANA ANUAL
-# ==============================================================
-
-df_media <- df_num %>%
-  group_by(anio) %>%
-  summarise(
-    media   = mean(tasa_fin_cap),
-    mediana = median(tasa_fin_cap),
-    .groups = "drop"
-  )
-
-p_mean_med <- ggplot(df_media, aes(x = anio)) +
-  geom_line(aes(y = media,   color = "Media"), linewidth = 1) +
   geom_line(aes(y = mediana, color = "Mediana"), linewidth = 1) +
-  scale_color_manual(values = c("Media" = azul_main, "Mediana" = azul_borde)) +
+  geom_line(aes(y = media,   color = "Media"),   linewidth = 1, linetype = "dashed") +
+  geom_point(aes(y = mediana), color = azul_fuerte, size = 2) +
+  scale_color_manual(values = c("Mediana" = azul_fuerte, "Media" = rojo_out)) +
   labs(
-    title = "Media vs Mediana anual de tasa_fin_cap",
-    x = "Anio", y = "tasa_fin_cap (%)", color = NULL
+    title    = "Mediana y media anual de tasa_fin_cap con banda P25–P75",
+    subtitle = "La franja sombreada representa el rango intercuartílico entre países",
+    x = "Año", y = "tasa_fin_cap (%)",
+    color = NULL
   ) +
-  theme_minimal(base_size = 12)
-
-print(p_mean_med)
-
-# ==============================================================
-# (D) PENDIENTE POR PAIS (MEJORA/DETERIORO)
-# ==============================================================
-
-df_slope <- df_num %>%
-  group_by(pais) %>%
-  do({
-    mod <- lm(tasa_fin_cap ~ anio, data = .)
-    tibble(pendiente = coef(mod)[["anio"]])
-  }) %>%
-  ungroup()
-
-df_slope_top <- df_slope %>% arrange(desc(pendiente)) %>% slice(1:10)
-df_slope_bottom <- df_slope %>% arrange(pendiente) %>% slice(1:10)
-
-p_slopes <- ggplot(df_slope_top, aes(x = reorder(pais, pendiente), y = pendiente)) +
-  geom_col(fill = azul_main, color = gris_linea) +
-  coord_flip() +
-  labs(
-    title = "Top 10 paises con mayor mejora anual (pendiente positiva)",
-    x = NULL, y = "Pendiente estimada"
-  ) +
-  theme_minimal(base_size = 12)
-
-print(p_slopes)
-```
-#### Tendencia global (dispersión + LOESS): 
-
-La relación entre tasa_fin_cap y anio muestra una tendencia ascendente a lo largo de 2000–2022. El incremento es más pronunciado al inicio y luego se suaviza, con un leve aplanamiento en los años finales. La nube conserva heterogeneidad vertical en todo el periodo, evidencia de diferencias persistentes entre países.
-
-#### Mediana anual y dispersión (P25–P75).
-
-La mediana anual se mantiene alta y creciente, lo que sugiere progreso sostenido. La banda intercuartílica (P25–P75) se desplaza hacia arriba y parece estrecharse ligeramente, indicando menor dispersión entre países y una convergencia parcial hacia niveles elevados de finalización.
-
-#### Media vs. mediana anual.
-La mediana está sistemáticamente por encima de la media, lo que confirma asimetría hacia valores bajos (hay países con años de desempeño bajo que “arrastran” la media). La brecha media–mediana disminuye gradualmente, compatible con la idea de que los rezagados mejoran y la distribución se vuelve menos sesgada.
-
-#### Pendiente por país (mejoras anuales).
-
-El ranking de pendientes positivas señala a varios países con mejoras anuales marcadas. Esto es coherente con dinámicas de “catch‑up”: quienes partían de niveles más bajos muestran avances más rápidos. Conviene interpretar el ranking con cautela, pues la pendiente depende de la cobertura temporal efectiva y del techo impuesto por la acotación a [0,100].
-
-## Análisis multivariado
-
-```{r, warning=FALSE, message=FALSE}
-
-suppressPackageStartupMessages({
-  library(dplyr)
-  library(ggplot2)
-  library(scales)
-  library(tibble)
-})
-
-# Paleta (misma que venias usando)
-azul_main   <- "#4A90E2"
-azul_borde  <- "#1F5AA6"
-gris_linea  <- "#5A5A5A"
-rojo_out    <- "#D94E4E"
-
-# --- 0) Asegurar variable acotada en [0,100] ---
-if (!"tasa_fin_cap" %in% names(df_2)) {
-  df_2 <- df_2 %>%
-    mutate(tasa_fin_cap = pmin(pmax(tasa_fin, 0), 100))
-}
-
-# --- 1) Base multivariada coherente con el EDA ---
-df_mv <- df_2 %>%
-  filter(!is.na(pais), !is.na(anio), !is.na(tasa_fin_cap),
-         anio >= 2000, anio <= 2022)
-
-# --- 2) Mediana e IQR por anio (usando la variable acotada) ---
-dist_year <- df_mv %>%
-  group_by(anio) %>%
-  summarise(
-    med = median(tasa_fin_cap, na.rm = TRUE),
-    p25 = quantile(tasa_fin_cap, 0.25, na.rm = TRUE),
-    p75 = quantile(tasa_fin_cap, 0.75, na.rm = TRUE),
-    n   = n(),                         # util para referencia
-    .groups = "drop"
-  )
-
-ggplot(dist_year, aes(x = anio, y = med)) +
-  geom_ribbon(aes(ymin = p25, ymax = p75),
-              fill = alpha(azul_main, 0.35)) +
-  geom_line(color = azul_borde, linewidth = 1) +
-  geom_point(color = azul_borde, size = 2) +
-  labs(
-    title = "Mediana e IQR de tasa_fin_cap por anio",
-    subtitle = "Variable acotada en [0,100]; IQR = P25–P75",
-    x = "Anio", y = "tasa_fin_cap (%)"
-  ) +
-  scale_y_continuous(limits = c(0, 100)) +
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(face = "bold"),
-        panel.grid.minor = element_blank())
+  theme(
+    plot.title       = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    legend.position  = "bottom"
+  )
+```
 
-# --- 3) Pendiente por pais ANTES de tocar el techo ---
-# Regla:
-#  - Si el pais toca 100 en algun anio, usamos datos con anio < primer anio en techo.
-#  - Si nunca toca 100, usamos toda su serie.
-#  - Exigimos al menos 2 puntos para estimar pendiente.
-slopes <- df_mv %>%
+La mediana anual muestra una tendencia claramente ascendente a lo largo de 2000–2022, evidenciando un progreso sostenido en la finalización primaria femenina a nivel global. La banda intercuartílica se desplaza hacia arriba y se estrecha en los años finales, lo que sugiere una convergencia parcial entre países. La mediana supera sistemáticamente a la media, confirmando la asimetría de la distribución: unos pocos países con tasas bajas presionan el promedio hacia abajo, aunque esta brecha se reduce progresivamente hacia el final del período.
+
+### tasa_fin_cap según país — ritmo de mejora anual
+
+Los países no mejoran al mismo ritmo. Para cuantificar el avance de cada nación, estimamos la pendiente de una regresión lineal simple de `tasa_fin_cap` sobre `anio` para cada país. Los resultados se presentan gráficamente y en un mapa que ubica espacialmente dónde se produjeron las mejoras más significativas.
+
+```{r bivariado-pendientes, warning=FALSE, message=FALSE, echo=TRUE, fig.width=10, fig.height=5}
+
+# Pendiente por país antes de tocar el techo
+slopes <- df_num %>%
   group_by(pais) %>%
   arrange(anio, .by_group = TRUE) %>%
-  mutate(capped = tasa_fin_cap >= 100 - 1e-9) %>%
-  mutate(first_cap_year = ifelse(any(capped), min(anio[capped]), Inf)) %>%
-  # conservar todo si nunca capea; si capea, solo antes del primer techo
+  mutate(
+    capped        = tasa_fin_cap >= 100 - 1e-9,
+    first_cap_year = ifelse(any(capped), min(anio[capped]), Inf)
+  ) %>%
   filter(anio < first_cap_year | is.infinite(first_cap_year)) %>%
-  # asegurar al menos 2 puntos por pais
   mutate(n_pts = n()) %>%
-  filter(n_pts >= 2) %>%
+  filter(n_pts >= 4) %>%
   do({
     fit <- lm(tasa_fin_cap ~ anio, data = .)
-    tibble(
-      pendiente = unname(coef(fit)[["anio"]]),
-      n_usados  = nrow(.)
-    )
+    tibble(pendiente = unname(coef(fit)[["anio"]]), n_usados = nrow(.))
   }) %>%
   ungroup() %>%
   arrange(desc(pendiente))
 
-# Top paises por pendiente (mejora anual antes del techo)
-head(slopes, 10)
+# Gráfico de barras — Top 10 países con mayor mejora
+top_mejora <- slopes %>% slice(1:10)
 
-
+ggplot(top_mejora, aes(x = reorder(pais, pendiente), y = pendiente)) +
+  geom_col(fill = azul_main, color = azul_fuerte, width = 0.7) +
+  geom_text(aes(label = round(pendiente, 2)),
+            hjust = -0.1, size = 3.2, color = gris_linea) +
+  coord_flip(clip = "off") +
+  labs(
+    title    = "Top 10 países con mayor mejora anual en tasa_fin_cap",
+    subtitle = "Pendiente estimada (pp/año) — solo países con ≥ 4 años de datos pre-techo",
+    x = NULL, y = "Puntos porcentuales por año"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title       = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    plot.margin      = margin(t = 5, r = 25, b = 5, l = 5)
+  )
 ```
-El ranking de pendientes pre‑techo indica mejoras rápidas de la tasa de finalización (pp/año) en Azerbaiyán (~+8.5), Turks and Caicos (~+7.1) y Mongolia (~+6.3); sin embargo, en estos casos n_usados = 2, de modo que la “pendiente” es prácticamente la recta entre dos puntos y no es estable. Entre estimaciones más confiables (porque usan más años antes de tocar el techo) destacan Bhután (+4.64, n=5), Zambia (+3.75, n=8), Argelia (+3.70, n=5) y Siria (+3.51, n=5), que sugieren ganancias sostenidas en varios periodos; China (+3.81, n=2) vuelve a caer en el caso de evidencia escasa. Como el cálculo se hace antes de alcanzar 100 y usando la variable acotada [0–100], evitamos la subestimación por efecto techo; no obstante, cuando el tramo “pre‑techo” es muy corto o arranca desde niveles muy bajos, la pendiente puede verse inflada. Recomendación: exigir n_usados ≥ 4–5, reportar IC de la pendiente o usar un estimador robusto (Theil–Sen) y contrastar con el % en techo para interpretar correctamente los países cercanos a 100.
+
+```{r mapa-pendientes, warning=FALSE, message=FALSE, fig.width=12, fig.height=6, echo=TRUE}
+
+# Mapa de pendientes
+world_slopes <- ne_countries(scale = "medium", returnclass = "sf") %>%
+  left_join(slopes %>% rename(pendiente_anual = pendiente),
+            by = c("name_long" = "pais"))
+
+ggplot(world_slopes) +
+  geom_sf(aes(fill = pendiente_anual), color = "white", linewidth = 0.1) +
+  scale_fill_gradientn(
+    colours  = c(rojo_out, "#F5F5F5", azul_fuerte),
+    na.value = "#CCCCCC",
+    name     = "pp/año",
+    limits   = c(-3, 8)
+  ) +
+  labs(
+    title    = "Ritmo de mejora anual de la tasa de finalización primaria femenina",
+    subtitle = "Azul: mayor mejora. Rojo: deterioro. Gris: sin datos suficientes.",
+    caption  = "Fuente: World Development Indicators, Banco Mundial"
+  ) +
+  theme_void(base_size = 12) +
+  theme(
+    plot.title       = element_text(face = "bold", hjust = 0.5, size = 13),
+    plot.subtitle    = element_text(hjust = 0.5, color = gris_linea),
+    plot.caption     = element_text(hjust = 1, color = gris_linea, size = 9),
+    legend.position  = "bottom",
+    legend.key.width = unit(2, "cm")
+  )
+```
+
+Los países con mayor ritmo de mejora son, en su mayoría, naciones que partían de niveles bajos de finalización primaria, lo que refleja un efecto de "catch-up": cuando hay más margen de mejora, los avances tienden a ser más rápidos. El mapa de pendientes complementa esta lectura con una dimensión espacial: el azul intenso se concentra en África Subsahariana y partes del sur de Asia, precisamente las regiones que partían de niveles más bajos y donde el margen de avance era mayor. Los países en tonos neutros o rojizos reflejan estancamiento o ligero deterioro, a menudo asociado a contextos de inestabilidad política o crisis económica. Esta distribución geográfica refuerza la hipótesis del efecto "catch-up" y sugiere que las políticas de expansión educativa tuvieron un impacto especialmente pronunciado en los contextos con mayor rezago inicial.

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Análisis exploratorio de Datos</title>
+  <title>Análisis Exploratorio de Datos: Tasa de Finalización de Educación Primaria Femenina</title>
   <meta name="description" content="EDA" />
   <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Análisis exploratorio de Datos" />
+  <meta property="og:title" content="Análisis Exploratorio de Datos: Tasa de Finalización de Educación Primaria Femenina" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="EDA" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Análisis exploratorio de Datos" />
+  <meta name="twitter:title" content="Análisis Exploratorio de Datos: Tasa de Finalización de Educación Primaria Femenina" />
   
   <meta name="twitter:description" content="EDA" />
   
@@ -23,7 +23,7 @@
 <meta name="author" content="Samuel David Chamorro y Juan David Marín" />
 
 
-<meta name="date" content="2026-02-27" />
+<meta name="date" content="2026-04-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="análisis-exploratorio-de-datos.html"/>
+<link rel="next" href="carga-de-datos.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -123,6 +123,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -140,27 +163,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">A Minimal Book Example</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Carga de datos</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#fuentes-y-caracter%C3%ADsticas-de-los-datos"><i class="fa fa-check"></i><b>1.1</b> Fuentes y características de los datos</a></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#importaci%C3%B3n-y-preparaci%C3%B3n-inicial-de-los-datos"><i class="fa fa-check"></i><b>1.2</b> Importación y preparación inicial de los datos</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#limpieza-y-organizaci%C3%B3n-del-dataset"><i class="fa fa-check"></i><b>1.3</b> Limpieza y organización del dataset</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#justificaci%C3%B3n"><i class="fa fa-check"></i><b>1.1</b> Justificación</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#objetivos"><i class="fa fa-check"></i><b>1.2</b> Objetivos</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#marco-te%C3%B3rico"><i class="fa fa-check"></i><b>1.3</b> Marco Teórico</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#educaci%C3%B3n-primaria-y-desarrollo-humano"><i class="fa fa-check"></i><b>1.3.1</b> Educación primaria y desarrollo humano</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#brechas-de-g%C3%A9nero-en-educaci%C3%B3n"><i class="fa fa-check"></i><b>1.3.2</b> Brechas de género en educación</a></li>
+<li class="chapter" data-level="1.3.3" data-path="index.html"><a href="index.html#series-de-tiempo-en-datos-de-panel-educativo"><i class="fa fa-check"></i><b>1.3.3</b> Series de tiempo en datos de panel educativo</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html"><i class="fa fa-check"></i><b>2</b> Análisis exploratorio de datos</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-univariado"><i class="fa fa-check"></i><b>2.1</b> Análisis univariado</a></li>
-<li class="chapter" data-level="2.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-bivariado"><i class="fa fa-check"></i><b>2.2</b> Análisis bivariado</a>
-<ul>
-<li class="chapter" data-level="2.2.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#num%C3%A9rica-vs-categ%C3%B3rica"><i class="fa fa-check"></i><b>2.2.1</b> Numérica vs Categórica</a></li>
-<li class="chapter" data-level="2.2.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#num%C3%A9rica-vs-num%C3%A9rica"><i class="fa fa-check"></i><b>2.2.2</b> Numérica vs Numérica</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#metodolog%C3%ADa"><i class="fa fa-check"></i><b>1.4</b> Metodología</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-multivariado"><i class="fa fa-check"></i><b>2.3</b> Análisis multivariado</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>3</b> Conclusiones</a>
+<li class="chapter" data-level="2" data-path="carga-de-datos.html"><a href="carga-de-datos.html"><i class="fa fa-check"></i><b>2</b> Carga de datos</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="conclusiones.html"><a href="conclusiones.html#conclusiones-preliminares"><i class="fa fa-check"></i><b>3.1</b> Conclusiones preliminares</a></li>
-<li class="chapter" data-level="3.2" data-path="conclusiones.html"><a href="conclusiones.html#conclusiones-post-an%C3%A1lisis"><i class="fa fa-check"></i><b>3.2</b> Conclusiones post análisis</a></li>
-<li class="chapter" data-level="3.3" data-path="conclusiones.html"><a href="conclusiones.html#pasos-a-seguir"><i class="fa fa-check"></i><b>3.3</b> Pasos a seguir</a></li>
+<li class="chapter" data-level="2.1" data-path="carga-de-datos.html"><a href="carga-de-datos.html#fuentes-y-caracter%C3%ADsticas-de-los-datos"><i class="fa fa-check"></i><b>2.1</b> Fuentes y características de los datos</a></li>
+<li class="chapter" data-level="2.2" data-path="carga-de-datos.html"><a href="carga-de-datos.html#importaci%C3%B3n-y-preparaci%C3%B3n-inicial-de-los-datos"><i class="fa fa-check"></i><b>2.2</b> Importación y preparación inicial de los datos</a></li>
+<li class="chapter" data-level="2.3" data-path="carga-de-datos.html"><a href="carga-de-datos.html#limpieza-y-organizaci%C3%B3n-del-dataset"><i class="fa fa-check"></i><b>2.3</b> Limpieza y organización del dataset</a></li>
+<li class="chapter" data-level="2.4" data-path="carga-de-datos.html"><a href="carga-de-datos.html#an%C3%A1lisis-de-series-de-tiempo"><i class="fa fa-check"></i><b>2.4</b> Análisis de series de tiempo</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="carga-de-datos.html"><a href="carga-de-datos.html#prueba-adf-augmented-dickey-fuller"><i class="fa fa-check"></i><b>2.4.1</b> Prueba ADF (Augmented Dickey-Fuller)</a></li>
+<li class="chapter" data-level="2.4.2" data-path="carga-de-datos.html"><a href="carga-de-datos.html#funci%C3%B3n-de-autocorrelaci%C3%B3n-acf"><i class="fa fa-check"></i><b>2.4.2</b> Función de Autocorrelación (ACF)</a></li>
+<li class="chapter" data-level="2.4.3" data-path="carga-de-datos.html"><a href="carga-de-datos.html#funci%C3%B3n-de-autocorrelaci%C3%B3n-parcial-pacf"><i class="fa fa-check"></i><b>2.4.3</b> Función de Autocorrelación Parcial (PACF)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html"><i class="fa fa-check"></i><b>3</b> Análisis exploratorio de datos</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-univariado"><i class="fa fa-check"></i><b>3.1</b> Análisis univariado</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-de-tasa_fin_cap"><i class="fa fa-check"></i><b>3.1.1</b> Distribución de tasa_fin_cap</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-geogr%C3%A1fica"><i class="fa fa-check"></i><b>3.2</b> Distribución geográfica</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-bivariado"><i class="fa fa-check"></i><b>3.3</b> Análisis bivariado</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-pa%C3%ADs"><i class="fa fa-check"></i><b>3.3.1</b> tasa_fin_cap según país</a></li>
+<li class="chapter" data-level="3.3.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-a%C3%B1o"><i class="fa fa-check"></i><b>3.3.2</b> tasa_fin_cap según año</a></li>
+<li class="chapter" data-level="3.3.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-pa%C3%ADs-ritmo-de-mejora-anual"><i class="fa fa-check"></i><b>3.3.3</b> tasa_fin_cap según país — ritmo de mejora anual</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>4</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="conclusiones.html"><a href="conclusiones.html#conclusiones-preliminares"><i class="fa fa-check"></i><b>4.1</b> Conclusiones preliminares</a></li>
+<li class="chapter" data-level="4.2" data-path="conclusiones.html"><a href="conclusiones.html#conclusiones-post-an%C3%A1lisis"><i class="fa fa-check"></i><b>4.2</b> Conclusiones post análisis</a></li>
+<li class="chapter" data-level="4.3" data-path="conclusiones.html"><a href="conclusiones.html#pasos-a-seguir"><i class="fa fa-check"></i><b>4.3</b> Pasos a seguir</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -174,7 +219,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis exploratorio de Datos</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis Exploratorio de Datos: Tasa de Finalización de Educación Primaria Femenina</a>
           </h1>
         </div>
 
@@ -183,122 +228,82 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">Análisis exploratorio de Datos</h1>
+<h1 class="title">Análisis Exploratorio de Datos: Tasa de Finalización de Educación Primaria Femenina</h1>
 <p class="author"><em>Samuel David Chamorro y Juan David Marín</em></p>
-<p class="date"><em>2026-02-27</em></p>
+<p class="date"><em>2026-04-10</em></p>
 </div>
-<div id="carga-de-datos" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Carga de datos<a href="index.html#carga-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="fuentes-y-características-de-los-datos" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Fuentes y características de los datos<a href="index.html#fuentes-y-caracter%C3%ADsticas-de-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Para este análisis se utilizaron datos provenientes del <em>World Development Indicators</em> (WDI), una de las bases estadísticas oficiales del Banco Mundial. Esta fuente recopila, estandariza y publica indicadores socioeconómicos comparables entre países, permitiendo estudiar tendencias de desarrollo humano, educativo, económico y demográfico a nivel global.</p>
-<p>En particular, se seleccionaron indicadores relacionados con el desarrollo educativo, con el objetivo de examinar patrones recientes en el acceso y desempeño escolar. Entre ellos se encuentra la variable <strong>Primary completion rate, female (% of relevant age group)</strong> (<code>SE.PRM.CMPT.FE.ZS</code>), que mide el porcentaje de niñas que completan el último grado de educación primaria dentro de la edad oficial correspondiente. Este indicador es ampliamente utilizado para evaluar el progreso en igualdad de género en educación, así como para analizar barreras estructurales que afectan la permanencia escolar.</p>
-<p>Los datos de WDI presentan varias ventajas metodológicas: están armonizados entre países, actualizados anualmente y validados por organismos internacionales. Además, su disponibilidad temporal permite estudiar cambios en el largo plazo y comparar regiones con diferentes niveles de desarrollo. Estas características hacen que la base sea adecuada para estudios descriptivos, análisis exploratorios y modelos estadísticos aplicados al desarrollo.</p>
+<div id="introducción" class="section level1 tabset hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Introducción<a href="index.html#introducci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="justificación" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Justificación<a href="index.html#justificaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La educación primaria constituye uno de los pilares fundamentales del desarrollo humano y social. Garantizar que las niñas completen este ciclo educativo no es solo una meta pedagógica, sino un indicador clave de equidad de género, desarrollo económico y cohesión social. A pesar de los avances registrados en las últimas décadas, persisten brechas significativas entre regiones, países e incluso al interior de las naciones, lo que hace que el estudio sistemático de este fenómeno siga siendo relevante y urgente.</p>
+<p>El indicador seleccionado —tasa de finalización de educación primaria femenina— ha sido reconocido por organismos internacionales como la UNESCO, el UNICEF y el Banco Mundial como una de las métricas más sensibles para capturar desigualdades estructurales en el acceso educativo <span class="citation">(<a href="#ref-unicef2020">UNICEF 2020</a>; <a href="#ref-unesco2019">UNESCO 2019</a>)</span>. Su comportamiento en el tiempo refleja no solo la capacidad de los sistemas educativos para retener a las niñas, sino también el impacto de factores externos como conflictos armados, crisis económicas, trabajo infantil y normas culturales que limitan la escolarización femenina <span class="citation">(<a href="#ref-worldbank2022">Banco Mundial 2022</a>)</span>.</p>
+<p>Desde una perspectiva analítica, este indicador presenta características que lo hacen especialmente interesante para un análisis exploratorio: su naturaleza de panel longitudinal (múltiples países observados durante varios años), su distribución asimétrica con valores acotados entre 0 y 100 —aunque metodológicamente puede superarlos—, y la heterogeneidad de cobertura entre países, plantean desafíos metodológicos que enriquecen el proceso de análisis. Por estas razones, trabajar con estos datos permite no solo extraer conclusiones sustantivas sobre el estado de la educación primaria femenina en el mundo, sino también desarrollar competencias en manejo de datos de panel, visualización y análisis de series de tiempo.</p>
 </div>
-<div id="importación-y-preparación-inicial-de-los-datos" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Importación y preparación inicial de los datos<a href="index.html#importaci%C3%B3n-y-preparaci%C3%B3n-inicial-de-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En este análisis utilizamos la función WDI() del paquete WDI de R, la cual permite descargar directamente desde el World Development Indicators del Banco Mundial las series estadísticas seleccionadas. Esta función actúa como una interfaz entre R y la API oficial del Banco Mundial, permitiendo especificar países, indicadores y rango de años, y devolviendo los datos en un formato limpio y estructurado tipo panel. Además de las variables solicitadas, WDI() puede incorporar metadatos útiles —como región, nivel de ingreso o códigos ISO— mediante el argumento extra = TRUE, lo que facilita la integración con análisis comparativos entre países. En síntesis, WDI() automatiza el proceso de extracción, estandarización y organización de los datos, garantizando reproducibilidad y coherencia metodológica en el estudio.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(WDI)</span>
-<span id="cb1-2"><a href="index.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="index.html#cb1-3" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-4"><a href="index.html#cb1-4" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb1-5"><a href="index.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-6"><a href="index.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
-<span id="cb1-7"><a href="index.html#cb1-7" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-8"><a href="index.html#cb1-8" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb1-9"><a href="index.html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
-<span id="cb1-10"><a href="index.html#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="index.html#cb1-11" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="index.html#cb1-12" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">WDI</span>(</span>
-<span id="cb1-13"><a href="index.html#cb1-13" tabindex="-1"></a>  <span class="at">country =</span> <span class="st">&quot;all&quot;</span>,</span>
-<span id="cb1-14"><a href="index.html#cb1-14" tabindex="-1"></a>  <span class="at">indicator =</span> <span class="fu">c</span>(<span class="st">&quot;SE.PRM.CMPT.FE.ZS&quot;</span>),  <span class="co"># Primary completion rate, female</span></span>
-<span id="cb1-15"><a href="index.html#cb1-15" tabindex="-1"></a>  <span class="at">start =</span> <span class="dv">2000</span>,</span>
-<span id="cb1-16"><a href="index.html#cb1-16" tabindex="-1"></a>  <span class="at">end =</span> <span class="dv">2022</span></span>
-<span id="cb1-17"><a href="index.html#cb1-17" tabindex="-1"></a>)</span>
-<span id="cb1-18"><a href="index.html#cb1-18" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="index.html#cb1-19" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
-<pre><code>##                       country iso2c iso3c year SE.PRM.CMPT.FE.ZS
-## 1 Africa Eastern and Southern    ZH   AFE 2022          70.93573
-## 2 Africa Eastern and Southern    ZH   AFE 2021          71.49177
-## 3 Africa Eastern and Southern    ZH   AFE 2020          70.18745
-## 4 Africa Eastern and Southern    ZH   AFE 2019          69.20890
-## 5 Africa Eastern and Southern    ZH   AFE 2018          68.50673
-## 6 Africa Eastern and Southern    ZH   AFE 2017          67.16452</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="index.html#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code></pre></div>
-<pre><code>##    country             iso2c              iso3c                year     
-##  Length:6118        Length:6118        Length:6118        Min.   :2000  
-##  Class :character   Class :character   Class :character   1st Qu.:2005  
-##  Mode  :character   Mode  :character   Mode  :character   Median :2011  
-##                                                           Mean   :2011  
-##                                                           3rd Qu.:2017  
-##                                                           Max.   :2022  
-##                                                                         
-##  SE.PRM.CMPT.FE.ZS
-##  Min.   : 12.19   
-##  1st Qu.: 79.34   
-##  Median : 95.19   
-##  Mean   : 87.20   
-##  3rd Qu.: 99.24   
-##  Max.   :168.18   
-##  NA&#39;s   :2056</code></pre>
+<div id="objetivos" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Objetivos<a href="index.html#objetivos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Este trabajo tiene como objetivo principal realizar un análisis exploratorio de datos (EDA) sobre la tasa de finalización de educación primaria femenina a nivel mundial, utilizando información del período 2000–2022 proveniente del Banco Mundial. De forma específica, se busca:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Describir</strong> la distribución global de la variable y sus características estadísticas más relevantes, incluyendo medidas de tendencia central, dispersión y presencia de valores atípicos.</p></li>
+<li><p><strong>Identificar</strong> patrones de comportamiento por país y por año, considerando la naturaleza desbalanceada del panel de datos y las diferencias en cobertura temporal entre naciones.</p></li>
+<li><p><strong>Visualizar</strong> la distribución geográfica del indicador mediante mapas coropletas que permitan identificar agrupaciones regionales y zonas de rezago.</p></li>
+<li><p><strong>Analizar</strong> el comportamiento temporal de la variable mediante herramientas de series de tiempo, incluyendo pruebas de estacionariedad (ADF), análisis de autocorrelación (ACF) y autocorrelación parcial (PACF), con el fin de determinar si la serie presenta tendencia, estacionalidad o estructura autoregresiva.</p></li>
+<li><p><strong>Explorar</strong> relaciones bivariadas y multivariadas que permitan comprender los factores asociados a la evolución del indicador a lo largo del tiempo.</p></li>
+<li><p><strong>Presentar</strong> visualizaciones claras, pertinentes e interpretables que respalden todas las conclusiones del análisis.</p></li>
+</ol>
 </div>
-<div id="limpieza-y-organización-del-dataset" class="section level2 hasAnchor" number="1.3">
-<h2><span class="header-section-number">1.3</span> Limpieza y organización del dataset<a href="index.html#limpieza-y-organizaci%C3%B3n-del-dataset" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En esta sección realizamos el proceso inicial de preparación y estructuración del conjunto de datos que utilizaremos en el análisis exploratorio. Partimos del archivo descargado mediante la función WDI(), el cual contiene información de múltiples países, años e indicadores del Banco Mundial. Antes de proceder con el análisis estadístico, es necesario asegurar que el dataset sea coherente, ordenado y analíticamente utilizable. Para ello, estandarizamos los nombres de las variables, excluimos agregados geográficos que no representan países, renombramos los indicadores con alias descriptivos y manejables, y transformamos los datos a un formato panel que facilita la elaboración de resúmenes, gráficos y comparaciones entre grupos. Adicionalmente, verificamos duplicados, rangos plausibles y la integridad temporal de las series. El resultado de este proceso es un conjunto de datos limpio, consistente y estructurado, que servirá como base sólida para las etapas posteriores del análisis exploratorio.</p>
-<p>Primeramente, al tratarse de un análisis centrado en países, las columnas iso2c y iso3c no aportan información adicional relevante, ya que el nombre del país contenido en country resulta suficiente para identificar cada observación. Estos códigos ISO son útiles en tareas de integración con bases externas o análisis geoespacial, pero no cumplen un rol esencial dentro del enfoque descriptivo que empleamos aquí. Por ello, se eliminaron del conjunto de datos para simplificar la estructura y facilitar el análisis.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="index.html#cb5-1" tabindex="-1"></a><span class="co"># Eliminamos las columnas iso2c e iso3c</span></span>
-<span id="cb5-2"><a href="index.html#cb5-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="index.html#cb5-3" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>iso2c, <span class="sc">-</span>iso3c)</span>
-<span id="cb5-4"><a href="index.html#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="index.html#cb5-5" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
-<pre><code>##                       country year SE.PRM.CMPT.FE.ZS
-## 1 Africa Eastern and Southern 2022          70.93573
-## 2 Africa Eastern and Southern 2021          71.49177
-## 3 Africa Eastern and Southern 2020          70.18745
-## 4 Africa Eastern and Southern 2019          69.20890
-## 5 Africa Eastern and Southern 2018          68.50673
-## 6 Africa Eastern and Southern 2017          67.16452</code></pre>
-<p>A continuación procedemos a renombrar las variables del conjunto de datos con el objetivo de utilizar identificadores más claros, breves y consistentes con el análisis. Los nombres originales que provee WDI son funcionales para documentación técnica, pero resultan poco prácticos para su uso en R debido a su longitud o formato. Por ello, estandarizamos las tres variables principales —el nombre del país, el año y el indicador educativo— asignándoles etiquetas más intuitivas y en minúsculas. Este proceso mejora la legibilidad del código, facilita la manipulación posterior del dataset y asegura una estructura coherente para el análisis exploratorio de datos.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="index.html#cb7-1" tabindex="-1"></a><span class="co"># Renombramos las tres variables principales del dataset</span></span>
-<span id="cb7-2"><a href="index.html#cb7-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="index.html#cb7-3" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
-<span id="cb7-4"><a href="index.html#cb7-4" tabindex="-1"></a>    <span class="at">pais               =</span> country,</span>
-<span id="cb7-5"><a href="index.html#cb7-5" tabindex="-1"></a>    <span class="at">anio               =</span> year,</span>
-<span id="cb7-6"><a href="index.html#cb7-6" tabindex="-1"></a>    <span class="at">tasa_fin =</span> SE.PRM.CMPT.FE.ZS</span>
-<span id="cb7-7"><a href="index.html#cb7-7" tabindex="-1"></a>  )</span>
-<span id="cb7-8"><a href="index.html#cb7-8" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="index.html#cb7-9" tabindex="-1"></a><span class="fu">head</span>(df)</span></code></pre></div>
-<pre><code>##                          pais anio tasa_fin
-## 1 Africa Eastern and Southern 2022 70.93573
-## 2 Africa Eastern and Southern 2021 71.49177
-## 3 Africa Eastern and Southern 2020 70.18745
-## 4 Africa Eastern and Southern 2019 69.20890
-## 5 Africa Eastern and Southern 2018 68.50673
-## 6 Africa Eastern and Southern 2017 67.16452</code></pre>
-<p>Ahora, en esta etapa dividimos el conjunto de datos en dos secciones debido a la estructura particular con la que es entregada la información por el Banco Mundial. En la primera parte del dataset (filas 1 a 1127) se encuentran observaciones que no corresponden a países individuales, sino a agrupaciones regionales y bloques geográficos tales como África del Norte, África Subsahariana, América Latina y el Caribe, Europa, así como estadísticas globales ya agregadas para todo el mundo. Estas filas representan resúmenes demográficos y educativos precomputados por regiones, no unidades nacionales. En contraste, la segunda parte del dataset (desde la fila 1128 hasta el final) contiene los países individuales, con valores anuales desde el año 2000 hasta 2022. Esta separación permite distinguir claramente entre datos agregados y datos específicos por país, lo cual es fundamental para los análisis comparativos que realizaremos más adelante en el EDA.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="index.html#cb9-1" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> df[<span class="dv">1</span><span class="sc">:</span><span class="dv">1127</span>, ]          <span class="co"># Desde la fila 1 hasta la fila 1127</span></span>
-<span id="cb9-2"><a href="index.html#cb9-2" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> df[<span class="dv">1128</span><span class="sc">:</span><span class="fu">nrow</span>(df), ]   <span class="co"># Desde la fila 1128 hasta el final</span></span></code></pre></div>
-<p>Antes de iniciar con nuestro análisis, vamos a ver la dimensión de los datos, analizar y eliminar las celdas con datos faltantes, presentes en paises que no comparten en particular sus datos.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="index.html#cb10-1" tabindex="-1"></a><span class="co"># === Conteo de valores NA en df_2 ===</span></span>
-<span id="cb10-2"><a href="index.html#cb10-2" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="index.html#cb10-3" tabindex="-1"></a><span class="fu">nrow</span>(df_2)</span></code></pre></div>
-<pre><code>## [1] 4991</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="index.html#cb12-1" tabindex="-1"></a><span class="co"># Conteo total de NA</span></span>
-<span id="cb12-2"><a href="index.html#cb12-2" tabindex="-1"></a>total_na <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(df_2))</span>
-<span id="cb12-3"><a href="index.html#cb12-3" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="index.html#cb12-4" tabindex="-1"></a><span class="co"># Conteo de NA por variable</span></span>
-<span id="cb12-5"><a href="index.html#cb12-5" tabindex="-1"></a>na_por_variable <span class="ot">&lt;-</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(df_2))</span>
-<span id="cb12-6"><a href="index.html#cb12-6" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="index.html#cb12-7" tabindex="-1"></a><span class="co"># Mostrar resultados</span></span>
-<span id="cb12-8"><a href="index.html#cb12-8" tabindex="-1"></a>total_na</span></code></pre></div>
-<pre><code>## [1] 1987</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="index.html#cb14-1" tabindex="-1"></a>na_por_variable</span></code></pre></div>
-<pre><code>##     pais     anio tasa_fin 
-##        0        0     1987</code></pre>
-<p>Hay 1987 datos faltantes, todos ellos en la columna de tasa_fin del df_2 con registros de los paises individuales. Por lo tanto, vamos a eliminar aquellas filas con datos nulos para poder realizar correctamente nuestro análisis exploratorio</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="index.html#cb16-1" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> df_1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.))</span>
-<span id="cb16-2"><a href="index.html#cb16-2" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.))</span></code></pre></div>
-
+<div id="marco-teórico" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Marco Teórico<a href="index.html#marco-te%C3%B3rico" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="educación-primaria-y-desarrollo-humano" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Educación primaria y desarrollo humano<a href="index.html#educaci%C3%B3n-primaria-y-desarrollo-humano" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>La educación primaria es universalmente reconocida como el fundamento sobre el cual se construyen las capacidades humanas a lo largo de la vida. Desde la perspectiva del desarrollo humano de Amartya Sen, la educación no es simplemente un medio para alcanzar objetivos económicos, sino una capacidad central que amplía la libertad de las personas para vivir una vida que consideren valiosa <span class="citation">(<a href="#ref-sen1999">Sen 1999</a>)</span>. En este marco, la finalización del ciclo primario representa un umbral mínimo de alfabetización funcional y de inserción en la vida social y económica.</p>
+<p>La meta 4.1 de los Objetivos de Desarrollo Sostenible (ODS), adoptada por las Naciones Unidas en 2015, establece que para 2030 se debe garantizar que todos los niños y niñas completen una educación primaria y secundaria gratuita, equitativa y de calidad <span class="citation">(<a href="#ref-un2015">Naciones Unidas 2015</a>)</span>. El seguimiento de esta meta depende, en gran medida, de indicadores como la tasa de finalización primaria, que permite monitorear el progreso de los países hacia este compromiso global.</p>
+</div>
+<div id="brechas-de-género-en-educación" class="section level3 hasAnchor" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Brechas de género en educación<a href="index.html#brechas-de-g%C3%A9nero-en-educaci%C3%B3n" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>A pesar del progreso general, la brecha de género en la educación sigue siendo un problema en muchas regiones. Las barreras que enfrentan las niñas para completar la primaria son de naturaleza múltiple: económica (trabajo infantil doméstico, costo de oportunidad), cultural (normas sobre el rol de la mujer, matrimonio temprano), institucional (distancia a las escuelas, falta de instalaciones sanitarias) y de seguridad (violencia de género en el trayecto o el entorno escolar) <span class="citation">(<a href="#ref-unicef2020">UNICEF 2020</a>)</span>. El análisis longitudinal de la tasa de finalización femenina permite detectar en qué contextos estas barreras se han reducido y en cuáles persisten o se han intensificado.</p>
+</div>
+<div id="series-de-tiempo-en-datos-de-panel-educativo" class="section level3 hasAnchor" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Series de tiempo en datos de panel educativo<a href="index.html#series-de-tiempo-en-datos-de-panel-educativo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Los datos del Banco Mundial sobre indicadores educativos tienen una estructura de panel: múltiples unidades (países) observadas a lo largo del tiempo. Cuando el foco es la evolución temporal de un indicador agregado —como la mediana mundial o de una región—, es posible analizar la serie resultante con herramientas de series de tiempo. En este contexto, la prueba Augmented Dickey-Fuller (ADF) permite determinar si la serie es estacionaria o presenta raíz unitaria <span class="citation">(<a href="#ref-dickey1979">Dickey and Fuller 1979</a>)</span>. El análisis de la función de autocorrelación (ACF) y la autocorrelación parcial (PACF) complementa este diagnóstico al revelar la estructura de dependencia temporal de la serie, información fundamental para seleccionar modelos ARIMA u otras especificaciones de pronóstico <span class="citation">(<a href="#ref-box2015">Box et al. 2015</a>)</span>.</p>
+</div>
+</div>
+<div id="metodología" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Metodología<a href="index.html#metodolog%C3%ADa" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El análisis se desarrolló en el entorno estadístico R, utilizando el ecosistema <code>tidyverse</code> para la manipulación de datos y <code>ggplot2</code> para las visualizaciones. Los datos fueron obtenidos directamente desde la API del Banco Mundial mediante el paquete <code>WDI</code> <span class="citation">(<a href="#ref-arel2022">Arel-Bundock 2022</a>)</span>.</p>
+<p>El proceso metodológico se estructuró en las siguientes etapas:</p>
+<p><strong>1. Importación y limpieza de datos.</strong> Se descargaron los datos del indicador <code>SE.PRM.CMPT.FE.ZS</code> para todos los países disponibles en el período 2000–2022. Se eliminaron los agregados regionales precomputados por el Banco Mundial (filas 1–1.127), se renombraron las variables con etiquetas más descriptivas y se eliminaron las observaciones con valores faltantes en la variable objetivo.</p>
+<p><strong>2. Análisis univariado.</strong> Se calcularon estadísticos descriptivos de la tasa de finalización (media, mediana, percentiles, rango), se exploró la distribución mediante histogramas y boxplots, y se identificaron observaciones superiores al 100% para contextualizar su origen metodológico.</p>
+<p><strong>3. Análisis geográfico.</strong> Se construyeron mapas coropletas del promedio por país y del ritmo de mejora anual, utilizando los paquetes <code>rnaturalearth</code> y <code>rnaturalearthdata</code> para los polígonos geográficos.</p>
+<p><strong>4. Análisis de series de tiempo.</strong> Se construyó la serie temporal de la mediana mundial anual de la tasa de finalización para el período 2000–2022. Sobre esta serie se aplicaron: la prueba ADF para detectar raíz unitaria, la función ACF para examinar la autocorrelación a distintos rezagos, y la PACF para identificar la estructura autoregresiva de la serie.</p>
+<p><strong>5. Análisis bivariado y multivariado.</strong> Se exploraron relaciones entre la tasa de finalización y el tiempo mediante gráficos de dispersión, medianas anuales con bandas intercuartílicas, y regresiones lineales por país para estimar el ritmo de mejora anual.</p>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-arel2022" class="csl-entry">
+Arel-Bundock, Vincent. 2022. <em><span>WDI</span>: <span>World Development Indicators</span> and Other <span>World Bank</span> Data</em>. <a href="https://CRAN.R-project.org/package=WDI">https://CRAN.R-project.org/package=WDI</a>.
+</div>
+<div id="ref-worldbank2022" class="csl-entry">
+Banco Mundial. 2022. <em>World Development Report 2022: Finance for an Equitable Recovery</em>. World Bank Group. <a href="https://doi.org/10.1596/978-1-4648-1730-4">https://doi.org/10.1596/978-1-4648-1730-4</a>.
+</div>
+<div id="ref-box2015" class="csl-entry">
+Box, George E. P., Gwilym M. Jenkins, Gregory C. Reinsel, and Greta M. Ljung. 2015. <em>Time Series Analysis: Forecasting and Control</em>. 5th ed. John Wiley &amp; Sons.
+</div>
+<div id="ref-dickey1979" class="csl-entry">
+Dickey, David A., and Wayne A. Fuller. 1979. <span>“Distribution of the Estimators for Autoregressive Time Series with a Unit Root.”</span> <em>Journal of the American Statistical Association</em> 74 (366): 427–31. <a href="https://doi.org/10.2307/2286348">https://doi.org/10.2307/2286348</a>.
+</div>
+<div id="ref-un2015" class="csl-entry">
+Naciones Unidas. 2015. <span>“Transformar Nuestro Mundo: <span>La Agenda 2030</span> Para El <span>Desarrollo Sostenible</span>.”</span> A/RES/70/1. Asamblea General de las Naciones Unidas. <a href="https://sdgs.un.org/2030agenda">https://sdgs.un.org/2030agenda</a>.
+</div>
+<div id="ref-sen1999" class="csl-entry">
+Sen, Amartya. 1999. <em>Development as Freedom</em>. Oxford University Press.
+</div>
+<div id="ref-unesco2019" class="csl-entry">
+UNESCO. 2019. <span>“New Methodology Shows That 258 Million Children, Adolescents and Youth Are Out of School.”</span> UNESCO Institute for Statistics. <a href="https://uis.unesco.org/sites/default/files/documents/new-methodology-shows-258-million-children-adolescents-and-youth-are-out-school.pdf">https://uis.unesco.org/sites/default/files/documents/new-methodology-shows-258-million-children-adolescents-and-youth-are-out-school.pdf</a>.
+</div>
+<div id="ref-unicef2020" class="csl-entry">
+UNICEF. 2020. <span>“Girls’ Education.”</span> Fondo de las Naciones Unidas para la Infancia. <a href="https://www.unicef.org/education/girls-education">https://www.unicef.org/education/girls-education</a>.
 </div>
 </div>
             </section>
@@ -307,7 +312,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="análisis-exploratorio-de-datos.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="carga-de-datos.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -355,7 +360,7 @@ gitbook.start({
     "options": null
   },
   "toc": {
-    "collapse": "subsection"
+    "collapse": "section"
   }
 });
 });
