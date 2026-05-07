@@ -1,56 +1,157 @@
 # Conclusiones
 
-## Conclusiones preliminares
+## Hallazgos del análisis exploratorio
 
-- La variable tasa_fin_cap muestra una tendencia ascendente sostenida desde inicios de los años 2000, aunque con heterogeneidad marcada entre países, especialmente en las primeras etapas del periodo analizado.
+La distribución global de `tasa_fin_cap` es fuertemente **asimétrica negativa**:
+la mayoría de observaciones se concentran en el rango 85–100 %, con una cola
+izquierda compuesta principalmente por países del África Subsahariana y el sur
+de Asia durante los años iniciales del período analizado. Esta asimetría se
+confirma porque la **mediana supera sistemáticamente a la media** en todos los
+años, siendo la brecha entre ambas un indicador directo del peso que los países
+más rezagados ejercen sobre el promedio global.
 
-- La mediana anual aumenta con rapidez durante la primera década y se estabiliza cerca de 95, mientras que el IQR disminuye progresivamente, indicando reducción en la dispersión y en la variabilidad inter-país.
+El **efecto sobrenotificación** (tasa\_fin > 100 %) afecta al 5–8 % de las
+observaciones, lo que justifica trabajar con la versión acotada `tasa_fin_cap`
+∈ [0, 100] a lo largo de todo el análisis. El mapa coropleta confirma patrones
+geográficos marcados: África Subsahariana concentra los rezagos más severos,
+mientras que América Latina, Europa y el norte de África presentan tasas
+promedio superiores al 80 % ya desde los primeros quinquenios.
 
-- Se observa un efecto techo significativo, reflejado en un porcentaje alto y persistente de observaciones en el valor máximo (≈17–23%), con un repunte cercano al 24% en los años más recientes, lo que evidencia una censura derecha creciente en la variable.
+En cuanto a la evolución temporal, la mediana anual global crece con rapidez
+durante la primera década y se estabiliza en torno a 95 en los años más
+recientes. Paralelamente, el IQR disminuye de forma progresiva, señalando una
+reducción en la dispersión y una convergencia inter-país hacia valores altos.
+Sin embargo, esta convergencia aparente debe interpretarse con cautela: el
+**efecto techo** —con un 17–23 % de observaciones en el valor máximo durante
+buena parte del período y un repunte cercano al 24 % en los años finales—
+produce una compresión artificial de la variabilidad. Esto limita la capacidad
+de distinguir diferencias reales de desempeño entre los países que ya se
+aproximan al límite superior del indicador.
 
-- En cuanto a los avances relativos, destacan Azerbaiyán con el mayor incremento estimado (~8.48), seguido por Argelia (~3.70) y Lao PDR (~2.81). Países como Marruecos (~1.98) y Chipre (~1.31), así como grupos como LDC/ONU, HIPC e IDA‑only, presentan mejoras más moderadas en comparación.
+En cuanto a los avances relativos, destacan **Azerbaiyán** con el mayor
+incremento estimado (~8.48 pp/año antes de alcanzar el techo), seguido por
+**Argelia** (~3.70 pp/año) y **Lao PDR** (~2.81 pp/año), todos ellos países
+que partían de niveles bajos y exhiben un marcado efecto *catch-up*. Países
+como Marruecos (~1.98 pp/año) y Chipre (~1.31 pp/año), así como grupos como
+LDC/ONU, HIPC e IDA‑only, presentan mejoras más moderadas. El análisis
+multivariado confirma que las trayectorias nacionales son heterogéneas y no
+lineales: algunos países muestran aceleraciones tempranas, otros mesetas
+prolongadas y otros fluctuaciones intermitentes, lo que evidencia una
+interacción tiempo×país imposible de capturar con un único parámetro de tendencia.
 
-## Conclusiones post análisis
+## Diagnóstico de estacionariedad
 
-- El análisis integrado —univariado, bivariado y multivariado— revela un patrón consistente en la evolución de tasa_fin_cap. La distribución se vuelve más asimétrica hacia valores altos, la mediana permanece en torno a 95 y el IQR continúa estrechándose, coherente con la disminución de la variabilidad observada en los exploratorios iniciales. A nivel bivariado, se confirma que los países con menores valores iniciales exhiben crecimientos más pronunciados, mientras que aquellos con niveles altos se aproximan rápidamente al límite superior. Este comportamiento se refleja en las pendientes pre‑cap, donde resaltan Azerbaiyán, Argelia y Lao PDR, así como en las trayectorias temporales y el heatmap país×año, donde las diferencias en velocidades y ritmos de avance son claras.
+La prueba **Augmented Dickey-Fuller (ADF)** aplicada sobre la serie de medianas
+anuales (n = 23) arroja un p-value ≥ 0.05, por lo que no se rechaza la hipótesis
+nula de raíz unitaria. La serie **no es estacionaria en nivel**: presenta una
+tendencia suave y casi monótona que requiere diferenciación antes del ajuste
+ARIMA. Este resultado es coherente con los correlogramas: el **ACF** de la serie
+original muestra un decaimiento geométrico lento —patrón característico de una
+serie con tendencia—, mientras que el **PACF** presenta rezagos significativos
+en los lags 1–2 con corte posterior, orientando hacia componentes de medias
+móviles una vez diferenciada. En la **primera diferencia**, tanto el ACF como el
+PACF muestran autocorrelaciones dentro de las bandas de confianza al 95 %,
+confirmando que d = 1 (o d = 2 según el criterio de selección) es suficiente
+para alcanzar estacionariedad.
 
-- No obstante, la convergencia aparente entre países debe interpretarse cuidadosamente: el efecto techo —con un 17–23% de observaciones en 100 durante buena parte del periodo y un repunte al final— produce una compresión artificial de la variabilidad, limitando la capacidad de distinguir diferencias reales cuando muchos países se acercan al máximo.
+## Modelo ARIMA seleccionado y validación
 
-- El análisis multivariado confirma la existencia de pendientes distintas por país, evidenciando una interacción tiempo×país y trayectorias no lineales: algunos países presentan aceleraciones tempranas, otros mesetas prolongadas y otros fluctuaciones intermitentes. En conjunto, la evolución de tasa_fin_cap resulta de una combinación de dinámicas internas heterogéneas y restricciones impuestas por la censura, lo cual exige interpretar las comparaciones y la convergencia con cautela y con soporte de modelos que reconozcan explícitamente dicha censura.
+Tras evaluar 48 combinaciones de órdenes (p ∈ {0,1,2,3}, d ∈ {0,1,2},
+q ∈ {0,1,2,3}) por criterios AIC, BIC y HQIC, el modelo ganador es
+**ARIMA(0,2,2)**. Este modelo no incluye componente autorregresiva (p = 0),
+aplica una doble diferenciación (d = 2) para eliminar tanto la tendencia lineal
+como la curvatura suave de la serie, y captura la dinámica residual mediante dos
+términos de medias móviles (q = 2). La doble diferenciación es coherente con la
+curvatura levemente decreciente observada en los últimos años de la serie, producto
+del efecto techo cuando la mediana global se acerca al 100 %.
 
-## Pasos a seguir
+El diagnóstico de residuales confirma que el modelo está bien especificado: la
+prueba de **Shapiro-Wilk** no rechaza la normalidad de los residuales y el test
+de **Ljung-Box** no detecta autocorrelación residual significativa, lo que indica
+que los residuales se comportan como ruido blanco. En la **validación temporal
+80/20** con predicción *rolling one-step-ahead*, el modelo reproduce con alta
+fidelidad los valores observados en el conjunto de prueba, con un MAPE por debajo
+del 1 % —umbral que indica réplica casi exacta de la tendencia histórica— y
+errores absolutos (MAE) inferiores a 0.5 puntos porcentuales sobre una escala
+de 0 a 100.
 
-- Fortalecer la calidad y continuidad de los datos
+## Pronóstico y política educativa
 
-- Revisar los mecanismos de captura y reporte para evitar saturaciones en el valor 100, ya que la censura superior actual dificulta diferenciar desempeños reales entre países.
+Con los datos disponibles (2000–2022), el modelo **ARIMA(0,2,2)** proyecta que
+la mediana global de niñas que completan primaria se **mantendrá cerca del
+96–97 %** en los próximos años, con una tendencia de mejora muy lenta dado que
+ya se está cerca del límite máximo posible. Esta desaceleración no refleja un
+retroceso, sino la saturación natural del indicador: cuando la mayoría de países
+ya supera el 90 %, los incrementos adicionales son estructuralmente más difíciles
+de lograr.
 
-- Evaluar la posibilidad de incorporar métricas complementarias o escalas extendidas que permitan observar avances por encima del límite actual.
+El modelo fue validado internamente entrenándolo con el 80 % de los datos y
+comparándolo contra el 20 % restante. Las predicciones siguen de cerca los
+valores reales, lo que da confianza razonable en su comportamiento —aunque el
+tamaño pequeño de la muestra (n = 23) limita la precisión de esta validación y
+hace que las bandas de confianza al 95 % se amplíen considerablemente con el
+horizonte de pronóstico.
 
-- Monitorear países con avances sobresalientes y rezagados
+**¿Qué significa esto para la política educativa?** Si la tendencia continúa,
+la mayoría de países habrá alcanzado la cobertura universal en primaria femenina
+antes de 2030, respondiendo al **ODS 4**. No obstante, los países rezagados
+—principalmente en África Subsahariana— seguirán siendo el reto principal:
+su brecha respecto a la mediana global no se cierra automáticamente con el paso
+del tiempo, sino que requiere intervenciones focalizadas en acceso, retención
+y calidad educativa. La convergencia estadística observada en el indicador
+agrega a todos los países en una sola cifra y puede oscurecer estas disparidades
+persistentes.
 
-- Dar seguimiento específico a países con progresos acelerados como Azerbaiyán, Argelia y Lao PDR, para identificar buenas prácticas replicables.
+**Próximo paso:** repetir este análisis con datos actualizados al 2024–2025 e
+incorporar factores como el gasto público en educación, el PIB per cápita y
+métricas de conflictividad para identificar qué palancas aceleran el progreso
+en los países que aún no llegan al 100 %.
 
-- Implementar estrategias de acompañamiento para países o grupos con mejoras más lentas, como Marruecos, Chipre, LDC/ONU, HIPC e IDA‑only, con el fin de reducir brechas de avance.
+## Limitaciones y pasos a seguir
 
-- Profundizar en la comprensión de las dinámicas nacionales
+**Limitaciones:**
 
-- Analizar los factores internos (políticas, reformas, inversión, infraestructura) que podrían explicar las diferencias entre países en su velocidad de mejora.
+- El **efecto techo** censura la variabilidad real en países avanzados y produce
+  compresión artificial de la dispersión, limitando la comparabilidad entre
+  naciones de alto desempeño. Con un 17–23 % de observaciones en el valor máximo,
+  el indicador pierde resolución precisamente donde más interesa distinguir.
+- Los **datos faltantes no son aleatorios** (MNAR): los países sin reporte suelen
+  tener peores tasas, introduciendo sesgo potencial hacia una sobreestimación del
+  promedio global.
+- La **serie de medianas (n = 23)** tiene baja potencia estadística; los
+  intervalos de confianza del pronóstico son amplios y crecen rápidamente con el
+  horizonte.
+- El indicador mide *cantidad* de graduadas, no *calidad* del aprendizaje: dos
+  países con tasa del 95 % pueden tener niveles de competencias radicalmente
+  distintos.
+- ARIMA(0,2,2) asume linealidad en las diferencias y no captura **cambios
+  estructurales** asociados a conflictos, reformas educativas o disrupciones como
+  la pandemia de COVID-19.
 
-- Promover estudios de caso en países que alcanzan el techo muy rápido, para entender si se debe a mejoras genuinas, cambios metodológicos o al diseño del indicador.
+**Pasos recomendados:**
 
-- Revisar la utilidad del indicador actual para la comparación internacional
+- Actualizar el modelo con datos del Banco Mundial al 2024–2025 para incorporar
+  el impacto de la pandemia sobre la asistencia y finalización escolar, y mejorar
+  la proyección al ODS 4 (2030).
+- Explorar modelos **ARIMAX** incorporando variables exógenas como PIB per cápita,
+  gasto público en educación, índice de conflictividad y acceso a internet, que
+  pueden capturar parte de la heterogeneidad entre países.
+- Analizar el mecanismo de datos faltantes (MCAR, MAR, MNAR) e implementar
+  imputación múltiple para evitar sesgos en la estimación de la mediana global.
+- Revisar los mecanismos de captura y reporte del indicador para reducir la
+  sobrenotificación (tasa > 100 %) y la saturación en el techo, lo que permitiría
+  discriminar mejor entre países de alto desempeño.
+- Complementar con indicadores de calidad educativa (PISA, EGRA/EGMA, PASEC)
+  para distinguir cobertura cuantitativa de aprendizaje real, especialmente en
+  contextos donde la tasa de finalización ya es elevada.
+- Dar seguimiento focalizado a países con progresos acelerados como Azerbaiyán,
+  Argelia y Lao PDR para extraer lecciones de política pública replicables, e
+  implementar estrategias de acompañamiento para los grupos con mejoras más lentas
+  (LDC/ONU, HIPC, IDA‑only).
 
-- Considerar ajustes en el diseño del indicador para minimizar la pérdida de información causada por el efecto techo, especialmente en periodos donde muchos países se concentran en el valor máximo.
+---
 
-- Evaluar la inclusión de sub‑indicadores o componentes desagregados que permitan captar variabilidad adicional.
-
-- Fortalecer la comunicación y uso estratégico de los resultados
-
-- Elaborar reportes anuales que destaquen avances, retrocesos y variabilidad real entre países, evitando interpretaciones erróneas derivadas del límite superior.
-
-- Utilizar visualizaciones (series temporales, mapas de calor, comparaciones regionales) para facilitar el uso de estos datos en decisiones de política y planificación.
-
-# Referencias
+# Referencias {-}
 
 Arel-Bundock, V. (2022). *WDI: World Development Indicators and Other World Bank Data* (R package version 2.7.8). CRAN. https://CRAN.R-project.org/package=WDI
 
@@ -68,4 +169,12 @@ Naciones Unidas. (2015). *Transformar nuestro mundo: La Agenda 2030 para el Desa
 
 Organización de las Naciones Unidas para la Educación, la Ciencia y la Cultura (UNESCO). (2019). *New methodology shows that 258 million children, adolescents and youth are out of school*. UNESCO Institute for Statistics. https://uis.unesco.org/sites/default/files/documents/new-methodology-shows-258-million-children-adolescents-and-youth-are-out-school.pdf
 
+R Core Team. (2024). *R: A language and environment for statistical computing*. R Foundation. https://www.R-project.org/
+
+Said, S. E., & Dickey, D. A. (1984). Testing for unit roots in autoregressive-moving average models of unknown order. *Biometrika*, *71*(3), 599–607.
+
 Sen, A. (1999). *Development as freedom*. Oxford University Press.
+
+Trapletti, A., & Hornik, K. (2023). *tseries: Time Series Analysis and Computational Finance* (R package v0.10-54). CRAN.
+
+UNESCO. (2023). *Global Education Monitoring Report 2023*. UNESCO Publishing. https://www.unesco.org/gem-report/en

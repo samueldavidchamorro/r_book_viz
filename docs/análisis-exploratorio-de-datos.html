@@ -23,7 +23,7 @@
 <meta name="author" content="Samuel David Chamorro y Juan David Marín" />
 
 
-<meta name="date" content="2026-04-10" />
+<meta name="date" content="2026-05-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="conclusiones.html"/>
+<link rel="next" href="predicción-arima.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -137,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Tasa de finalización primaria femenina</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introducción</a>
@@ -163,23 +167,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html"><i class="fa fa-check"></i><b>2</b> Análisis exploratorio de datos</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-univariado"><i class="fa fa-check"></i><b>2.1</b> Análisis univariado</a>
+<li class="chapter" data-level="2.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#configuraci%C3%B3n-y-carga-de-datos"><i class="fa fa-check"></i><b>2.1</b> Configuración y carga de datos</a></li>
+<li class="chapter" data-level="2.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-univariado"><i class="fa fa-check"></i><b>2.2</b> Análisis univariado</a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-de-tasa_fin_cap"><i class="fa fa-check"></i><b>2.1.1</b> Distribución de tasa_fin_cap</a></li>
+<li class="chapter" data-level="2.2.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#cobertura-temporal-por-pa%C3%ADs"><i class="fa fa-check"></i><b>2.2.1</b> Cobertura temporal por país</a></li>
+<li class="chapter" data-level="2.2.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#observaciones-con-tasa-100"><i class="fa fa-check"></i><b>2.2.2</b> Observaciones con tasa &gt; 100 %</a></li>
+<li class="chapter" data-level="2.2.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-de-tasa_fin_cap"><i class="fa fa-check"></i><b>2.2.3</b> Distribución de tasa_fin_cap</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-geogr%C3%A1fica"><i class="fa fa-check"></i><b>2.2</b> Distribución geográfica</a></li>
-<li class="chapter" data-level="2.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-bivariado"><i class="fa fa-check"></i><b>2.3</b> Análisis bivariado</a>
+<li class="chapter" data-level="2.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-geogr%C3%A1fica"><i class="fa fa-check"></i><b>2.3</b> Distribución geográfica</a></li>
+<li class="chapter" data-level="2.4" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-bivariado"><i class="fa fa-check"></i><b>2.4</b> Análisis bivariado</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-pa%C3%ADs"><i class="fa fa-check"></i><b>2.3.1</b> tasa_fin_cap según país</a></li>
-<li class="chapter" data-level="2.3.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-a%C3%B1o"><i class="fa fa-check"></i><b>2.3.2</b> tasa_fin_cap según año</a></li>
-<li class="chapter" data-level="2.3.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-pa%C3%ADs-ritmo-de-mejora-anual"><i class="fa fa-check"></i><b>2.3.3</b> tasa_fin_cap según país — ritmo de mejora anual</a></li>
+<li class="chapter" data-level="2.4.1" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#mediana-e-iqr-por-pa%C3%ADs-y-quinquenio"><i class="fa fa-check"></i><b>2.4.1</b> Mediana e IQR por país y quinquenio</a></li>
+<li class="chapter" data-level="2.4.2" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#mediana-anual-global-con-banda-iqr"><i class="fa fa-check"></i><b>2.4.2</b> Mediana anual global con banda IQR</a></li>
+<li class="chapter" data-level="2.4.3" data-path="análisis-exploratorio-de-datos.html"><a href="análisis-exploratorio-de-datos.html#ritmo-de-mejora-anual-por-pa%C3%ADs"><i class="fa fa-check"></i><b>2.4.3</b> Ritmo de mejora anual por país</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>3</b> Conclusiones</a>
+<li class="chapter" data-level="3" data-path="predicción-arima.html"><a href="predicción-arima.html"><i class="fa fa-check"></i><b>3</b> Predicción ARIMA</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="conclusiones.html"><a href="conclusiones.html#conclusiones-preliminares"><i class="fa fa-check"></i><b>3.1</b> Conclusiones preliminares</a></li>
-<li class="chapter" data-level="3.2" data-path="conclusiones.html"><a href="conclusiones.html#conclusiones-post-an%C3%A1lisis"><i class="fa fa-check"></i><b>3.2</b> Conclusiones post análisis</a></li>
-<li class="chapter" data-level="3.3" data-path="conclusiones.html"><a href="conclusiones.html#pasos-a-seguir"><i class="fa fa-check"></i><b>3.3</b> Pasos a seguir</a></li>
+<li class="chapter" data-level="3.1" data-path="predicción-arima.html"><a href="predicción-arima.html#metodolog%C3%ADa-1"><i class="fa fa-check"></i><b>3.1</b> Metodología</a></li>
+<li class="chapter" data-level="3.2" data-path="predicción-arima.html"><a href="predicción-arima.html#paso-1-serie-temporal-mediana-global"><i class="fa fa-check"></i><b>3.2</b> Paso 1 — Serie temporal: mediana global</a></li>
+<li class="chapter" data-level="3.3" data-path="predicción-arima.html"><a href="predicción-arima.html#paso-2-prueba-de-estacionariedad-adf"><i class="fa fa-check"></i><b>3.3</b> Paso 2 — Prueba de estacionariedad (ADF)</a></li>
+<li class="chapter" data-level="3.4" data-path="predicción-arima.html"><a href="predicción-arima.html#paso-3-estructura-de-autocorrelaci%C3%B3n-acf-y-pacf"><i class="fa fa-check"></i><b>3.4</b> Paso 3 — Estructura de autocorrelación (ACF y PACF)</a></li>
+<li class="chapter" data-level="3.5" data-path="predicción-arima.html"><a href="predicción-arima.html#paso-4-selecci%C3%B3n-autom%C3%A1tica-del-orden-arima"><i class="fa fa-check"></i><b>3.5</b> Paso 4 — Selección automática del orden ARIMA</a></li>
+<li class="chapter" data-level="3.6" data-path="predicción-arima.html"><a href="predicción-arima.html#paso-5-ajuste-del-modelo-seleccionado"><i class="fa fa-check"></i><b>3.6</b> Paso 5 — Ajuste del modelo seleccionado</a></li>
+<li class="chapter" data-level="3.7" data-path="predicción-arima.html"><a href="predicción-arima.html#paso-6-diagn%C3%B3stico-de-residuales"><i class="fa fa-check"></i><b>3.7</b> Paso 6 — Diagnóstico de residuales</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="predicción-arima.html"><a href="predicción-arima.html#pruebas-formales-sobre-residuales"><i class="fa fa-check"></i><b>3.7.1</b> Pruebas formales sobre residuales</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="predicción-arima.html"><a href="predicción-arima.html#paso-7-validaci%C3%B3n-8020-y-pron%C3%B3stico"><i class="fa fa-check"></i><b>3.8</b> Paso 7 — Validación 80/20 y pronóstico</a>
+<ul>
+<li class="chapter" data-level="3.8.1" data-path="predicción-arima.html"><a href="predicción-arima.html#validaci%C3%B3n-temporal-rolling-one-step-ahead"><i class="fa fa-check"></i><b>3.8.1</b> Validación temporal (rolling one-step-ahead)</a></li>
+<li class="chapter" data-level="3.8.2" data-path="predicción-arima.html"><a href="predicción-arima.html#pron%C3%B3stico-20232032"><i class="fa fa-check"></i><b>3.8.2</b> Pronóstico 2023–2032</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="conclusiones.html"><a href="conclusiones.html"><i class="fa fa-check"></i><b>4</b> Conclusiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="conclusiones.html"><a href="conclusiones.html#hallazgos-del-an%C3%A1lisis-exploratorio"><i class="fa fa-check"></i><b>4.1</b> Hallazgos del análisis exploratorio</a></li>
+<li class="chapter" data-level="4.2" data-path="conclusiones.html"><a href="conclusiones.html#diagn%C3%B3stico-de-estacionariedad"><i class="fa fa-check"></i><b>4.2</b> Diagnóstico de estacionariedad</a></li>
+<li class="chapter" data-level="4.3" data-path="conclusiones.html"><a href="conclusiones.html#modelo-arima-seleccionado-y-validaci%C3%B3n"><i class="fa fa-check"></i><b>4.3</b> Modelo ARIMA seleccionado y validación</a></li>
+<li class="chapter" data-level="4.4" data-path="conclusiones.html"><a href="conclusiones.html#pron%C3%B3stico-y-pol%C3%ADtica-educativa"><i class="fa fa-check"></i><b>4.4</b> Pronóstico y política educativa</a></li>
+<li class="chapter" data-level="4.5" data-path="conclusiones.html"><a href="conclusiones.html#limitaciones-y-pasos-a-seguir"><i class="fa fa-check"></i><b>4.5</b> Limitaciones y pasos a seguir</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -203,219 +230,468 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="análisis-exploratorio-de-datos" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Análisis exploratorio de datos<a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-exploratorio-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="análisis-univariado" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Análisis univariado<a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-univariado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>En el período 2000–2022 contamos con datos de 192 países, aunque la cobertura es heterogénea: solo 30 de ellos (15,6%) reportan la serie completa de 23 años, mientras que el resto presenta huecos en distintos momentos. En términos de extensión temporal por país, el mínimo es de 1 año, el p25 es 11, la mediana es 17 y el p75 es 21. Estos resultados confirman que trabajamos con un panel desbalanceado; por ello, los análisis temporales y las comparaciones entre países deben considerar esta asimetría para evitar sesgos en la interpretación.</p>
-<p>Es importante señalar que la tasa de finalización primaria puede superar el 100%. Esto ocurre porque el numerador contabiliza a todos los estudiantes que egresan del último grado de primaria —independientemente de su edad—, mientras que el denominador solo incluye la población oficialmente asignada a ese nivel. La presencia de estudiantes en sobredad, subedad o con historial de repetición puede inflar el numerador. Para mejorar la claridad visual, los gráficos trabajan con una versión acotada de la variable en el rango 0–100, conservando los valores originales para efectos de trazabilidad.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="análisis-exploratorio-de-datos.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb1-2"><a href="análisis-exploratorio-de-datos.html#cb1-2" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="análisis-exploratorio-de-datos.html#cb1-3" tabindex="-1"></a>years_target   <span class="ot">&lt;-</span> <span class="dv">2000</span><span class="sc">:</span><span class="dv">2022</span></span>
-<span id="cb1-4"><a href="análisis-exploratorio-de-datos.html#cb1-4" tabindex="-1"></a>n_years_target <span class="ot">&lt;-</span> <span class="fu">length</span>(years_target)</span>
-<span id="cb1-5"><a href="análisis-exploratorio-de-datos.html#cb1-5" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="análisis-exploratorio-de-datos.html#cb1-6" tabindex="-1"></a>coverage_por_pais <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
-<span id="cb1-7"><a href="análisis-exploratorio-de-datos.html#cb1-7" tabindex="-1"></a>  <span class="fu">distinct</span>(pais, anio) <span class="sc">%&gt;%</span></span>
-<span id="cb1-8"><a href="análisis-exploratorio-de-datos.html#cb1-8" tabindex="-1"></a>  <span class="fu">count</span>(pais, <span class="at">name =</span> <span class="st">&quot;n_anios&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-9"><a href="análisis-exploratorio-de-datos.html#cb1-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">frac_cobertura =</span> n_anios <span class="sc">/</span> n_years_target)</span>
-<span id="cb1-10"><a href="análisis-exploratorio-de-datos.html#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="análisis-exploratorio-de-datos.html#cb1-11" tabindex="-1"></a>resumen_cobertura <span class="ot">&lt;-</span> coverage_por_pais <span class="sc">%&gt;%</span></span>
-<span id="cb1-12"><a href="análisis-exploratorio-de-datos.html#cb1-12" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb1-13"><a href="análisis-exploratorio-de-datos.html#cb1-13" tabindex="-1"></a>    <span class="at">paises_con_algun_dato =</span> <span class="fu">n</span>(),</span>
-<span id="cb1-14"><a href="análisis-exploratorio-de-datos.html#cb1-14" tabindex="-1"></a>    <span class="at">anios_min =</span> <span class="fu">min</span>(n_anios),</span>
-<span id="cb1-15"><a href="análisis-exploratorio-de-datos.html#cb1-15" tabindex="-1"></a>    <span class="at">anios_p25 =</span> <span class="fu">quantile</span>(n_anios, <span class="fl">0.25</span>),</span>
-<span id="cb1-16"><a href="análisis-exploratorio-de-datos.html#cb1-16" tabindex="-1"></a>    <span class="at">anios_med =</span> <span class="fu">median</span>(n_anios),</span>
-<span id="cb1-17"><a href="análisis-exploratorio-de-datos.html#cb1-17" tabindex="-1"></a>    <span class="at">anios_p75 =</span> <span class="fu">quantile</span>(n_anios, <span class="fl">0.75</span>),</span>
-<span id="cb1-18"><a href="análisis-exploratorio-de-datos.html#cb1-18" tabindex="-1"></a>    <span class="at">anios_max =</span> <span class="fu">max</span>(n_anios)</span>
-<span id="cb1-19"><a href="análisis-exploratorio-de-datos.html#cb1-19" tabindex="-1"></a>  )</span>
-<span id="cb1-20"><a href="análisis-exploratorio-de-datos.html#cb1-20" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="análisis-exploratorio-de-datos.html#cb1-21" tabindex="-1"></a><span class="fu">kable</span>(resumen_cobertura, <span class="at">caption =</span> <span class="st">&quot;Resumen de cobertura temporal por país (2000–2022)&quot;</span>)</span></code></pre></div>
-<table>
-<caption><span id="tab:cobertura">Table 2.1: </span>Resumen de cobertura temporal por país (2000–2022)</caption>
-<colgroup>
-<col width="30%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-<col width="13%" />
-</colgroup>
+<div id="configuración-y-carga-de-datos" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Configuración y carga de datos<a href="análisis-exploratorio-de-datos.html#configuraci%C3%B3n-y-carga-de-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En el período 2000–2022 contamos con datos de 192 países, aunque la cobertura
+es heterogénea: solo 30 de ellos (15,6 %) reportan la serie completa de 23
+años, mientras que el resto presenta huecos en distintos momentos. Estos
+resultados confirman que trabajamos con un <strong>panel desbalanceado</strong>; por ello,
+los análisis temporales y las comparaciones entre países deben considerar esta
+asimetría para evitar sesgos en la interpretación.</p>
+<p>Es importante señalar que la tasa de finalización primaria <strong>puede superar el
+100 %</strong>. Esto ocurre porque el numerador contabiliza a todos los estudiantes que
+egresan del último grado de primaria —independientemente de su edad—, mientras
+que el denominador solo incluye la población oficialmente asignada a ese nivel.
+La presencia de estudiantes en sobredad, subedad o con historial de repetición
+puede inflar el numerador. Para mejorar la claridad visual, los gráficos trabajan
+con una versión acotada (<code>tasa_fin_cap</code> ∈ [0, 100]).</p>
+<hr />
+</div>
+<div id="análisis-univariado" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Análisis univariado<a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-univariado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="cobertura-temporal-por-país" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Cobertura temporal por país<a href="análisis-exploratorio-de-datos.html#cobertura-temporal-por-pa%C3%ADs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="análisis-exploratorio-de-datos.html#cb1-1" tabindex="-1"></a>years_target   <span class="ot">&lt;-</span> <span class="dv">2000</span><span class="sc">:</span><span class="dv">2022</span></span>
+<span id="cb1-2"><a href="análisis-exploratorio-de-datos.html#cb1-2" tabindex="-1"></a>n_years_target <span class="ot">&lt;-</span> <span class="fu">length</span>(years_target)</span>
+<span id="cb1-3"><a href="análisis-exploratorio-de-datos.html#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="análisis-exploratorio-de-datos.html#cb1-4" tabindex="-1"></a>coverage_por_pais <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="análisis-exploratorio-de-datos.html#cb1-5" tabindex="-1"></a>  <span class="fu">distinct</span>(pais, anio) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="análisis-exploratorio-de-datos.html#cb1-6" tabindex="-1"></a>  <span class="fu">count</span>(pais, <span class="at">name =</span> <span class="st">&quot;n_anios&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-7"><a href="análisis-exploratorio-de-datos.html#cb1-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">frac_cobertura =</span> <span class="fu">round</span>(n_anios <span class="sc">/</span> n_years_target, <span class="dv">3</span>))</span>
+<span id="cb1-8"><a href="análisis-exploratorio-de-datos.html#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="análisis-exploratorio-de-datos.html#cb1-9" tabindex="-1"></a>resumen_cobertura <span class="ot">&lt;-</span> coverage_por_pais <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="análisis-exploratorio-de-datos.html#cb1-10" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb1-11"><a href="análisis-exploratorio-de-datos.html#cb1-11" tabindex="-1"></a>    <span class="st">`</span><span class="at">Países con datos</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">n</span>(),</span>
+<span id="cb1-12"><a href="análisis-exploratorio-de-datos.html#cb1-12" tabindex="-1"></a>    <span class="st">`</span><span class="at">Años mínimo</span><span class="st">`</span>       <span class="ot">=</span> <span class="fu">min</span>(n_anios),</span>
+<span id="cb1-13"><a href="análisis-exploratorio-de-datos.html#cb1-13" tabindex="-1"></a>    <span class="st">`</span><span class="at">P25</span><span class="st">`</span>               <span class="ot">=</span> <span class="fu">quantile</span>(n_anios, <span class="fl">0.25</span>),</span>
+<span id="cb1-14"><a href="análisis-exploratorio-de-datos.html#cb1-14" tabindex="-1"></a>    <span class="st">`</span><span class="at">Mediana</span><span class="st">`</span>           <span class="ot">=</span> <span class="fu">median</span>(n_anios),</span>
+<span id="cb1-15"><a href="análisis-exploratorio-de-datos.html#cb1-15" tabindex="-1"></a>    <span class="st">`</span><span class="at">P75</span><span class="st">`</span>               <span class="ot">=</span> <span class="fu">quantile</span>(n_anios, <span class="fl">0.75</span>),</span>
+<span id="cb1-16"><a href="análisis-exploratorio-de-datos.html#cb1-16" tabindex="-1"></a>    <span class="st">`</span><span class="at">Años máximo</span><span class="st">`</span>       <span class="ot">=</span> <span class="fu">max</span>(n_anios)</span>
+<span id="cb1-17"><a href="análisis-exploratorio-de-datos.html#cb1-17" tabindex="-1"></a>  )</span>
+<span id="cb1-18"><a href="análisis-exploratorio-de-datos.html#cb1-18" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="análisis-exploratorio-de-datos.html#cb1-19" tabindex="-1"></a><span class="fu">kable</span>(resumen_cobertura,</span>
+<span id="cb1-20"><a href="análisis-exploratorio-de-datos.html#cb1-20" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Resumen de cobertura temporal por país (2000–2022)&quot;</span>,</span>
+<span id="cb1-21"><a href="análisis-exploratorio-de-datos.html#cb1-21" tabindex="-1"></a>      <span class="at">align   =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-22"><a href="análisis-exploratorio-de-datos.html#cb1-22" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;hover&quot;</span>,<span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb1-23"><a href="análisis-exploratorio-de-datos.html#cb1-23" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:cobertura">Table 2.1: </span><span id="tab:cobertura">Table 2.2: </span>Resumen de cobertura temporal por país (2000–2022)
+</caption>
 <thead>
-<tr class="header">
-<th align="right">paises_con_algun_dato</th>
-<th align="right">anios_min</th>
-<th align="right">anios_p25</th>
-<th align="right">anios_med</th>
-<th align="right">anios_p75</th>
-<th align="right">anios_max</th>
+<tr>
+<th style="text-align:center;">
+Países con datos
+</th>
+<th style="text-align:center;">
+Años mínimo
+</th>
+<th style="text-align:center;">
+P25
+</th>
+<th style="text-align:center;">
+Mediana
+</th>
+<th style="text-align:center;">
+P75
+</th>
+<th style="text-align:center;">
+Años máximo
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">192</td>
-<td align="right">1</td>
-<td align="right">11</td>
-<td align="right">17</td>
-<td align="right">21</td>
-<td align="right">23</td>
+<tr>
+<td style="text-align:center;">
+192
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+21
+</td>
+<td style="text-align:center;">
+23
+</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="observaciones-con-tasa-100" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Observaciones con tasa &gt; 100 %<a href="análisis-exploratorio-de-datos.html#observaciones-con-tasa-100" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="análisis-exploratorio-de-datos.html#cb2-1" tabindex="-1"></a>top_mayor_100 <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="análisis-exploratorio-de-datos.html#cb2-2" tabindex="-1"></a>  <span class="fu">filter</span>(tasa_fin <span class="sc">&gt;</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-3"><a href="análisis-exploratorio-de-datos.html#cb2-3" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tasa_fin)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-4"><a href="análisis-exploratorio-de-datos.html#cb2-4" tabindex="-1"></a>  <span class="fu">select</span>(pais, anio, tasa_fin) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="análisis-exploratorio-de-datos.html#cb2-4" tabindex="-1"></a>  <span class="fu">select</span>(País <span class="ot">=</span> pais, Año <span class="ot">=</span> anio, <span class="st">`</span><span class="at">tasa_fin (%)</span><span class="st">`</span> <span class="ot">=</span> tasa_fin) <span class="sc">%&gt;%</span></span>
 <span id="cb2-5"><a href="análisis-exploratorio-de-datos.html#cb2-5" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">15</span>)</span>
 <span id="cb2-6"><a href="análisis-exploratorio-de-datos.html#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="análisis-exploratorio-de-datos.html#cb2-7" tabindex="-1"></a><span class="fu">kable</span>(top_mayor_100, <span class="at">caption =</span> <span class="st">&quot;Principales observaciones con tasa de finalización &gt; 100%&quot;</span>)</span></code></pre></div>
-<table>
-<caption><span id="tab:obs-mayor-100">Table 2.2: </span>Principales observaciones con tasa de finalización &gt; 100%</caption>
+<span id="cb2-7"><a href="análisis-exploratorio-de-datos.html#cb2-7" tabindex="-1"></a><span class="fu">kable</span>(top_mayor_100,</span>
+<span id="cb2-8"><a href="análisis-exploratorio-de-datos.html#cb2-8" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Top 15 observaciones con tasa de finalización &gt; 100 %&quot;</span>,</span>
+<span id="cb2-9"><a href="análisis-exploratorio-de-datos.html#cb2-9" tabindex="-1"></a>      <span class="at">digits  =</span> <span class="dv">2</span>,</span>
+<span id="cb2-10"><a href="análisis-exploratorio-de-datos.html#cb2-10" tabindex="-1"></a>      <span class="at">align   =</span> <span class="fu">c</span>(<span class="st">&quot;l&quot;</span>,<span class="st">&quot;c&quot;</span>,<span class="st">&quot;r&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-11"><a href="análisis-exploratorio-de-datos.html#cb2-11" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;hover&quot;</span>,<span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb2-12"><a href="análisis-exploratorio-de-datos.html#cb2-12" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:obs-mayor-100">Table 2.3: </span><span id="tab:obs-mayor-100">Table 2.4: </span>Top 15 observaciones con tasa de finalización &gt; 100 %
+</caption>
 <thead>
-<tr class="header">
-<th align="left">pais</th>
-<th align="right">anio</th>
-<th align="right">tasa_fin</th>
+<tr>
+<th style="text-align:left;">
+País
+</th>
+<th style="text-align:center;">
+Año
+</th>
+<th style="text-align:right;">
+tasa_fin (%)
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">Monaco</td>
-<td align="right">2016</td>
-<td align="right">168.1818</td>
+<tr>
+<td style="text-align:left;">
+Monaco
+</td>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:right;">
+168.18
+</td>
 </tr>
-<tr class="even">
-<td align="left">Seychelles</td>
-<td align="right">2017</td>
-<td align="right">155.3047</td>
+<tr>
+<td style="text-align:left;">
+Seychelles
+</td>
+<td style="text-align:center;">
+2017
+</td>
+<td style="text-align:right;">
+155.30
+</td>
 </tr>
-<tr class="odd">
-<td align="left">St. Kitts and Nevis</td>
-<td align="right">2021</td>
-<td align="right">150.3546</td>
+<tr>
+<td style="text-align:left;">
+St. Kitts and Nevis
+</td>
+<td style="text-align:center;">
+2021
+</td>
+<td style="text-align:right;">
+150.35
+</td>
 </tr>
-<tr class="even">
-<td align="left">Seychelles</td>
-<td align="right">2009</td>
-<td align="right">142.8866</td>
+<tr>
+<td style="text-align:left;">
+Seychelles
+</td>
+<td style="text-align:center;">
+2009
+</td>
+<td style="text-align:right;">
+142.89
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Maldives</td>
-<td align="right">2005</td>
-<td align="right">135.6577</td>
+<tr>
+<td style="text-align:left;">
+Maldives
+</td>
+<td style="text-align:center;">
+2005
+</td>
+<td style="text-align:right;">
+135.66
+</td>
 </tr>
-<tr class="even">
-<td align="left">Turkiye</td>
-<td align="right">2016</td>
-<td align="right">135.3401</td>
+<tr>
+<td style="text-align:left;">
+Turkiye
+</td>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:right;">
+135.34
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Saudi Arabia</td>
-<td align="right">2012</td>
-<td align="right">134.6692</td>
+<tr>
+<td style="text-align:left;">
+Saudi Arabia
+</td>
+<td style="text-align:center;">
+2012
+</td>
+<td style="text-align:right;">
+134.67
+</td>
 </tr>
-<tr class="even">
-<td align="left">Seychelles</td>
-<td align="right">2020</td>
-<td align="right">133.4992</td>
+<tr>
+<td style="text-align:left;">
+Seychelles
+</td>
+<td style="text-align:center;">
+2020
+</td>
+<td style="text-align:right;">
+133.50
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Belarus</td>
-<td align="right">2002</td>
-<td align="right">132.8589</td>
+<tr>
+<td style="text-align:left;">
+Belarus
+</td>
+<td style="text-align:center;">
+2002
+</td>
+<td style="text-align:right;">
+132.86
+</td>
 </tr>
-<tr class="even">
-<td align="left">Turks and Caicos Islands</td>
-<td align="right">2018</td>
-<td align="right">130.9524</td>
+<tr>
+<td style="text-align:left;">
+Turks and Caicos Islands
+</td>
+<td style="text-align:center;">
+2018
+</td>
+<td style="text-align:right;">
+130.95
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Seychelles</td>
-<td align="right">2016</td>
-<td align="right">129.5026</td>
+<tr>
+<td style="text-align:left;">
+Seychelles
+</td>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:right;">
+129.50
+</td>
 </tr>
-<tr class="even">
-<td align="left">Seychelles</td>
-<td align="right">2018</td>
-<td align="right">128.4734</td>
+<tr>
+<td style="text-align:left;">
+Seychelles
+</td>
+<td style="text-align:center;">
+2018
+</td>
+<td style="text-align:right;">
+128.47
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Maldives</td>
-<td align="right">2006</td>
-<td align="right">126.8359</td>
+<tr>
+<td style="text-align:left;">
+Maldives
+</td>
+<td style="text-align:center;">
+2006
+</td>
+<td style="text-align:right;">
+126.84
+</td>
 </tr>
-<tr class="even">
-<td align="left">Saudi Arabia</td>
-<td align="right">2011</td>
-<td align="right">126.4298</td>
+<tr>
+<td style="text-align:left;">
+Saudi Arabia
+</td>
+<td style="text-align:center;">
+2011
+</td>
+<td style="text-align:right;">
+126.43
+</td>
 </tr>
-<tr class="odd">
-<td align="left">Nauru</td>
-<td align="right">2016</td>
-<td align="right">126.3158</td>
+<tr>
+<td style="text-align:left;">
+Nauru
+</td>
+<td style="text-align:center;">
+2016
+</td>
+<td style="text-align:right;">
+126.32
+</td>
 </tr>
 </tbody>
 </table>
-<div id="distribución-de-tasa_fin_cap" class="section level3 hasAnchor" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> Distribución de tasa_fin_cap<a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-de-tasa_fin_cap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+</div>
+<div id="distribución-de-tasa_fin_cap" class="section level3 hasAnchor" number="2.2.3">
+<h3><span class="header-section-number">2.2.3</span> Distribución de tasa_fin_cap<a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-de-tasa_fin_cap" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="análisis-exploratorio-de-datos.html#cb3-1" tabindex="-1"></a>summary_df <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="análisis-exploratorio-de-datos.html#cb3-2" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb3-3"><a href="análisis-exploratorio-de-datos.html#cb3-3" tabindex="-1"></a>    <span class="at">Min     =</span> <span class="fu">min</span>(tasa_fin_cap),</span>
-<span id="cb3-4"><a href="análisis-exploratorio-de-datos.html#cb3-4" tabindex="-1"></a>    <span class="at">P25     =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.25</span>),</span>
-<span id="cb3-5"><a href="análisis-exploratorio-de-datos.html#cb3-5" tabindex="-1"></a>    <span class="at">Mediana =</span> <span class="fu">median</span>(tasa_fin_cap),</span>
+<span id="cb3-3"><a href="análisis-exploratorio-de-datos.html#cb3-3" tabindex="-1"></a>    Mínimo  <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">min</span>(tasa_fin_cap), <span class="dv">2</span>),</span>
+<span id="cb3-4"><a href="análisis-exploratorio-de-datos.html#cb3-4" tabindex="-1"></a>    <span class="at">P25     =</span> <span class="fu">round</span>(<span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.25</span>), <span class="dv">2</span>),</span>
+<span id="cb3-5"><a href="análisis-exploratorio-de-datos.html#cb3-5" tabindex="-1"></a>    <span class="at">Mediana =</span> <span class="fu">round</span>(<span class="fu">median</span>(tasa_fin_cap), <span class="dv">2</span>),</span>
 <span id="cb3-6"><a href="análisis-exploratorio-de-datos.html#cb3-6" tabindex="-1"></a>    <span class="at">Media   =</span> <span class="fu">round</span>(<span class="fu">mean</span>(tasa_fin_cap), <span class="dv">2</span>),</span>
-<span id="cb3-7"><a href="análisis-exploratorio-de-datos.html#cb3-7" tabindex="-1"></a>    <span class="at">P75     =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.75</span>),</span>
-<span id="cb3-8"><a href="análisis-exploratorio-de-datos.html#cb3-8" tabindex="-1"></a>    <span class="at">Max     =</span> <span class="fu">max</span>(tasa_fin_cap)</span>
-<span id="cb3-9"><a href="análisis-exploratorio-de-datos.html#cb3-9" tabindex="-1"></a>  )</span>
-<span id="cb3-10"><a href="análisis-exploratorio-de-datos.html#cb3-10" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="análisis-exploratorio-de-datos.html#cb3-11" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(summary_df, <span class="at">caption =</span> <span class="st">&quot;Estadísticos descriptivos de tasa_fin_cap (0–100)&quot;</span>)</span></code></pre></div>
-<table>
-<caption><span id="tab:univariado">Table 2.3: </span>Estadísticos descriptivos de tasa_fin_cap (0–100)</caption>
+<span id="cb3-7"><a href="análisis-exploratorio-de-datos.html#cb3-7" tabindex="-1"></a>    <span class="at">P75     =</span> <span class="fu">round</span>(<span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.75</span>), <span class="dv">2</span>),</span>
+<span id="cb3-8"><a href="análisis-exploratorio-de-datos.html#cb3-8" tabindex="-1"></a>    Máximo  <span class="ot">=</span> <span class="fu">round</span>(<span class="fu">max</span>(tasa_fin_cap), <span class="dv">2</span>),</span>
+<span id="cb3-9"><a href="análisis-exploratorio-de-datos.html#cb3-9" tabindex="-1"></a>    <span class="at">Rango   =</span> <span class="fu">round</span>(<span class="fu">max</span>(tasa_fin_cap) <span class="sc">-</span> <span class="fu">min</span>(tasa_fin_cap), <span class="dv">2</span>),</span>
+<span id="cb3-10"><a href="análisis-exploratorio-de-datos.html#cb3-10" tabindex="-1"></a>    <span class="at">IQR     =</span> <span class="fu">round</span>(<span class="fu">IQR</span>(tasa_fin_cap), <span class="dv">2</span>)</span>
+<span id="cb3-11"><a href="análisis-exploratorio-de-datos.html#cb3-11" tabindex="-1"></a>  )</span>
+<span id="cb3-12"><a href="análisis-exploratorio-de-datos.html#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="análisis-exploratorio-de-datos.html#cb3-13" tabindex="-1"></a><span class="fu">kable</span>(summary_df,</span>
+<span id="cb3-14"><a href="análisis-exploratorio-de-datos.html#cb3-14" tabindex="-1"></a>      <span class="at">caption =</span> <span class="st">&quot;Estadísticos descriptivos de tasa_fin_cap (acotada a 0–100)&quot;</span>,</span>
+<span id="cb3-15"><a href="análisis-exploratorio-de-datos.html#cb3-15" tabindex="-1"></a>      <span class="at">align   =</span> <span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="análisis-exploratorio-de-datos.html#cb3-16" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;striped&quot;</span>,<span class="st">&quot;hover&quot;</span>,<span class="st">&quot;condensed&quot;</span>),</span>
+<span id="cb3-17"><a href="análisis-exploratorio-de-datos.html#cb3-17" tabindex="-1"></a>                <span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<table class="table table-striped table-hover table-condensed" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+<span id="tab:estadisticos">Table 2.5: </span><span id="tab:estadisticos">Table 2.6: </span>Estadísticos descriptivos de tasa_fin_cap (acotada a 0–100)
+</caption>
 <thead>
-<tr class="header">
-<th align="right">Min</th>
-<th align="right">P25</th>
-<th align="right">Mediana</th>
-<th align="right">Media</th>
-<th align="right">P75</th>
-<th align="right">Max</th>
+<tr>
+<th style="text-align:center;">
+Mínimo
+</th>
+<th style="text-align:center;">
+P25
+</th>
+<th style="text-align:center;">
+Mediana
+</th>
+<th style="text-align:center;">
+Media
+</th>
+<th style="text-align:center;">
+P75
+</th>
+<th style="text-align:center;">
+Máximo
+</th>
+<th style="text-align:center;">
+Rango
+</th>
+<th style="text-align:center;">
+IQR
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">12.18771</td>
-<td align="right">84.12806</td>
-<td align="right">96.28667</td>
-<td align="right">87.23</td>
-<td align="right">100</td>
-<td align="right">100</td>
+<tr>
+<td style="text-align:center;">
+12.19
+</td>
+<td style="text-align:center;">
+84.13
+</td>
+<td style="text-align:center;">
+96.29
+</td>
+<td style="text-align:center;">
+87.23
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+87.81
+</td>
+<td style="text-align:center;">
+15.87
+</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="análisis-exploratorio-de-datos.html#cb4-1" tabindex="-1"></a><span class="co"># Histograma + densidad</span></span>
-<span id="cb4-2"><a href="análisis-exploratorio-de-datos.html#cb4-2" tabindex="-1"></a><span class="fu">hist</span>(df_2<span class="sc">$</span>tasa_fin_cap,</span>
-<span id="cb4-3"><a href="análisis-exploratorio-de-datos.html#cb4-3" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
-<span id="cb4-4"><a href="análisis-exploratorio-de-datos.html#cb4-4" tabindex="-1"></a>     <span class="at">col    =</span> azul_main,</span>
-<span id="cb4-5"><a href="análisis-exploratorio-de-datos.html#cb4-5" tabindex="-1"></a>     <span class="at">border =</span> azul_fuerte,</span>
-<span id="cb4-6"><a href="análisis-exploratorio-de-datos.html#cb4-6" tabindex="-1"></a>     <span class="at">lwd    =</span> <span class="fl">0.8</span>,</span>
-<span id="cb4-7"><a href="análisis-exploratorio-de-datos.html#cb4-7" tabindex="-1"></a>     <span class="at">main   =</span> <span class="st">&quot;Distribución global de la tasa de finalización primaria (0–100)&quot;</span>,</span>
-<span id="cb4-8"><a href="análisis-exploratorio-de-datos.html#cb4-8" tabindex="-1"></a>     <span class="at">xlab   =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span>,</span>
-<span id="cb4-9"><a href="análisis-exploratorio-de-datos.html#cb4-9" tabindex="-1"></a>     <span class="at">xlim   =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
-<span id="cb4-10"><a href="análisis-exploratorio-de-datos.html#cb4-10" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">density</span>(df_2<span class="sc">$</span>tasa_fin_cap), <span class="at">col =</span> azul_fuerte, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/univariado-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" tabindex="-1"></a><span class="co"># Boxplot</span></span>
-<span id="cb5-2"><a href="análisis-exploratorio-de-datos.html#cb5-2" tabindex="-1"></a><span class="fu">boxplot</span>(df_2<span class="sc">$</span>tasa_fin_cap,</span>
-<span id="cb5-3"><a href="análisis-exploratorio-de-datos.html#cb5-3" tabindex="-1"></a>        <span class="at">col      =</span> azul_main,</span>
-<span id="cb5-4"><a href="análisis-exploratorio-de-datos.html#cb5-4" tabindex="-1"></a>        <span class="at">border   =</span> gris_linea,</span>
-<span id="cb5-5"><a href="análisis-exploratorio-de-datos.html#cb5-5" tabindex="-1"></a>        <span class="at">medcol   =</span> azul_fuerte,</span>
-<span id="cb5-6"><a href="análisis-exploratorio-de-datos.html#cb5-6" tabindex="-1"></a>        <span class="at">outcol   =</span> rojo_out, <span class="at">outpch =</span> <span class="dv">16</span>,</span>
-<span id="cb5-7"><a href="análisis-exploratorio-de-datos.html#cb5-7" tabindex="-1"></a>        <span class="at">main     =</span> <span class="st">&quot;Boxplot de la tasa de finalización primaria (0–100)&quot;</span>,</span>
-<span id="cb5-8"><a href="análisis-exploratorio-de-datos.html#cb5-8" tabindex="-1"></a>        <span class="at">ylab     =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span>,</span>
-<span id="cb5-9"><a href="análisis-exploratorio-de-datos.html#cb5-9" tabindex="-1"></a>        <span class="at">ylim     =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/univariado-2.png" alt="" width="672" /></p>
-<p>La distribución de la tasa de finalización primaria es marcadamente asimétrica hacia la izquierda: la mayoría de los países reportan valores altos, con una mediana cercana al 100%, pero existe una cola importante hacia valores bajos que evidencia rezagos persistentes en un grupo significativo de naciones. Esta asimetría se refleja en que la media es inferior a la mediana, indicando que unos pocos países con tasas muy bajas jalan el promedio hacia abajo. El boxplot muestra además valores atípicos en la parte inferior del rango, correspondientes a países con serias dificultades para retener a las niñas en el sistema escolar.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="análisis-exploratorio-de-datos.html#cb4-1" tabindex="-1"></a><span class="co"># Histograma con densidad superpuesta</span></span>
+<span id="cb4-2"><a href="análisis-exploratorio-de-datos.html#cb4-2" tabindex="-1"></a>dens <span class="ot">&lt;-</span> <span class="fu">density</span>(df_2<span class="sc">$</span>tasa_fin_cap, <span class="at">adjust =</span> <span class="fl">1.1</span>)</span>
+<span id="cb4-3"><a href="análisis-exploratorio-de-datos.html#cb4-3" tabindex="-1"></a>dens_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> dens<span class="sc">$</span>x, <span class="at">y =</span> dens<span class="sc">$</span>y)</span>
+<span id="cb4-4"><a href="análisis-exploratorio-de-datos.html#cb4-4" tabindex="-1"></a><span class="co"># escalar densidad al eje de conteos</span></span>
+<span id="cb4-5"><a href="análisis-exploratorio-de-datos.html#cb4-5" tabindex="-1"></a>bin_w  <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb4-6"><a href="análisis-exploratorio-de-datos.html#cb4-6" tabindex="-1"></a>n_obs  <span class="ot">&lt;-</span> <span class="fu">nrow</span>(df_2)</span>
+<span id="cb4-7"><a href="análisis-exploratorio-de-datos.html#cb4-7" tabindex="-1"></a>escala <span class="ot">&lt;-</span> bin_w <span class="sc">*</span> n_obs</span>
+<span id="cb4-8"><a href="análisis-exploratorio-de-datos.html#cb4-8" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="análisis-exploratorio-de-datos.html#cb4-9" tabindex="-1"></a><span class="fu">ggplot</span>(df_2, <span class="fu">aes</span>(<span class="at">x =</span> tasa_fin_cap)) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="análisis-exploratorio-de-datos.html#cb4-10" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb4-11"><a href="análisis-exploratorio-de-datos.html#cb4-11" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(count)),</span>
+<span id="cb4-12"><a href="análisis-exploratorio-de-datos.html#cb4-12" tabindex="-1"></a>    <span class="at">binwidth =</span> bin_w,</span>
+<span id="cb4-13"><a href="análisis-exploratorio-de-datos.html#cb4-13" tabindex="-1"></a>    <span class="at">fill     =</span> AZUL_MAIN,</span>
+<span id="cb4-14"><a href="análisis-exploratorio-de-datos.html#cb4-14" tabindex="-1"></a>    <span class="at">color    =</span> AZUL_FUERTE,</span>
+<span id="cb4-15"><a href="análisis-exploratorio-de-datos.html#cb4-15" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.5</span>,</span>
+<span id="cb4-16"><a href="análisis-exploratorio-de-datos.html#cb4-16" tabindex="-1"></a>    <span class="at">alpha    =</span> <span class="fl">0.85</span></span>
+<span id="cb4-17"><a href="análisis-exploratorio-de-datos.html#cb4-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="análisis-exploratorio-de-datos.html#cb4-18" tabindex="-1"></a>  <span class="fu">geom_line</span>(</span>
+<span id="cb4-19"><a href="análisis-exploratorio-de-datos.html#cb4-19" tabindex="-1"></a>    <span class="at">data =</span> dens_df,</span>
+<span id="cb4-20"><a href="análisis-exploratorio-de-datos.html#cb4-20" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y <span class="sc">*</span> escala),</span>
+<span id="cb4-21"><a href="análisis-exploratorio-de-datos.html#cb4-21" tabindex="-1"></a>    <span class="at">color     =</span> CIAN,</span>
+<span id="cb4-22"><a href="análisis-exploratorio-de-datos.html#cb4-22" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">1.2</span></span>
+<span id="cb4-23"><a href="análisis-exploratorio-de-datos.html#cb4-23" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="análisis-exploratorio-de-datos.html#cb4-24" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">median</span>(df_2<span class="sc">$</span>tasa_fin_cap),</span>
+<span id="cb4-25"><a href="análisis-exploratorio-de-datos.html#cb4-25" tabindex="-1"></a>             <span class="at">color =</span> AMARILLO, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb4-26"><a href="análisis-exploratorio-de-datos.html#cb4-26" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(df_2<span class="sc">$</span>tasa_fin_cap),</span>
+<span id="cb4-27"><a href="análisis-exploratorio-de-datos.html#cb4-27" tabindex="-1"></a>             <span class="at">color =</span> ROJO_OUT, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb4-28"><a href="análisis-exploratorio-de-datos.html#cb4-28" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fu">median</span>(df_2<span class="sc">$</span>tasa_fin_cap) <span class="sc">-</span> <span class="fl">2.5</span>,</span>
+<span id="cb4-29"><a href="análisis-exploratorio-de-datos.html#cb4-29" tabindex="-1"></a>           <span class="at">y =</span> <span class="cn">Inf</span>, <span class="at">vjust =</span> <span class="fl">1.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb4-30"><a href="análisis-exploratorio-de-datos.html#cb4-30" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;Mediana = &quot;</span>, <span class="fu">round</span>(<span class="fu">median</span>(df_2<span class="sc">$</span>tasa_fin_cap), <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>),</span>
+<span id="cb4-31"><a href="análisis-exploratorio-de-datos.html#cb4-31" tabindex="-1"></a>           <span class="at">color =</span> AMARILLO, <span class="at">size =</span> <span class="fl">3.2</span>) <span class="sc">+</span></span>
+<span id="cb4-32"><a href="análisis-exploratorio-de-datos.html#cb4-32" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fu">mean</span>(df_2<span class="sc">$</span>tasa_fin_cap) <span class="sc">-</span> <span class="fl">2.5</span>,</span>
+<span id="cb4-33"><a href="análisis-exploratorio-de-datos.html#cb4-33" tabindex="-1"></a>           <span class="at">y =</span> <span class="cn">Inf</span>, <span class="at">vjust =</span> <span class="fl">3.2</span>, <span class="at">hjust =</span> <span class="dv">1</span>,</span>
+<span id="cb4-34"><a href="análisis-exploratorio-de-datos.html#cb4-34" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;Media = &quot;</span>, <span class="fu">round</span>(<span class="fu">mean</span>(df_2<span class="sc">$</span>tasa_fin_cap), <span class="dv">1</span>), <span class="st">&quot;%&quot;</span>),</span>
+<span id="cb4-35"><a href="análisis-exploratorio-de-datos.html#cb4-35" tabindex="-1"></a>           <span class="at">color =</span> ROJO_OUT, <span class="at">size =</span> <span class="fl">3.2</span>) <span class="sc">+</span></span>
+<span id="cb4-36"><a href="análisis-exploratorio-de-datos.html#cb4-36" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>), <span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb4-37"><a href="análisis-exploratorio-de-datos.html#cb4-37" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-38"><a href="análisis-exploratorio-de-datos.html#cb4-38" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Distribución global de tasa_fin_cap (2000–2022)&quot;</span>,</span>
+<span id="cb4-39"><a href="análisis-exploratorio-de-datos.html#cb4-39" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Asimetría negativa marcada: cola inferior de países rezagados&quot;</span>,</span>
+<span id="cb4-40"><a href="análisis-exploratorio-de-datos.html#cb4-40" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span>,</span>
+<span id="cb4-41"><a href="análisis-exploratorio-de-datos.html#cb4-41" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">&quot;Número de observaciones&quot;</span>,</span>
+<span id="cb4-42"><a href="análisis-exploratorio-de-datos.html#cb4-42" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">&quot;Línea cian: KDE  |  Amarillo: mediana  |  Rojo: media&quot;</span></span>
+<span id="cb4-43"><a href="análisis-exploratorio-de-datos.html#cb4-43" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-44"><a href="análisis-exploratorio-de-datos.html#cb4-44" tabindex="-1"></a>  <span class="fu">tema_app</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/histograma-1.png" alt="" width="1350" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="análisis-exploratorio-de-datos.html#cb5-1" tabindex="-1"></a><span class="co"># Boxplot con jitter de outliers</span></span>
+<span id="cb5-2"><a href="análisis-exploratorio-de-datos.html#cb5-2" tabindex="-1"></a>df_box <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">grupo =</span> <span class="st">&quot;Global&quot;</span>)</span>
+<span id="cb5-3"><a href="análisis-exploratorio-de-datos.html#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="análisis-exploratorio-de-datos.html#cb5-4" tabindex="-1"></a><span class="fu">ggplot</span>(df_box, <span class="fu">aes</span>(<span class="at">x =</span> grupo, <span class="at">y =</span> tasa_fin_cap)) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="análisis-exploratorio-de-datos.html#cb5-5" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(</span>
+<span id="cb5-6"><a href="análisis-exploratorio-de-datos.html#cb5-6" tabindex="-1"></a>    <span class="at">fill      =</span> AZUL_MAIN,</span>
+<span id="cb5-7"><a href="análisis-exploratorio-de-datos.html#cb5-7" tabindex="-1"></a>    <span class="at">color     =</span> AZUL_CLARO,</span>
+<span id="cb5-8"><a href="análisis-exploratorio-de-datos.html#cb5-8" tabindex="-1"></a>    <span class="at">outlier.shape =</span> <span class="cn">NA</span>,</span>
+<span id="cb5-9"><a href="análisis-exploratorio-de-datos.html#cb5-9" tabindex="-1"></a>    <span class="at">width     =</span> <span class="fl">0.45</span>,</span>
+<span id="cb5-10"><a href="análisis-exploratorio-de-datos.html#cb5-10" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.7</span></span>
+<span id="cb5-11"><a href="análisis-exploratorio-de-datos.html#cb5-11" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="análisis-exploratorio-de-datos.html#cb5-12" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(</span>
+<span id="cb5-13"><a href="análisis-exploratorio-de-datos.html#cb5-13" tabindex="-1"></a>    <span class="at">data   =</span> df_box <span class="sc">%&gt;%</span> <span class="fu">filter</span>(tasa_fin_cap <span class="sc">&lt;</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.05</span>)),</span>
+<span id="cb5-14"><a href="análisis-exploratorio-de-datos.html#cb5-14" tabindex="-1"></a>    <span class="at">color  =</span> ROJO_OUT, <span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">width =</span> <span class="fl">0.12</span>, <span class="at">size =</span> <span class="fl">1.8</span></span>
+<span id="cb5-15"><a href="análisis-exploratorio-de-datos.html#cb5-15" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="análisis-exploratorio-de-datos.html#cb5-16" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>,</span>
+<span id="cb5-17"><a href="análisis-exploratorio-de-datos.html#cb5-17" tabindex="-1"></a>               <span class="at">shape =</span> <span class="dv">18</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> AMARILLO) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="análisis-exploratorio-de-datos.html#cb5-18" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>), <span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-19"><a href="análisis-exploratorio-de-datos.html#cb5-19" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-20"><a href="análisis-exploratorio-de-datos.html#cb5-20" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Boxplot de tasa_fin_cap — distribución global&quot;</span>,</span>
+<span id="cb5-21"><a href="análisis-exploratorio-de-datos.html#cb5-21" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Rojo: valores atípicos inferiores (P5). Diamante amarillo: media.&quot;</span>,</span>
+<span id="cb5-22"><a href="análisis-exploratorio-de-datos.html#cb5-22" tabindex="-1"></a>    <span class="at">x        =</span> <span class="cn">NULL</span>,</span>
+<span id="cb5-23"><a href="análisis-exploratorio-de-datos.html#cb5-23" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span></span>
+<span id="cb5-24"><a href="análisis-exploratorio-de-datos.html#cb5-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-25"><a href="análisis-exploratorio-de-datos.html#cb5-25" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-26"><a href="análisis-exploratorio-de-datos.html#cb5-26" tabindex="-1"></a>  <span class="fu">tema_app</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/boxplot-1.png" alt="" width="1050" style="display: block; margin: auto;" /></p>
+<p>La distribución de la tasa de finalización primaria es marcadamente <strong>asimétrica
+hacia la izquierda</strong>: la mayoría de los países reportan valores altos, con una
+mediana cercana al 95 %, pero existe una cola importante hacia valores bajos que
+evidencia rezagos persistentes en un grupo significativo de naciones. La media
+es inferior a la mediana, confirmando la presión a la baja de países con tasas
+muy bajas. Los valores atípicos inferiores corresponden a países del África
+Subsahariana y sur de Asia en los años iniciales del período.</p>
+<hr />
 </div>
 </div>
-<div id="distribución-geográfica" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Distribución geográfica<a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-geogr%C3%A1fica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Un mapa coropleta permite identificar patrones espaciales que los gráficos estadísticos no revelan: qué regiones del mundo concentran los mayores rezagos, si los países vecinos tienden a comportarse de manera similar y dónde se ubican los extremos del indicador. Para construirlo, calculamos la tasa de finalización promedio por país a lo largo de todo el período disponible (2000–2022).</p>
+<div id="distribución-geográfica" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Distribución geográfica<a href="análisis-exploratorio-de-datos.html#distribuci%C3%B3n-geogr%C3%A1fica" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Un mapa coropleta permite identificar patrones espaciales que los gráficos
+estadísticos no revelan: qué regiones concentran los mayores rezagos, si los
+países vecinos tienden a comportarse de manera similar y dónde se ubican los
+extremos del indicador.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="análisis-exploratorio-de-datos.html#cb6-1" tabindex="-1"></a>df_mapa <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="análisis-exploratorio-de-datos.html#cb6-2" tabindex="-1"></a>  <span class="fu">group_by</span>(pais) <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="análisis-exploratorio-de-datos.html#cb6-3" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">tasa_promedio =</span> <span class="fu">mean</span>(tasa_fin_cap, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
@@ -428,47 +704,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-10"><a href="análisis-exploratorio-de-datos.html#cb6-10" tabindex="-1"></a><span class="fu">ggplot</span>(world_data) <span class="sc">+</span></span>
 <span id="cb6-11"><a href="análisis-exploratorio-de-datos.html#cb6-11" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> tasa_promedio), <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
 <span id="cb6-12"><a href="análisis-exploratorio-de-datos.html#cb6-12" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(</span>
-<span id="cb6-13"><a href="análisis-exploratorio-de-datos.html#cb6-13" tabindex="-1"></a>    <span class="at">colours  =</span> <span class="fu">c</span>(rojo_out, <span class="st">&quot;#F5A623&quot;</span>, <span class="st">&quot;#F8E71C&quot;</span>, azul_main, azul_fuerte),</span>
-<span id="cb6-14"><a href="análisis-exploratorio-de-datos.html#cb6-14" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">&quot;#CCCCCC&quot;</span>,</span>
+<span id="cb6-13"><a href="análisis-exploratorio-de-datos.html#cb6-13" tabindex="-1"></a>    <span class="at">colours  =</span> <span class="fu">c</span>(ROJO_OUT, AMARILLO, AZUL_CLARO, AZUL_MAIN, AZUL_FUERTE),</span>
+<span id="cb6-14"><a href="análisis-exploratorio-de-datos.html#cb6-14" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">&quot;#BDBDBD&quot;</span>,</span>
 <span id="cb6-15"><a href="análisis-exploratorio-de-datos.html#cb6-15" tabindex="-1"></a>    <span class="at">name     =</span> <span class="st">&quot;Tasa promedio (%)&quot;</span>,</span>
 <span id="cb6-16"><a href="análisis-exploratorio-de-datos.html#cb6-16" tabindex="-1"></a>    <span class="at">limits   =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>),</span>
-<span id="cb6-17"><a href="análisis-exploratorio-de-datos.html#cb6-17" tabindex="-1"></a>    <span class="at">breaks   =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>, <span class="dv">100</span>)</span>
-<span id="cb6-18"><a href="análisis-exploratorio-de-datos.html#cb6-18" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-19"><a href="análisis-exploratorio-de-datos.html#cb6-19" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-20"><a href="análisis-exploratorio-de-datos.html#cb6-20" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Tasa de finalización primaria femenina — Promedio 2000–2022&quot;</span>,</span>
-<span id="cb6-21"><a href="análisis-exploratorio-de-datos.html#cb6-21" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Gris: países sin datos disponibles en WDI&quot;</span>,</span>
-<span id="cb6-22"><a href="análisis-exploratorio-de-datos.html#cb6-22" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">&quot;Fuente: World Development Indicators, Banco Mundial&quot;</span></span>
-<span id="cb6-23"><a href="análisis-exploratorio-de-datos.html#cb6-23" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-24"><a href="análisis-exploratorio-de-datos.html#cb6-24" tabindex="-1"></a>  <span class="fu">theme_void</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb6-25"><a href="análisis-exploratorio-de-datos.html#cb6-25" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb6-26"><a href="análisis-exploratorio-de-datos.html#cb6-26" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">13</span>),</span>
-<span id="cb6-27"><a href="análisis-exploratorio-de-datos.html#cb6-27" tabindex="-1"></a>    <span class="at">plot.subtitle    =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">color =</span> gris_linea),</span>
-<span id="cb6-28"><a href="análisis-exploratorio-de-datos.html#cb6-28" tabindex="-1"></a>    <span class="at">plot.caption     =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">color =</span> gris_linea, <span class="at">size =</span> <span class="dv">9</span>),</span>
-<span id="cb6-29"><a href="análisis-exploratorio-de-datos.html#cb6-29" tabindex="-1"></a>    <span class="at">legend.position  =</span> <span class="st">&quot;bottom&quot;</span>,</span>
-<span id="cb6-30"><a href="análisis-exploratorio-de-datos.html#cb6-30" tabindex="-1"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">&quot;cm&quot;</span>)</span>
-<span id="cb6-31"><a href="análisis-exploratorio-de-datos.html#cb6-31" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/mapa-promedio-1.png" alt="" width="1152" /></p>
-<p>El mapa revela patrones geográficos marcados. África Subsahariana concentra los valores más bajos, con varios países en el rango del 30–60%, lo que refleja dificultades estructurales en acceso y retención escolar. En contraste, América Latina, Europa, el norte de África y buena parte de Asia presentan tasas promedio superiores al 80%. El sur y sureste asiático muestran heterogeneidad importante: mientras algunos países han avanzado considerablemente, otros mantienen rezagos notables. Los países en gris no cuentan con datos suficientes en el WDI durante el período analizado.</p>
+<span id="cb6-17"><a href="análisis-exploratorio-de-datos.html#cb6-17" tabindex="-1"></a>    <span class="at">breaks   =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>, <span class="dv">100</span>),</span>
+<span id="cb6-18"><a href="análisis-exploratorio-de-datos.html#cb6-18" tabindex="-1"></a>    <span class="at">labels   =</span> <span class="fu">paste0</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">50</span>, <span class="dv">75</span>, <span class="dv">100</span>), <span class="st">&quot;%&quot;</span>)</span>
+<span id="cb6-19"><a href="análisis-exploratorio-de-datos.html#cb6-19" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="análisis-exploratorio-de-datos.html#cb6-20" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-21"><a href="análisis-exploratorio-de-datos.html#cb6-21" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Tasa de finalización primaria femenina — Promedio 2000–2022&quot;</span>,</span>
+<span id="cb6-22"><a href="análisis-exploratorio-de-datos.html#cb6-22" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Gris oscuro: países sin datos disponibles en WDI&quot;</span>,</span>
+<span id="cb6-23"><a href="análisis-exploratorio-de-datos.html#cb6-23" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">&quot;Fuente: World Development Indicators, Banco Mundial&quot;</span></span>
+<span id="cb6-24"><a href="análisis-exploratorio-de-datos.html#cb6-24" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-25"><a href="análisis-exploratorio-de-datos.html#cb6-25" tabindex="-1"></a>  <span class="fu">theme_void</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb6-26"><a href="análisis-exploratorio-de-datos.html#cb6-26" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-27"><a href="análisis-exploratorio-de-datos.html#cb6-27" tabindex="-1"></a>    <span class="at">plot.background  =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">color =</span> <span class="cn">NA</span>),</span>
+<span id="cb6-28"><a href="análisis-exploratorio-de-datos.html#cb6-28" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">13</span>, <span class="at">color =</span> AZUL_FUERTE),</span>
+<span id="cb6-29"><a href="análisis-exploratorio-de-datos.html#cb6-29" tabindex="-1"></a>    <span class="at">plot.subtitle    =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">color =</span> GRIS_LINEA, <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb6-30"><a href="análisis-exploratorio-de-datos.html#cb6-30" tabindex="-1"></a>    <span class="at">plot.caption     =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;#9E9E9E&quot;</span>, <span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb6-31"><a href="análisis-exploratorio-de-datos.html#cb6-31" tabindex="-1"></a>    <span class="at">legend.position  =</span> <span class="st">&quot;bottom&quot;</span>,</span>
+<span id="cb6-32"><a href="análisis-exploratorio-de-datos.html#cb6-32" tabindex="-1"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="fl">2.5</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb6-33"><a href="análisis-exploratorio-de-datos.html#cb6-33" tabindex="-1"></a>    <span class="at">legend.title     =</span> <span class="fu">element_text</span>(<span class="at">color =</span> AZUL_FUERTE),</span>
+<span id="cb6-34"><a href="análisis-exploratorio-de-datos.html#cb6-34" tabindex="-1"></a>    <span class="at">legend.text      =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#424242&quot;</span>)</span>
+<span id="cb6-35"><a href="análisis-exploratorio-de-datos.html#cb6-35" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/mapa-promedio-1.png" alt="" width="1800" style="display: block; margin: auto;" /></p>
+<p>El mapa revela patrones geográficos marcados. <strong>África Subsahariana</strong> concentra
+los valores más bajos (rango 30–60 %), lo que refleja dificultades estructurales
+en acceso y retención escolar. En contraste, América Latina, Europa, el norte de
+África y buena parte de Asia presentan tasas superiores al 80 %. El sur y
+sureste asiático muestran heterogeneidad importante.</p>
+<hr />
 </div>
-<div id="análisis-bivariado" class="section level2 hasAnchor" number="2.3">
-<h2><span class="header-section-number">2.3</span> Análisis bivariado<a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-bivariado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Para el análisis bivariado trabajamos con la versión acotada de la variable objetivo (<code>tasa_fin_cap</code> ∈ [0,100]), con el fin de asegurar visualizaciones comparables y evitar que pocos valores extremos distorsionen las escalas. Dado el panel desbalanceado, se emplean medidas robustas a asimetrías como la mediana y la banda intercuartílica.</p>
-<div id="tasa_fin_cap-según-país" class="section level3 hasAnchor" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> tasa_fin_cap según país<a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-pa%C3%ADs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Los siguientes gráficos muestran la distribución de <code>tasa_fin_cap</code> para los 8 países con mayor cobertura temporal, desagregada por quinquenio. El gráfico de lollipop presenta la mediana (punto) y el rango intercuartílico (segmento) para cada país y período.</p>
+<div id="análisis-bivariado" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Análisis bivariado<a href="análisis-exploratorio-de-datos.html#an%C3%A1lisis-bivariado" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para el análisis bivariado trabajamos con <code>tasa_fin_cap</code> ∈ [0, 100], empleando
+medidas robustas a asimetrías (mediana e IQR) dado el panel desbalanceado.</p>
+<div id="mediana-e-iqr-por-país-y-quinquenio" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Mediana e IQR por país y quinquenio<a href="análisis-exploratorio-de-datos.html#mediana-e-iqr-por-pa%C3%ADs-y-quinquenio" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="análisis-exploratorio-de-datos.html#cb7-1" tabindex="-1"></a>df_base <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="análisis-exploratorio-de-datos.html#cb7-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(pais), <span class="sc">!</span><span class="fu">is.na</span>(anio), <span class="sc">!</span><span class="fu">is.na</span>(tasa_fin_cap),</span>
 <span id="cb7-3"><a href="análisis-exploratorio-de-datos.html#cb7-3" tabindex="-1"></a>         anio <span class="sc">&gt;=</span> <span class="dv">2000</span>, anio <span class="sc">&lt;=</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb7-4"><a href="análisis-exploratorio-de-datos.html#cb7-4" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb7-5"><a href="análisis-exploratorio-de-datos.html#cb7-5" tabindex="-1"></a>    <span class="at">quinquenio =</span> <span class="fu">case_when</span>(</span>
-<span id="cb7-6"><a href="análisis-exploratorio-de-datos.html#cb7-6" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2004</span> <span class="sc">~</span> <span class="st">&quot;2000-2004&quot;</span>,</span>
-<span id="cb7-7"><a href="análisis-exploratorio-de-datos.html#cb7-7" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2009</span> <span class="sc">~</span> <span class="st">&quot;2005-2009&quot;</span>,</span>
-<span id="cb7-8"><a href="análisis-exploratorio-de-datos.html#cb7-8" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2014</span> <span class="sc">~</span> <span class="st">&quot;2010-2014&quot;</span>,</span>
-<span id="cb7-9"><a href="análisis-exploratorio-de-datos.html#cb7-9" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2019</span> <span class="sc">~</span> <span class="st">&quot;2015-2019&quot;</span>,</span>
-<span id="cb7-10"><a href="análisis-exploratorio-de-datos.html#cb7-10" tabindex="-1"></a>      <span class="cn">TRUE</span>         <span class="sc">~</span> <span class="st">&quot;2020-2022&quot;</span></span>
+<span id="cb7-6"><a href="análisis-exploratorio-de-datos.html#cb7-6" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2004</span> <span class="sc">~</span> <span class="st">&quot;2000–2004&quot;</span>,</span>
+<span id="cb7-7"><a href="análisis-exploratorio-de-datos.html#cb7-7" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2009</span> <span class="sc">~</span> <span class="st">&quot;2005–2009&quot;</span>,</span>
+<span id="cb7-8"><a href="análisis-exploratorio-de-datos.html#cb7-8" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2014</span> <span class="sc">~</span> <span class="st">&quot;2010–2014&quot;</span>,</span>
+<span id="cb7-9"><a href="análisis-exploratorio-de-datos.html#cb7-9" tabindex="-1"></a>      anio <span class="sc">&lt;=</span> <span class="dv">2019</span> <span class="sc">~</span> <span class="st">&quot;2015–2019&quot;</span>,</span>
+<span id="cb7-10"><a href="análisis-exploratorio-de-datos.html#cb7-10" tabindex="-1"></a>      <span class="cn">TRUE</span>         <span class="sc">~</span> <span class="st">&quot;2020–2022&quot;</span></span>
 <span id="cb7-11"><a href="análisis-exploratorio-de-datos.html#cb7-11" tabindex="-1"></a>    ),</span>
 <span id="cb7-12"><a href="análisis-exploratorio-de-datos.html#cb7-12" tabindex="-1"></a>    <span class="at">quinquenio =</span> <span class="fu">factor</span>(quinquenio,</span>
-<span id="cb7-13"><a href="análisis-exploratorio-de-datos.html#cb7-13" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;2000-2004&quot;</span>,<span class="st">&quot;2005-2009&quot;</span>,<span class="st">&quot;2010-2014&quot;</span>,<span class="st">&quot;2015-2019&quot;</span>,<span class="st">&quot;2020-2022&quot;</span>))</span>
+<span id="cb7-13"><a href="análisis-exploratorio-de-datos.html#cb7-13" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;2000–2004&quot;</span>,<span class="st">&quot;2005–2009&quot;</span>,<span class="st">&quot;2010–2014&quot;</span>,<span class="st">&quot;2015–2019&quot;</span>,<span class="st">&quot;2020–2022&quot;</span>))</span>
 <span id="cb7-14"><a href="análisis-exploratorio-de-datos.html#cb7-14" tabindex="-1"></a>  )</span>
 <span id="cb7-15"><a href="análisis-exploratorio-de-datos.html#cb7-15" tabindex="-1"></a></span>
 <span id="cb7-16"><a href="análisis-exploratorio-de-datos.html#cb7-16" tabindex="-1"></a>cov_por_pais <span class="ot">&lt;-</span> df_base <span class="sc">%&gt;%</span></span>
@@ -496,141 +781,149 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-38"><a href="análisis-exploratorio-de-datos.html#cb7-38" tabindex="-1"></a></span>
 <span id="cb7-39"><a href="análisis-exploratorio-de-datos.html#cb7-39" tabindex="-1"></a><span class="fu">ggplot</span>(res_q, <span class="fu">aes</span>(<span class="at">x =</span> pais_ord)) <span class="sc">+</span></span>
 <span id="cb7-40"><a href="análisis-exploratorio-de-datos.html#cb7-40" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">100</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>,</span>
-<span id="cb7-41"><a href="análisis-exploratorio-de-datos.html#cb7-41" tabindex="-1"></a>             <span class="at">color =</span> gris_linea, <span class="at">linewidth =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb7-41"><a href="análisis-exploratorio-de-datos.html#cb7-41" tabindex="-1"></a>             <span class="at">color =</span> ROJO_OUT, <span class="at">linewidth =</span> <span class="fl">0.6</span>, <span class="at">alpha =</span> <span class="fl">0.85</span>) <span class="sc">+</span></span>
 <span id="cb7-42"><a href="análisis-exploratorio-de-datos.html#cb7-42" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> pais_ord, <span class="at">y =</span> p25, <span class="at">yend =</span> p75),</span>
-<span id="cb7-43"><a href="análisis-exploratorio-de-datos.html#cb7-43" tabindex="-1"></a>               <span class="at">color =</span> gris_linea, <span class="at">linewidth =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb7-43"><a href="análisis-exploratorio-de-datos.html#cb7-43" tabindex="-1"></a>               <span class="at">color =</span> AZUL_CLARO, <span class="at">linewidth =</span> <span class="fl">2.2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">lineend =</span> <span class="st">&quot;round&quot;</span>) <span class="sc">+</span></span>
 <span id="cb7-44"><a href="análisis-exploratorio-de-datos.html#cb7-44" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> med),</span>
-<span id="cb7-45"><a href="análisis-exploratorio-de-datos.html#cb7-45" tabindex="-1"></a>             <span class="at">color =</span> azul_fuerte, <span class="at">fill =</span> azul_main,</span>
-<span id="cb7-46"><a href="análisis-exploratorio-de-datos.html#cb7-46" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">stroke =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb7-45"><a href="análisis-exploratorio-de-datos.html#cb7-45" tabindex="-1"></a>             <span class="at">color =</span> CIAN, <span class="at">fill =</span> AZUL_FUERTE,</span>
+<span id="cb7-46"><a href="análisis-exploratorio-de-datos.html#cb7-46" tabindex="-1"></a>             <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">stroke =</span> <span class="fl">1.4</span>) <span class="sc">+</span></span>
 <span id="cb7-47"><a href="análisis-exploratorio-de-datos.html#cb7-47" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb7-48"><a href="análisis-exploratorio-de-datos.html#cb7-48" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> quinquenio, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb7-49"><a href="análisis-exploratorio-de-datos.html#cb7-49" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb7-50"><a href="análisis-exploratorio-de-datos.html#cb7-50" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;tasa_fin_cap por país (Top 8) — Mediana e IQR por quinquenio&quot;</span>,</span>
-<span id="cb7-51"><a href="análisis-exploratorio-de-datos.html#cb7-51" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Escala 80–100. Línea discontinua: techo (100).&quot;</span>,</span>
-<span id="cb7-52"><a href="análisis-exploratorio-de-datos.html#cb7-52" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span></span>
-<span id="cb7-53"><a href="análisis-exploratorio-de-datos.html#cb7-53" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb7-54"><a href="análisis-exploratorio-de-datos.html#cb7-54" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">100</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">80</span>, <span class="dv">100</span>, <span class="dv">5</span>),</span>
-<span id="cb7-55"><a href="análisis-exploratorio-de-datos.html#cb7-55" tabindex="-1"></a>                     <span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.03</span>))) <span class="sc">+</span></span>
-<span id="cb7-56"><a href="análisis-exploratorio-de-datos.html#cb7-56" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb7-57"><a href="análisis-exploratorio-de-datos.html#cb7-57" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb7-58"><a href="análisis-exploratorio-de-datos.html#cb7-58" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb7-59"><a href="análisis-exploratorio-de-datos.html#cb7-59" tabindex="-1"></a>    <span class="at">axis.text.y      =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>, <span class="at">lineheight =</span> <span class="fl">0.9</span>),</span>
-<span id="cb7-60"><a href="análisis-exploratorio-de-datos.html#cb7-60" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-61"><a href="análisis-exploratorio-de-datos.html#cb7-61" tabindex="-1"></a>    <span class="at">strip.text       =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
-<span id="cb7-62"><a href="análisis-exploratorio-de-datos.html#cb7-62" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/bivariado-pais-1.png" alt="" width="960" /></p>
-<p>En los 8 países con mayor cobertura temporal se observa una convergencia hacia valores altos de la tasa de finalización, con medianas cercanas o iguales a 100 en la mayoría de los quinquenios. Brunei Darussalam y Argentina muestran una compresión fuerte contra el techo desde los primeros períodos, lo que limita la comparabilidad fina entre ellos. Por su parte, Azerbaiyán y Cabo Verde exhiben trayectorias de mejora gradual con reducción de la dispersión a lo largo del tiempo, mientras que Cuba se mantiene alta y estable sin tocar el techo, lo que permite distinguir variaciones reales entre años.</p>
+<span id="cb7-48"><a href="análisis-exploratorio-de-datos.html#cb7-48" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>quinquenio, <span class="at">ncol =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-49"><a href="análisis-exploratorio-de-datos.html#cb7-49" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">72</span>, <span class="dv">104</span>), <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">75</span>, <span class="dv">100</span>, <span class="dv">5</span>),</span>
+<span id="cb7-50"><a href="análisis-exploratorio-de-datos.html#cb7-50" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb7-51"><a href="análisis-exploratorio-de-datos.html#cb7-51" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-52"><a href="análisis-exploratorio-de-datos.html#cb7-52" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Mediana e IQR de tasa_fin_cap por País y Quinquenio&quot;</span>,</span>
+<span id="cb7-53"><a href="análisis-exploratorio-de-datos.html#cb7-53" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Top 8 países por cobertura temporal. Línea roja: techo (100 %)&quot;</span>,</span>
+<span id="cb7-54"><a href="análisis-exploratorio-de-datos.html#cb7-54" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span></span>
+<span id="cb7-55"><a href="análisis-exploratorio-de-datos.html#cb7-55" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-56"><a href="análisis-exploratorio-de-datos.html#cb7-56" tabindex="-1"></a>  <span class="fu">tema_app</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/bivariado-pais-1.png" alt="" width="1500" style="display: block; margin: auto;" /></p>
+<p>Los 8 países con mayor cobertura temporal muestran convergencia hacia valores
+altos, con medianas cercanas o iguales a 100 en la mayoría de los quinquenios.
+Azerbaiyán y Cabo Verde exhiben trayectorias de mejora gradual con reducción de
+la dispersión (segmentos IQR más cortos en períodos recientes), mientras que
+Cuba se mantiene alta y estable sin tocar el techo, permitiendo distinguir
+variaciones reales entre años.</p>
 </div>
-<div id="tasa_fin_cap-según-año" class="section level3 hasAnchor" number="2.3.2">
-<h3><span class="header-section-number">2.3.2</span> tasa_fin_cap según año<a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-a%C3%B1o" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="análisis-exploratorio-de-datos.html#cb8-1" tabindex="-1"></a>df_num <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
-<span id="cb8-2"><a href="análisis-exploratorio-de-datos.html#cb8-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tasa_fin_cap), <span class="sc">!</span><span class="fu">is.na</span>(anio),</span>
-<span id="cb8-3"><a href="análisis-exploratorio-de-datos.html#cb8-3" tabindex="-1"></a>         anio <span class="sc">&gt;=</span> <span class="dv">2000</span>, anio <span class="sc">&lt;=</span> <span class="dv">2022</span>)</span>
-<span id="cb8-4"><a href="análisis-exploratorio-de-datos.html#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="análisis-exploratorio-de-datos.html#cb8-5" tabindex="-1"></a>df_agg <span class="ot">&lt;-</span> df_num <span class="sc">%&gt;%</span></span>
-<span id="cb8-6"><a href="análisis-exploratorio-de-datos.html#cb8-6" tabindex="-1"></a>  <span class="fu">group_by</span>(anio) <span class="sc">%&gt;%</span></span>
-<span id="cb8-7"><a href="análisis-exploratorio-de-datos.html#cb8-7" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb8-8"><a href="análisis-exploratorio-de-datos.html#cb8-8" tabindex="-1"></a>    <span class="at">mediana  =</span> <span class="fu">median</span>(tasa_fin_cap),</span>
-<span id="cb8-9"><a href="análisis-exploratorio-de-datos.html#cb8-9" tabindex="-1"></a>    <span class="at">media    =</span> <span class="fu">mean</span>(tasa_fin_cap),</span>
-<span id="cb8-10"><a href="análisis-exploratorio-de-datos.html#cb8-10" tabindex="-1"></a>    <span class="at">p25      =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.25</span>),</span>
-<span id="cb8-11"><a href="análisis-exploratorio-de-datos.html#cb8-11" tabindex="-1"></a>    <span class="at">p75      =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.75</span>),</span>
-<span id="cb8-12"><a href="análisis-exploratorio-de-datos.html#cb8-12" tabindex="-1"></a>    <span class="at">n_paises =</span> <span class="fu">n_distinct</span>(pais),</span>
-<span id="cb8-13"><a href="análisis-exploratorio-de-datos.html#cb8-13" tabindex="-1"></a>    <span class="at">.groups  =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb8-14"><a href="análisis-exploratorio-de-datos.html#cb8-14" tabindex="-1"></a>  )</span>
-<span id="cb8-15"><a href="análisis-exploratorio-de-datos.html#cb8-15" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="análisis-exploratorio-de-datos.html#cb8-16" tabindex="-1"></a><span class="fu">ggplot</span>(df_agg, <span class="fu">aes</span>(<span class="at">x =</span> anio)) <span class="sc">+</span></span>
-<span id="cb8-17"><a href="análisis-exploratorio-de-datos.html#cb8-17" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> p25, <span class="at">ymax =</span> p75),</span>
-<span id="cb8-18"><a href="análisis-exploratorio-de-datos.html#cb8-18" tabindex="-1"></a>              <span class="at">fill =</span> scales<span class="sc">::</span><span class="fu">alpha</span>(azul_main, <span class="fl">0.35</span>)) <span class="sc">+</span></span>
-<span id="cb8-19"><a href="análisis-exploratorio-de-datos.html#cb8-19" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mediana, <span class="at">color =</span> <span class="st">&quot;Mediana&quot;</span>), <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb8-20"><a href="análisis-exploratorio-de-datos.html#cb8-20" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> media,   <span class="at">color =</span> <span class="st">&quot;Media&quot;</span>),   <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb8-21"><a href="análisis-exploratorio-de-datos.html#cb8-21" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> mediana), <span class="at">color =</span> azul_fuerte, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb8-22"><a href="análisis-exploratorio-de-datos.html#cb8-22" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Mediana&quot;</span> <span class="ot">=</span> azul_fuerte, <span class="st">&quot;Media&quot;</span> <span class="ot">=</span> rojo_out)) <span class="sc">+</span></span>
-<span id="cb8-23"><a href="análisis-exploratorio-de-datos.html#cb8-23" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb8-24"><a href="análisis-exploratorio-de-datos.html#cb8-24" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Mediana y media anual de tasa_fin_cap con banda P25–P75&quot;</span>,</span>
-<span id="cb8-25"><a href="análisis-exploratorio-de-datos.html#cb8-25" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;La franja sombreada representa el rango intercuartílico entre países&quot;</span>,</span>
-<span id="cb8-26"><a href="análisis-exploratorio-de-datos.html#cb8-26" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Año&quot;</span>, <span class="at">y =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span>,</span>
-<span id="cb8-27"><a href="análisis-exploratorio-de-datos.html#cb8-27" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span></span>
-<span id="cb8-28"><a href="análisis-exploratorio-de-datos.html#cb8-28" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-29"><a href="análisis-exploratorio-de-datos.html#cb8-29" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb8-30"><a href="análisis-exploratorio-de-datos.html#cb8-30" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb8-31"><a href="análisis-exploratorio-de-datos.html#cb8-31" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb8-32"><a href="análisis-exploratorio-de-datos.html#cb8-32" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb8-33"><a href="análisis-exploratorio-de-datos.html#cb8-33" tabindex="-1"></a>    <span class="at">legend.position  =</span> <span class="st">&quot;bottom&quot;</span></span>
-<span id="cb8-34"><a href="análisis-exploratorio-de-datos.html#cb8-34" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/bivariado-anio-1.png" alt="" width="672" /></p>
-<p>La mediana anual muestra una tendencia claramente ascendente a lo largo de 2000–2022, evidenciando un progreso sostenido en la finalización primaria femenina a nivel global. La banda intercuartílica se desplaza hacia arriba y se estrecha en los años finales, lo que sugiere una convergencia parcial entre países. La mediana supera sistemáticamente a la media, confirmando la asimetría de la distribución: unos pocos países con tasas bajas presionan el promedio hacia abajo, aunque esta brecha se reduce progresivamente hacia el final del período.</p>
+<div id="mediana-anual-global-con-banda-iqr" class="section level3 hasAnchor" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> Mediana anual global con banda IQR<a href="análisis-exploratorio-de-datos.html#mediana-anual-global-con-banda-iqr" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="análisis-exploratorio-de-datos.html#cb8-1" tabindex="-1"></a>df_agg <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="análisis-exploratorio-de-datos.html#cb8-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tasa_fin_cap), <span class="sc">!</span><span class="fu">is.na</span>(anio), anio <span class="sc">&gt;=</span> <span class="dv">2000</span>, anio <span class="sc">&lt;=</span> <span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="análisis-exploratorio-de-datos.html#cb8-3" tabindex="-1"></a>  <span class="fu">group_by</span>(anio) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="análisis-exploratorio-de-datos.html#cb8-4" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-5"><a href="análisis-exploratorio-de-datos.html#cb8-5" tabindex="-1"></a>    <span class="at">mediana  =</span> <span class="fu">median</span>(tasa_fin_cap),</span>
+<span id="cb8-6"><a href="análisis-exploratorio-de-datos.html#cb8-6" tabindex="-1"></a>    <span class="at">media    =</span> <span class="fu">mean</span>(tasa_fin_cap),</span>
+<span id="cb8-7"><a href="análisis-exploratorio-de-datos.html#cb8-7" tabindex="-1"></a>    <span class="at">p25      =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.25</span>),</span>
+<span id="cb8-8"><a href="análisis-exploratorio-de-datos.html#cb8-8" tabindex="-1"></a>    <span class="at">p75      =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.75</span>),</span>
+<span id="cb8-9"><a href="análisis-exploratorio-de-datos.html#cb8-9" tabindex="-1"></a>    <span class="at">p10      =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.10</span>),</span>
+<span id="cb8-10"><a href="análisis-exploratorio-de-datos.html#cb8-10" tabindex="-1"></a>    <span class="at">p90      =</span> <span class="fu">quantile</span>(tasa_fin_cap, <span class="fl">0.90</span>),</span>
+<span id="cb8-11"><a href="análisis-exploratorio-de-datos.html#cb8-11" tabindex="-1"></a>    <span class="at">n_paises =</span> <span class="fu">n_distinct</span>(pais),</span>
+<span id="cb8-12"><a href="análisis-exploratorio-de-datos.html#cb8-12" tabindex="-1"></a>    <span class="at">.groups  =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb8-13"><a href="análisis-exploratorio-de-datos.html#cb8-13" tabindex="-1"></a>  )</span>
+<span id="cb8-14"><a href="análisis-exploratorio-de-datos.html#cb8-14" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="análisis-exploratorio-de-datos.html#cb8-15" tabindex="-1"></a><span class="fu">ggplot</span>(df_agg, <span class="fu">aes</span>(<span class="at">x =</span> anio)) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="análisis-exploratorio-de-datos.html#cb8-16" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> p10, <span class="at">ymax =</span> p90),</span>
+<span id="cb8-17"><a href="análisis-exploratorio-de-datos.html#cb8-17" tabindex="-1"></a>              <span class="at">fill =</span> scales<span class="sc">::</span><span class="fu">alpha</span>(AZUL_MAIN, <span class="fl">0.15</span>)) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="análisis-exploratorio-de-datos.html#cb8-18" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> p25, <span class="at">ymax =</span> p75),</span>
+<span id="cb8-19"><a href="análisis-exploratorio-de-datos.html#cb8-19" tabindex="-1"></a>              <span class="at">fill =</span> scales<span class="sc">::</span><span class="fu">alpha</span>(AZUL_MAIN, <span class="fl">0.35</span>)) <span class="sc">+</span></span>
+<span id="cb8-20"><a href="análisis-exploratorio-de-datos.html#cb8-20" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> mediana, <span class="at">color =</span> <span class="st">&quot;Mediana&quot;</span>), <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="análisis-exploratorio-de-datos.html#cb8-21" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> media,   <span class="at">color =</span> <span class="st">&quot;Media&quot;</span>),   <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-22"><a href="análisis-exploratorio-de-datos.html#cb8-22" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> mediana), <span class="at">color =</span> CIAN, <span class="at">size =</span> <span class="fl">2.5</span>) <span class="sc">+</span></span>
+<span id="cb8-23"><a href="análisis-exploratorio-de-datos.html#cb8-23" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb8-24"><a href="análisis-exploratorio-de-datos.html#cb8-24" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Mediana&quot;</span> <span class="ot">=</span> CIAN, <span class="st">&quot;Media&quot;</span> <span class="ot">=</span> ROJO_OUT),</span>
+<span id="cb8-25"><a href="análisis-exploratorio-de-datos.html#cb8-25" tabindex="-1"></a>    <span class="at">guide  =</span> <span class="fu">guide_legend</span>(<span class="at">title =</span> <span class="cn">NULL</span>)</span>
+<span id="cb8-26"><a href="análisis-exploratorio-de-datos.html#cb8-26" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-27"><a href="análisis-exploratorio-de-datos.html#cb8-27" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">2000</span>, <span class="dv">2022</span>, <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb8-28"><a href="análisis-exploratorio-de-datos.html#cb8-28" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>(<span class="at">scale =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-29"><a href="análisis-exploratorio-de-datos.html#cb8-29" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-30"><a href="análisis-exploratorio-de-datos.html#cb8-30" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Mediana y media anual de tasa_fin_cap — 2000–2022&quot;</span>,</span>
+<span id="cb8-31"><a href="análisis-exploratorio-de-datos.html#cb8-31" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Banda oscura: IQR (P25–P75) | Banda clara: P10–P90&quot;</span>,</span>
+<span id="cb8-32"><a href="análisis-exploratorio-de-datos.html#cb8-32" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">&quot;Año&quot;</span>,</span>
+<span id="cb8-33"><a href="análisis-exploratorio-de-datos.html#cb8-33" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">&quot;tasa_fin_cap (%)&quot;</span>,</span>
+<span id="cb8-34"><a href="análisis-exploratorio-de-datos.html#cb8-34" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">&quot;Fuente: World Development Indicators, Banco Mundial&quot;</span></span>
+<span id="cb8-35"><a href="análisis-exploratorio-de-datos.html#cb8-35" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-36"><a href="análisis-exploratorio-de-datos.html#cb8-36" tabindex="-1"></a>  <span class="fu">tema_app</span>()</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/bivariado-anio-1.png" alt="" width="1500" style="display: block; margin: auto;" /></p>
+<p>La mediana anual muestra una tendencia ascendente sostenida. La banda IQR se
+desplaza hacia arriba y se estrecha en los años finales, señalando
+<strong>convergencia parcial entre países</strong>. La mediana supera sistemáticamente a la
+media, confirmando la asimetría negativa persistente: los países rezagados
+presionan el promedio hacia abajo, aunque esta brecha se reduce progresivamente.</p>
 </div>
-<div id="tasa_fin_cap-según-país-ritmo-de-mejora-anual" class="section level3 hasAnchor" number="2.3.3">
-<h3><span class="header-section-number">2.3.3</span> tasa_fin_cap según país — ritmo de mejora anual<a href="análisis-exploratorio-de-datos.html#tasa_fin_cap-seg%C3%BAn-pa%C3%ADs-ritmo-de-mejora-anual" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Los países no mejoran al mismo ritmo. Para cuantificar el avance de cada nación, estimamos la pendiente de una regresión lineal simple de <code>tasa_fin_cap</code> sobre <code>anio</code> para cada país. Los resultados se presentan gráficamente y en un mapa que ubica espacialmente dónde se produjeron las mejoras más significativas.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="análisis-exploratorio-de-datos.html#cb9-1" tabindex="-1"></a><span class="co"># Pendiente por país antes de tocar el techo</span></span>
-<span id="cb9-2"><a href="análisis-exploratorio-de-datos.html#cb9-2" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> df_num <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="análisis-exploratorio-de-datos.html#cb9-3" tabindex="-1"></a>  <span class="fu">group_by</span>(pais) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="análisis-exploratorio-de-datos.html#cb9-4" tabindex="-1"></a>  <span class="fu">arrange</span>(anio, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="análisis-exploratorio-de-datos.html#cb9-5" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb9-6"><a href="análisis-exploratorio-de-datos.html#cb9-6" tabindex="-1"></a>    <span class="at">capped        =</span> tasa_fin_cap <span class="sc">&gt;=</span> <span class="dv">100</span> <span class="sc">-</span> <span class="fl">1e-9</span>,</span>
-<span id="cb9-7"><a href="análisis-exploratorio-de-datos.html#cb9-7" tabindex="-1"></a>    <span class="at">first_cap_year =</span> <span class="fu">ifelse</span>(<span class="fu">any</span>(capped), <span class="fu">min</span>(anio[capped]), <span class="cn">Inf</span>)</span>
-<span id="cb9-8"><a href="análisis-exploratorio-de-datos.html#cb9-8" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb9-9"><a href="análisis-exploratorio-de-datos.html#cb9-9" tabindex="-1"></a>  <span class="fu">filter</span>(anio <span class="sc">&lt;</span> first_cap_year <span class="sc">|</span> <span class="fu">is.infinite</span>(first_cap_year)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-10"><a href="análisis-exploratorio-de-datos.html#cb9-10" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_pts =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb9-11"><a href="análisis-exploratorio-de-datos.html#cb9-11" tabindex="-1"></a>  <span class="fu">filter</span>(n_pts <span class="sc">&gt;=</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-12"><a href="análisis-exploratorio-de-datos.html#cb9-12" tabindex="-1"></a>  <span class="fu">do</span>({</span>
-<span id="cb9-13"><a href="análisis-exploratorio-de-datos.html#cb9-13" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(tasa_fin_cap <span class="sc">~</span> anio, <span class="at">data =</span> .)</span>
-<span id="cb9-14"><a href="análisis-exploratorio-de-datos.html#cb9-14" tabindex="-1"></a>    <span class="fu">tibble</span>(<span class="at">pendiente =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[[<span class="st">&quot;anio&quot;</span>]]), <span class="at">n_usados =</span> <span class="fu">nrow</span>(.))</span>
-<span id="cb9-15"><a href="análisis-exploratorio-de-datos.html#cb9-15" tabindex="-1"></a>  }) <span class="sc">%&gt;%</span></span>
-<span id="cb9-16"><a href="análisis-exploratorio-de-datos.html#cb9-16" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb9-17"><a href="análisis-exploratorio-de-datos.html#cb9-17" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pendiente))</span>
-<span id="cb9-18"><a href="análisis-exploratorio-de-datos.html#cb9-18" tabindex="-1"></a></span>
-<span id="cb9-19"><a href="análisis-exploratorio-de-datos.html#cb9-19" tabindex="-1"></a><span class="co"># Gráfico de barras — Top 10 países con mayor mejora</span></span>
-<span id="cb9-20"><a href="análisis-exploratorio-de-datos.html#cb9-20" tabindex="-1"></a>top_mejora <span class="ot">&lt;-</span> slopes <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb9-21"><a href="análisis-exploratorio-de-datos.html#cb9-21" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="análisis-exploratorio-de-datos.html#cb9-22" tabindex="-1"></a><span class="fu">ggplot</span>(top_mejora, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(pais, pendiente), <span class="at">y =</span> pendiente)) <span class="sc">+</span></span>
-<span id="cb9-23"><a href="análisis-exploratorio-de-datos.html#cb9-23" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> azul_main, <span class="at">color =</span> azul_fuerte, <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb9-24"><a href="análisis-exploratorio-de-datos.html#cb9-24" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(pendiente, <span class="dv">2</span>)),</span>
-<span id="cb9-25"><a href="análisis-exploratorio-de-datos.html#cb9-25" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> gris_linea) <span class="sc">+</span></span>
-<span id="cb9-26"><a href="análisis-exploratorio-de-datos.html#cb9-26" tabindex="-1"></a>  <span class="fu">coord_flip</span>(<span class="at">clip =</span> <span class="st">&quot;off&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-27"><a href="análisis-exploratorio-de-datos.html#cb9-27" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb9-28"><a href="análisis-exploratorio-de-datos.html#cb9-28" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Top 10 países con mayor mejora anual en tasa_fin_cap&quot;</span>,</span>
-<span id="cb9-29"><a href="análisis-exploratorio-de-datos.html#cb9-29" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Pendiente estimada (pp/año) — solo países con ≥ 4 años de datos pre-techo&quot;</span>,</span>
-<span id="cb9-30"><a href="análisis-exploratorio-de-datos.html#cb9-30" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Puntos porcentuales por año&quot;</span></span>
-<span id="cb9-31"><a href="análisis-exploratorio-de-datos.html#cb9-31" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-32"><a href="análisis-exploratorio-de-datos.html#cb9-32" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.15</span>))) <span class="sc">+</span></span>
-<span id="cb9-33"><a href="análisis-exploratorio-de-datos.html#cb9-33" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb9-34"><a href="análisis-exploratorio-de-datos.html#cb9-34" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb9-35"><a href="análisis-exploratorio-de-datos.html#cb9-35" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb9-36"><a href="análisis-exploratorio-de-datos.html#cb9-36" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb9-37"><a href="análisis-exploratorio-de-datos.html#cb9-37" tabindex="-1"></a>    <span class="at">plot.margin      =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">5</span>, <span class="at">r =</span> <span class="dv">25</span>, <span class="at">b =</span> <span class="dv">5</span>, <span class="at">l =</span> <span class="dv">5</span>)</span>
-<span id="cb9-38"><a href="análisis-exploratorio-de-datos.html#cb9-38" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/bivariado-pendientes-1.png" alt="" width="960" /></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="análisis-exploratorio-de-datos.html#cb10-1" tabindex="-1"></a><span class="co"># Mapa de pendientes</span></span>
-<span id="cb10-2"><a href="análisis-exploratorio-de-datos.html#cb10-2" tabindex="-1"></a>world_slopes <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">&quot;medium&quot;</span>, <span class="at">returnclass =</span> <span class="st">&quot;sf&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="análisis-exploratorio-de-datos.html#cb10-3" tabindex="-1"></a>  <span class="fu">left_join</span>(slopes <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">pendiente_anual =</span> pendiente),</span>
-<span id="cb10-4"><a href="análisis-exploratorio-de-datos.html#cb10-4" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;name_long&quot;</span> <span class="ot">=</span> <span class="st">&quot;pais&quot;</span>))</span>
-<span id="cb10-5"><a href="análisis-exploratorio-de-datos.html#cb10-5" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="análisis-exploratorio-de-datos.html#cb10-6" tabindex="-1"></a><span class="fu">ggplot</span>(world_slopes) <span class="sc">+</span></span>
-<span id="cb10-7"><a href="análisis-exploratorio-de-datos.html#cb10-7" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pendiente_anual), <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb10-8"><a href="análisis-exploratorio-de-datos.html#cb10-8" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(</span>
-<span id="cb10-9"><a href="análisis-exploratorio-de-datos.html#cb10-9" tabindex="-1"></a>    <span class="at">colours  =</span> <span class="fu">c</span>(rojo_out, <span class="st">&quot;#F5F5F5&quot;</span>, azul_fuerte),</span>
-<span id="cb10-10"><a href="análisis-exploratorio-de-datos.html#cb10-10" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">&quot;#CCCCCC&quot;</span>,</span>
-<span id="cb10-11"><a href="análisis-exploratorio-de-datos.html#cb10-11" tabindex="-1"></a>    <span class="at">name     =</span> <span class="st">&quot;pp/año&quot;</span>,</span>
-<span id="cb10-12"><a href="análisis-exploratorio-de-datos.html#cb10-12" tabindex="-1"></a>    <span class="at">limits   =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">8</span>)</span>
-<span id="cb10-13"><a href="análisis-exploratorio-de-datos.html#cb10-13" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-14"><a href="análisis-exploratorio-de-datos.html#cb10-14" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb10-15"><a href="análisis-exploratorio-de-datos.html#cb10-15" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Ritmo de mejora anual de la tasa de finalización primaria femenina&quot;</span>,</span>
-<span id="cb10-16"><a href="análisis-exploratorio-de-datos.html#cb10-16" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Azul: mayor mejora. Rojo: deterioro. Gris: sin datos suficientes.&quot;</span>,</span>
-<span id="cb10-17"><a href="análisis-exploratorio-de-datos.html#cb10-17" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">&quot;Fuente: World Development Indicators, Banco Mundial&quot;</span></span>
-<span id="cb10-18"><a href="análisis-exploratorio-de-datos.html#cb10-18" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-19"><a href="análisis-exploratorio-de-datos.html#cb10-19" tabindex="-1"></a>  <span class="fu">theme_void</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
-<span id="cb10-20"><a href="análisis-exploratorio-de-datos.html#cb10-20" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb10-21"><a href="análisis-exploratorio-de-datos.html#cb10-21" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">13</span>),</span>
-<span id="cb10-22"><a href="análisis-exploratorio-de-datos.html#cb10-22" tabindex="-1"></a>    <span class="at">plot.subtitle    =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">color =</span> gris_linea),</span>
-<span id="cb10-23"><a href="análisis-exploratorio-de-datos.html#cb10-23" tabindex="-1"></a>    <span class="at">plot.caption     =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">color =</span> gris_linea, <span class="at">size =</span> <span class="dv">9</span>),</span>
+<div id="ritmo-de-mejora-anual-por-país" class="section level3 hasAnchor" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> Ritmo de mejora anual por país<a href="análisis-exploratorio-de-datos.html#ritmo-de-mejora-anual-por-pa%C3%ADs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="análisis-exploratorio-de-datos.html#cb9-1" tabindex="-1"></a>df_num <span class="ot">&lt;-</span> df_2 <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="análisis-exploratorio-de-datos.html#cb9-2" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tasa_fin_cap), <span class="sc">!</span><span class="fu">is.na</span>(anio), anio <span class="sc">&gt;=</span> <span class="dv">2000</span>, anio <span class="sc">&lt;=</span> <span class="dv">2022</span>)</span>
+<span id="cb9-3"><a href="análisis-exploratorio-de-datos.html#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="análisis-exploratorio-de-datos.html#cb9-4" tabindex="-1"></a>slopes <span class="ot">&lt;-</span> df_num <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="análisis-exploratorio-de-datos.html#cb9-5" tabindex="-1"></a>  <span class="fu">group_by</span>(pais) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="análisis-exploratorio-de-datos.html#cb9-6" tabindex="-1"></a>  <span class="fu">arrange</span>(anio, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="análisis-exploratorio-de-datos.html#cb9-7" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb9-8"><a href="análisis-exploratorio-de-datos.html#cb9-8" tabindex="-1"></a>    <span class="at">capped         =</span> tasa_fin_cap <span class="sc">&gt;=</span> <span class="dv">100</span> <span class="sc">-</span> <span class="fl">1e-9</span>,</span>
+<span id="cb9-9"><a href="análisis-exploratorio-de-datos.html#cb9-9" tabindex="-1"></a>    <span class="at">first_cap_year =</span> <span class="fu">ifelse</span>(<span class="fu">any</span>(capped), <span class="fu">min</span>(anio[capped]), <span class="cn">Inf</span>)</span>
+<span id="cb9-10"><a href="análisis-exploratorio-de-datos.html#cb9-10" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-11"><a href="análisis-exploratorio-de-datos.html#cb9-11" tabindex="-1"></a>  <span class="fu">filter</span>(anio <span class="sc">&lt;</span> first_cap_year <span class="sc">|</span> <span class="fu">is.infinite</span>(first_cap_year)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="análisis-exploratorio-de-datos.html#cb9-12" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n_pts =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb9-13"><a href="análisis-exploratorio-de-datos.html#cb9-13" tabindex="-1"></a>  <span class="fu">filter</span>(n_pts <span class="sc">&gt;=</span> <span class="dv">4</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-14"><a href="análisis-exploratorio-de-datos.html#cb9-14" tabindex="-1"></a>  <span class="fu">do</span>({</span>
+<span id="cb9-15"><a href="análisis-exploratorio-de-datos.html#cb9-15" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(tasa_fin_cap <span class="sc">~</span> anio, <span class="at">data =</span> .)</span>
+<span id="cb9-16"><a href="análisis-exploratorio-de-datos.html#cb9-16" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">pendiente =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[[<span class="st">&quot;anio&quot;</span>]]), <span class="at">n_usados =</span> <span class="fu">nrow</span>(.))</span>
+<span id="cb9-17"><a href="análisis-exploratorio-de-datos.html#cb9-17" tabindex="-1"></a>  }) <span class="sc">%&gt;%</span></span>
+<span id="cb9-18"><a href="análisis-exploratorio-de-datos.html#cb9-18" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-19"><a href="análisis-exploratorio-de-datos.html#cb9-19" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pendiente))</span>
+<span id="cb9-20"><a href="análisis-exploratorio-de-datos.html#cb9-20" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="análisis-exploratorio-de-datos.html#cb9-21" tabindex="-1"></a>top_mejora <span class="ot">&lt;-</span> slopes <span class="sc">%&gt;%</span> <span class="fu">slice</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)</span>
+<span id="cb9-22"><a href="análisis-exploratorio-de-datos.html#cb9-22" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="análisis-exploratorio-de-datos.html#cb9-23" tabindex="-1"></a><span class="fu">ggplot</span>(top_mejora, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(pais, pendiente), <span class="at">y =</span> pendiente)) <span class="sc">+</span></span>
+<span id="cb9-24"><a href="análisis-exploratorio-de-datos.html#cb9-24" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> AZUL_MAIN, <span class="at">color =</span> AZUL_FUERTE, <span class="at">width =</span> <span class="fl">0.7</span>, <span class="at">alpha =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb9-25"><a href="análisis-exploratorio-de-datos.html#cb9-25" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">sprintf</span>(<span class="st">&quot;+%.2f pp/año&quot;</span>, pendiente)),</span>
+<span id="cb9-26"><a href="análisis-exploratorio-de-datos.html#cb9-26" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">color =</span> AZUL_FUERTE) <span class="sc">+</span></span>
+<span id="cb9-27"><a href="análisis-exploratorio-de-datos.html#cb9-27" tabindex="-1"></a>  <span class="fu">coord_flip</span>(<span class="at">clip =</span> <span class="st">&quot;off&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-28"><a href="análisis-exploratorio-de-datos.html#cb9-28" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">expansion</span>(<span class="at">mult =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.20</span>))) <span class="sc">+</span></span>
+<span id="cb9-29"><a href="análisis-exploratorio-de-datos.html#cb9-29" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-30"><a href="análisis-exploratorio-de-datos.html#cb9-30" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Top 12 países con mayor mejora anual en tasa_fin_cap&quot;</span>,</span>
+<span id="cb9-31"><a href="análisis-exploratorio-de-datos.html#cb9-31" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Pendiente de lm(tasa_fin_cap ~ año) — solo años pre-techo (≥ 4 obs.)&quot;</span>,</span>
+<span id="cb9-32"><a href="análisis-exploratorio-de-datos.html#cb9-32" tabindex="-1"></a>    <span class="at">x        =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-33"><a href="análisis-exploratorio-de-datos.html#cb9-33" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">&quot;Puntos porcentuales por año (pp/año)&quot;</span></span>
+<span id="cb9-34"><a href="análisis-exploratorio-de-datos.html#cb9-34" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-35"><a href="análisis-exploratorio-de-datos.html#cb9-35" tabindex="-1"></a>  <span class="fu">tema_app</span>() <span class="sc">+</span></span>
+<span id="cb9-36"><a href="análisis-exploratorio-de-datos.html#cb9-36" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="dv">5</span>, <span class="at">r =</span> <span class="dv">50</span>, <span class="at">b =</span> <span class="dv">5</span>, <span class="at">l =</span> <span class="dv">5</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/bivariado-pendientes-1.png" alt="" width="1500" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="análisis-exploratorio-de-datos.html#cb10-1" tabindex="-1"></a>world_slopes <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">&quot;medium&quot;</span>, <span class="at">returnclass =</span> <span class="st">&quot;sf&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="análisis-exploratorio-de-datos.html#cb10-2" tabindex="-1"></a>  <span class="fu">left_join</span>(slopes <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">pendiente_anual =</span> pendiente),</span>
+<span id="cb10-3"><a href="análisis-exploratorio-de-datos.html#cb10-3" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;name_long&quot;</span> <span class="ot">=</span> <span class="st">&quot;pais&quot;</span>))</span>
+<span id="cb10-4"><a href="análisis-exploratorio-de-datos.html#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="análisis-exploratorio-de-datos.html#cb10-5" tabindex="-1"></a><span class="fu">ggplot</span>(world_slopes) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="análisis-exploratorio-de-datos.html#cb10-6" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> pendiente_anual), <span class="at">color =</span> <span class="st">&quot;white&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="análisis-exploratorio-de-datos.html#cb10-7" tabindex="-1"></a>  <span class="fu">scale_fill_gradientn</span>(</span>
+<span id="cb10-8"><a href="análisis-exploratorio-de-datos.html#cb10-8" tabindex="-1"></a>    <span class="at">colours  =</span> <span class="fu">c</span>(ROJO_OUT, <span class="st">&quot;#F5F5F5&quot;</span>, AZUL_FUERTE),</span>
+<span id="cb10-9"><a href="análisis-exploratorio-de-datos.html#cb10-9" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">&quot;#BDBDBD&quot;</span>,</span>
+<span id="cb10-10"><a href="análisis-exploratorio-de-datos.html#cb10-10" tabindex="-1"></a>    <span class="at">name     =</span> <span class="st">&quot;pp/año&quot;</span>,</span>
+<span id="cb10-11"><a href="análisis-exploratorio-de-datos.html#cb10-11" tabindex="-1"></a>    <span class="at">limits   =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">8</span>)</span>
+<span id="cb10-12"><a href="análisis-exploratorio-de-datos.html#cb10-12" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-13"><a href="análisis-exploratorio-de-datos.html#cb10-13" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-14"><a href="análisis-exploratorio-de-datos.html#cb10-14" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">&quot;Ritmo de mejora anual de la tasa de finalización primaria femenina&quot;</span>,</span>
+<span id="cb10-15"><a href="análisis-exploratorio-de-datos.html#cb10-15" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Azul: mayor mejora | Rojo: deterioro | Gris oscuro: sin datos suficientes&quot;</span>,</span>
+<span id="cb10-16"><a href="análisis-exploratorio-de-datos.html#cb10-16" tabindex="-1"></a>    <span class="at">caption  =</span> <span class="st">&quot;Fuente: World Development Indicators, Banco Mundial&quot;</span></span>
+<span id="cb10-17"><a href="análisis-exploratorio-de-datos.html#cb10-17" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="análisis-exploratorio-de-datos.html#cb10-18" tabindex="-1"></a>  <span class="fu">theme_void</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb10-19"><a href="análisis-exploratorio-de-datos.html#cb10-19" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb10-20"><a href="análisis-exploratorio-de-datos.html#cb10-20" tabindex="-1"></a>    <span class="at">plot.background  =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">color =</span> <span class="cn">NA</span>),</span>
+<span id="cb10-21"><a href="análisis-exploratorio-de-datos.html#cb10-21" tabindex="-1"></a>    <span class="at">plot.title       =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">13</span>, <span class="at">color =</span> AZUL_FUERTE),</span>
+<span id="cb10-22"><a href="análisis-exploratorio-de-datos.html#cb10-22" tabindex="-1"></a>    <span class="at">plot.subtitle    =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">color =</span> GRIS_LINEA, <span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb10-23"><a href="análisis-exploratorio-de-datos.html#cb10-23" tabindex="-1"></a>    <span class="at">plot.caption     =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">&quot;#9E9E9E&quot;</span>, <span class="at">size =</span> <span class="dv">9</span>),</span>
 <span id="cb10-24"><a href="análisis-exploratorio-de-datos.html#cb10-24" tabindex="-1"></a>    <span class="at">legend.position  =</span> <span class="st">&quot;bottom&quot;</span>,</span>
-<span id="cb10-25"><a href="análisis-exploratorio-de-datos.html#cb10-25" tabindex="-1"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">&quot;cm&quot;</span>)</span>
-<span id="cb10-26"><a href="análisis-exploratorio-de-datos.html#cb10-26" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/mapa-pendientes-1.png" alt="" width="1152" /></p>
-<p>Los países con mayor ritmo de mejora son, en su mayoría, naciones que partían de niveles bajos de finalización primaria, lo que refleja un efecto de “catch-up”: cuando hay más margen de mejora, los avances tienden a ser más rápidos. El mapa de pendientes complementa esta lectura con una dimensión espacial: el azul intenso se concentra en África Subsahariana y partes del sur de Asia, precisamente las regiones que partían de niveles más bajos y donde el margen de avance era mayor. Los países en tonos neutros o rojizos reflejan estancamiento o ligero deterioro, a menudo asociado a contextos de inestabilidad política o crisis económica. Esta distribución geográfica refuerza la hipótesis del efecto “catch-up” y sugiere que las políticas de expansión educativa tuvieron un impacto especialmente pronunciado en los contextos con mayor rezago inicial.</p>
-
+<span id="cb10-25"><a href="análisis-exploratorio-de-datos.html#cb10-25" tabindex="-1"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="fl">2.5</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb10-26"><a href="análisis-exploratorio-de-datos.html#cb10-26" tabindex="-1"></a>    <span class="at">legend.title     =</span> <span class="fu">element_text</span>(<span class="at">color =</span> AZUL_FUERTE),</span>
+<span id="cb10-27"><a href="análisis-exploratorio-de-datos.html#cb10-27" tabindex="-1"></a>    <span class="at">legend.text      =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#424242&quot;</span>)</span>
+<span id="cb10-28"><a href="análisis-exploratorio-de-datos.html#cb10-28" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/mapa-pendientes-1.png" alt="" width="1800" style="display: block; margin: auto;" /></p>
+<p>Los países con mayor ritmo de mejora son, en su mayoría, naciones que partían de
+niveles bajos, lo que refleja un <strong>efecto catch-up</strong>: cuando hay más margen de
+mejora, los avances tienden a ser más rápidos. El mapa ubica espacialmente estas
+dinámicas: el azul intenso se concentra en África del Norte, Asia Central y
+partes del sur de Asia, regiones con mayor rezago inicial.</p>
+<hr />
 </div>
 </div>
 </div>
@@ -640,7 +933,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="conclusiones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="predicción-arima.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
