@@ -502,9 +502,9 @@ partes del sur de Asia, regiones con mayor rezago inicial.
 
 ---
 
-# Predicción ARIMA
+## Predicción ARIMA
 
-## Metodología
+### Metodología
 
 El modelo ARIMA (AutoRegressive Integrated Moving Average) se aplica sobre la
 **mediana anual global** de `tasa_fin_cap` para el período 2000–2022 (n = 23
@@ -570,7 +570,7 @@ tema_app <- function(base_size = 12) {
 
 ---
 
-## Paso 1 — Serie temporal: mediana global
+### Paso 1 — Serie temporal: mediana global
 
 ```{r serie-medianas, echo=TRUE, fig.width=10, fig.height=4.5}
 # Mediana anual global de tasa_fin_cap
@@ -610,7 +610,7 @@ ritmo de mejora se ralentiza.
 
 ---
 
-## Paso 2 — Prueba de estacionariedad (ADF)
+### Paso 2 — Prueba de estacionariedad (ADF)
 
 ```{r adf-test, echo=TRUE}
 adf_res <- adf.test(y, alternative = "stationary")
@@ -651,7 +651,7 @@ if (adf_res$p.value >= 0.05) {
 
 ---
 
-## Paso 3 — Estructura de autocorrelación (ACF y PACF)
+### Paso 3 — Estructura de autocorrelación (ACF y PACF)
 
 ```{r acf-pacf, echo=TRUE, fig.width=11, fig.height=8}
 lag_max <- 15
@@ -739,7 +739,7 @@ if (requireNamespace("patchwork", quietly = TRUE)) {
 
 ---
 
-## Paso 4 — Selección automática del orden ARIMA
+### Paso 4 — Selección automática del orden ARIMA
 
 Se evalúan todas las combinaciones p ∈ {0, 1, 2, 3}, d ∈ {0, 1, 2},
 q ∈ {0, 1, 2, 3} (48 modelos) y se calcula AIC, BIC y HQIC para cada uno.
@@ -814,7 +814,7 @@ cat(sprintf(
 
 ---
 
-## Paso 5 — Ajuste del modelo seleccionado
+### Paso 5 — Ajuste del modelo seleccionado
 
 ```{r ajuste-plot, echo=TRUE, fig.width=10, fig.height=5}
 fitted_vals <- as.numeric(y - residuals(best_mdl))
@@ -870,7 +870,7 @@ kable(coef_df,
 
 ---
 
-## Paso 6 — Diagnóstico de residuales
+### Paso 6 — Diagnóstico de residuales
 
 Un modelo ARIMA bien especificado produce residuales que se comportan como
 **ruido blanco**: media cero, varianza constante, sin autocorrelación y
@@ -962,7 +962,7 @@ if (requireNamespace("patchwork", quietly = TRUE)) {
 }
 ```
 
-### Pruebas formales sobre residuales
+#### Pruebas formales sobre residuales
 
 ```{r tests-residuales, echo=TRUE}
 # ── Shapiro-Wilk (normalidad) ─────────────────────────────────────────────────
@@ -1022,9 +1022,9 @@ if (lb_ok) {
 
 ---
 
-## Paso 7 — Validación 80/20 y pronóstico
+### Paso 7 — Validación 80/20 y pronóstico
 
-### Validación temporal (rolling one-step-ahead)
+#### Validación temporal (rolling one-step-ahead)
 
 ```{r validacion, echo=TRUE, cache=TRUE}
 n       <- length(y)
